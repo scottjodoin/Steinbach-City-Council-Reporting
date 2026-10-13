@@ -5,6 +5,8 @@ Plain-language summaries of what Steinbach City Council has said and decided, wi
 ## Reports
 
 - [Sewer backups: what council said, and how Steinbach compares](sewer-backups/) — council meetings Sept 2025 to Sept 2026, plus a comparison with other Canadian municipalities.
+- [Homelessness in Steinbach: what's been done, and what could be](homelessness/) — council meetings Jan 2022 to Sept 2026, plus what other councils do.
+- [Can Steinbach have public transit?](transit/) — council meetings Jan 2022 to Sept 2026, plus how similar-size cities run transit.
 
 ## Site layout
 
@@ -14,6 +16,8 @@ This is a plain static site for GitHub Pages (no Jekyll; see `.nojekyll`).
 index.html              Home page listing all reports
 assets/css/style.css    Shared styles (follows the browser light/dark setting)
 sewer-backups/index.html
+homelessness/index.html
+transit/index.html
 ```
 
 To add a report, create a new folder with an `index.html` that links `../assets/css/style.css`, then add it to the list in `index.html` and above.
