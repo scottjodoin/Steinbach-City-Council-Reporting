@@ -4,6 +4,7 @@ Plain-language summaries of what Steinbach City Council has said and decided, wi
 
 ## Reports
 
+- [Traffic in Steinbach: what can council do, and what has it done?](traffic-congestion/) — Main Street and Highway 12 are provincial, but council has tools: traffic counts, cost-shared intersections and lobbying. Its record in its own words, the slow Giesbrecht lights, and what peers do.
 - [Steinbach in 10 to 20 years: what has council planned?](future-planning/) — Growth to 35,000–45,000, the $215M wastewater decision, annexation and neighbours, and the plans that exist and don't: council's record in its own words, compared with Brandon and Winkler.
 - [Taxes, spending and priorities: how does Steinbach pay its way?](taxes-spending/) — Priorities, five years of budgets, reserves and the five-year debt rule: council's record in its own words, and how Steinbach's tax rate compares with Brandon, Selkirk and Thompson.
 - [Business growth and investment: what has council done?](business-growth/) — The end of the economic development office, the industrial land squeeze, the Chamber's business tax and downtown rules: council's record in its own words, and how Winkler, Morden and Portage compare.
