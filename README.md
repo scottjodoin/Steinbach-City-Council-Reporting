@@ -4,6 +4,7 @@ Plain-language summaries of what Steinbach City Council has said and decided, wi
 
 ## Reports
 
+- [Housing and development: keeping up with growth](housing-development/) — Affordable housing, infill apartments versus single-family neighbourhoods, and who pays for growth: council's record in its own words, and how Brandon, Niverville and others compare.
 - [Health and wellbeing: what can council do?](health-wellbeing/) — Doctor shortages, the Mayor's recruitment task force, clinic space, recreation and wellbeing: council's record in its own words, and how councils in Niverville, Clarington and others compare.
 - [Sewer backups: what council said, and how Steinbach compares](sewer-backups/) — council meetings Sept 2025 to Sept 2026, plus a comparison with other Canadian municipalities.
 - [Homelessness in Steinbach: what's been done, and what could be](homelessness/) — council meetings Jan 2022 to Sept 2026, plus what other councils do.
