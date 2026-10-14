@@ -4,6 +4,7 @@ Plain-language summaries of what Steinbach City Council has said and decided, wi
 
 ## Reports
 
+- [Health and wellbeing: what can council do?](health-wellbeing/) — Doctor shortages, the Mayor's recruitment task force, clinic space, recreation and wellbeing: council's record in its own words, and how councils in Niverville, Clarington and others compare.
 - [Sewer backups: what council said, and how Steinbach compares](sewer-backups/) — council meetings Sept 2025 to Sept 2026, plus a comparison with other Canadian municipalities.
 - [Homelessness in Steinbach: what's been done, and what could be](homelessness/) — council meetings Jan 2022 to Sept 2026, plus what other councils do.
 - [Can Steinbach have public transit?](transit/) — council meetings Jan 2022 to Sept 2026, plus how similar-size cities run transit.
@@ -14,6 +15,7 @@ Plain-language summaries of what Steinbach City Council has said and decided, wi
 This is a plain static site for GitHub Pages (no Jekyll; see `.nojekyll`).
 
 ```
+health-wellbeing/index.html
 index.html              Home page listing all reports
 assets/css/style.css    Shared styles (follows the browser light/dark setting)
 sewer-backups/index.html
