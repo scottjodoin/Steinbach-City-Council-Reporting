@@ -4,6 +4,7 @@ Plain-language summaries of what Steinbach City Council has said and decided, wi
 
 ## Reports
 
+- [Steinbach in 10 to 20 years: what has council planned?](future-planning/) — Growth to 35,000–45,000, the $215M wastewater decision, annexation and neighbours, and the plans that exist and don't: council's record in its own words, compared with Brandon and Winkler.
 - [Taxes, spending and priorities: how does Steinbach pay its way?](taxes-spending/) — Priorities, five years of budgets, reserves and the five-year debt rule: council's record in its own words, and how Steinbach's tax rate compares with Brandon, Selkirk and Thompson.
 - [Business growth and investment: what has council done?](business-growth/) — The end of the economic development office, the industrial land squeeze, the Chamber's business tax and downtown rules: council's record in its own words, and how Winkler, Morden and Portage compare.
 - [Quality of life: noise, belonging, parks, recreation and arts](quality-of-life/) — Noise enforcement, racism and welcoming newcomers, flags and inclusion, green space, recreation and arts space: council's record in its own words, and how other councils compare.
