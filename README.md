@@ -4,6 +4,7 @@ Plain-language summaries of what Steinbach City Council has said and decided, wi
 
 ## Reports
 
+- [Business growth and investment: what has council done?](business-growth/) — The end of the economic development office, the industrial land squeeze, the Chamber's business tax and downtown rules: council's record in its own words, and how Winkler, Morden and Portage compare.
 - [Quality of life: noise, belonging, parks, recreation and arts](quality-of-life/) — Noise enforcement, racism and welcoming newcomers, flags and inclusion, green space, recreation and arts space: council's record in its own words, and how other councils compare.
 - [Housing and development: keeping up with growth](housing-development/) — Affordable housing, infill apartments versus single-family neighbourhoods, and who pays for growth: council's record in its own words, and how Brandon, Niverville and others compare.
 - [Health and wellbeing: what can council do?](health-wellbeing/) — Doctor shortages, the Mayor's recruitment task force, clinic space, recreation and wellbeing: council's record in its own words, and how councils in Niverville, Clarington and others compare.
