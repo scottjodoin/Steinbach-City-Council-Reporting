@@ -6,6 +6,9 @@ Plain-language summaries of what Steinbach City Council has said and decided, wi
 
 - [2026 council candidates' forum: every question, every answer](candidate-forum-2026/) — All 10 candidates' answers at the Chamber of Commerce forum (Oct 15, 2026), linked to the video, plus a check of the four incumbents' answers against their council record.
 - [Transcript: 2026 council candidates' forum](candidate-forum-2026-transcript/) — The full forum transcript with named speakers and timestamps; downloadable as text and JSON.
+- [Residents' election forum: what residents asked, and how four candidates answered](residents-forum-2026/) — The Southeast Equity Coalition and Strong Towns Steinbach forum (Oct 7, 2026): residents' questions and full answers from the four candidates who attended.
+- [Transcript: residents' election forum](residents-forum-2026-transcript/) — The candidates' answers by topic with timestamps; downloadable as text and JSON.
+- [Candidates in writing: growth and housing, flooding, and public safety](candidate-interviews-2026/) — All 10 candidates' written answers to SteinbachOnline, summarized with key quotes and incumbent record checks.
 - [Taxes, spending and priorities: how does Steinbach pay its way?](taxes-spending/) — Priorities, five years of budgets, reserves and the five-year debt rule: council's record in its own words, and how Steinbach's tax rate compares with Brandon, Selkirk and Thompson.
 - [Housing and development: keeping up with growth](housing-development/) — Affordable housing, infill apartments versus single-family neighbourhoods, and who pays for growth: council's record in its own words, and how Brandon, Niverville and others compare.
 - [Sewer backups: what council said, and how Steinbach compares](sewer-backups/) — council meetings Sept 2025 to Sept 2026, plus a comparison with other Canadian municipalities.
