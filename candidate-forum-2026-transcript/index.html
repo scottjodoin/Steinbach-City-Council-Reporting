@@ -17,11 +17,35 @@
 .record { font-size: 14px; color: var(--muted); }
 .filter { position: sticky; top: 0; z-index: 2; background: var(--bg); border-bottom: 1px solid var(--rule); padding: 10px 0; margin: 0 0 8px; font-size: 15px; display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
 .filter select { font: inherit; padding: 4px 8px; border-radius: 6px; border: 1px solid var(--rule); background: var(--surface); color: var(--text); max-width: 100%; }
-.answer blockquote p { font-size: 16px; }
-.answer .mod { font-family: inherit; font-size: 14px; color: var(--muted); font-style: italic; }
-.hidden { display: none; }
+.hidden { display: none !important; }
+h2, h3 { scroll-margin-top: 64px; }
 td.who { font-weight: 600; white-space: nowrap; }
-@media (max-width: 560px) { td.who { white-space: normal; min-width: 90px; } }
+.cands { margin: 0 0 8px; }
+.cand { display: grid; grid-template-columns: 190px 1fr; gap: 4px 20px; padding: 14px 0; border-top: 1px solid var(--rule); scroll-margin-top: 64px; }
+.cand:last-child { border-bottom: 1px solid var(--rule); }
+.cand-name { font-size: 16px; margin: 0; line-height: 1.5; }
+.cand-name .tag { display: table; margin: 4px 0 0; }
+.cand .gist { margin: 0 0 6px; }
+.cand .context { margin: 10px 0 0; }
+details.full > summary { cursor: pointer; color: var(--accent); font-size: 14px; font-weight: 600; }
+details.full > summary:hover { text-decoration: underline; }
+details.full > summary .len { color: var(--muted); font-weight: 400; }
+details.full[open] > summary { margin-bottom: 10px; }
+details.full blockquote p { font-size: 16px; }
+details.full blockquote p strong { font-weight: 700; }
+details.full .mod { font-family: inherit; font-size: 14px; color: var(--muted); font-style: italic; }
+.filter button { font: inherit; font-size: 14px; padding: 4px 10px; border-radius: 6px; border: 1px solid var(--rule); background: var(--surface); color: var(--accent); cursor: pointer; }
+.filter .spacer { flex: 1; }
+@media (max-width: 560px) {
+  td.who { white-space: normal; min-width: 90px; }
+  .cand { grid-template-columns: 1fr; }
+  .cand-name .tag { display: inline-block; margin: 0 0 0 6px; }
+  .filter { flex-wrap: nowrap; gap: 6px; }
+  .filter .wide { display: none; }
+  .filter select { min-width: 0; flex: 1 1 auto; }
+  .filter .spacer { display: none; }
+  .filter button { white-space: nowrap; }
+}
 .turn { margin: 0 0 12px; } .turn .ts { font-size: 13px; font-variant-numeric: tabular-nums; margin-right: 6px; text-decoration: none; } .turn .ts:hover { text-decoration: underline; }
 </style>
 </head>
@@ -61,7 +85,7 @@ td.who { font-weight: 600; white-space: nowrap; }
     <li><a href="#about">About this transcript</a></li>
   </ol>
 </nav>
-<div class="filter" id="filter" hidden><label for="who">Show only:</label><select id="who"><option value="all">Everyone</option><option value="greg-carlos">Greg Carlos</option><option value="gary-dyck">Gary Dyck</option><option value="ron-falk">Ron Falk</option><option value="nicholas-goertzen">Nicholas Goertzen</option><option value="bill-hiebert">Bill Hiebert</option><option value="jake-hiebert">Jake Hiebert</option><option value="mitesh-kumar">Mitesh Kumar</option><option value="damian-penner">Damian Penner</option><option value="susan-penner">Susan Penner</option><option value="brad-unger">Brad Unger</option><option value="shannon-dueck">Shannon Dueck</option><option value="eugene-warwaruk">Eugene Warwaruk</option><option value="earl-funk">Mayor Earl Funk</option></select></div>
+<div class="filter" id="filter" hidden><label for="who">Show<span class="wide"> only</span>:</label><select id="who"><option value="all">Everyone</option><option value="greg-carlos">Greg Carlos</option><option value="gary-dyck">Gary Dyck</option><option value="ron-falk">Ron Falk</option><option value="nicholas-goertzen">Nicholas Goertzen</option><option value="bill-hiebert">Bill Hiebert</option><option value="jake-hiebert">Jake Hiebert</option><option value="mitesh-kumar">Mitesh Kumar</option><option value="damian-penner">Damian Penner</option><option value="susan-penner">Susan Penner</option><option value="brad-unger">Brad Unger</option><option value="shannon-dueck">Shannon Dueck</option><option value="eugene-warwaruk">Eugene Warwaruk</option><option value="earl-funk">Mayor Earl Funk</option></select></div>
 <h2 id="welcome">Welcome</h2>
 <p class="turn" data-who="eugene-warwaruk"><a class="ts" href="https://www.youtube.com/watch?v=3rlsSx7wn8g&amp;t=2s">0:00:02</a> <strong>Eugene Warwaruk</strong> Good evening, everyone. Good evening. My name is Eugene Waworuk. I&#x27;m the president of the Steinbach Chamber of Commerce, and I&#x27;d like to welcome you all here to this important event. We have a full slate of candidates here up on stage, and municipal government is very important. It&#x27;s the closest level of government to us as citizens, and, you know, it&#x27;s, it&#x27;s very important to hear from the candidates on their platforms, and We have some well-thought-out topics that our moderator Shannon Dueck is going to cover. So I just want to say thank you all for— for all of you for coming out tonight and sharing your time and your platforms, and I look forward to a robust forum. And yeah, I&#x27;d like to hand it off to Shannon Dueck from Golden West now.</p>
 <p class="turn" data-who="shannon-dueck"><a class="ts" href="https://www.youtube.com/watch?v=3rlsSx7wn8g&amp;t=51s">0:00:51</a> <strong>Shannon Dueck</strong> Thank you, Thank you, Eugene. Good evening, everyone, and welcome. And on behalf of the Steinbach Chamber of Commerce, thank you for joining us tonight for this important conversation. Municipal government has a direct impact on our business, our families, and the community that we call home. And we believe that it is important that voters have an opportunity to hear from those seeking to lead our city. We&#x27;re grateful to all the candidates for being here, and to everyone in attendance for taking the time to be part of this important democratic process. With that, I&#x27;d like to get us started here, and the way things will work is that I&#x27;m the moderator for the evening, and each of the candidates will have 2 minutes to answer each question, And a bell will sound when the 2 minutes are up, signaling that it is time to wrap up the response. There will also be a 10-second warning that the candidates will receive as well. To keep things fair and balanced, we will rotate which candidate answers first and with each question. And then, yeah, so we appreciate everyone being here tonight, and most importantly, we appreciate the candidates for taking time to participate. and to engage with our community. So, we will begin by giving each candidate 1 minute to introduce themselves, and we will start with Damian Penner. Damian?</p>
@@ -252,17 +276,36 @@ td.who { font-weight: 600; white-space: nowrap; }
 (function () {
   var sel = document.getElementById('who');
   if (!sel) return;
+  var btn = document.getElementById('toggle-all');
+  function setAll(open) {
+    document.querySelectorAll('details.full').forEach(function (d) {
+      if (!d.closest('.hidden')) d.open = open;
+    });
+    if (btn) btn.textContent = open ? 'Collapse all' : 'Expand all';
+  }
   function apply() {
     var v = sel.value;
     document.querySelectorAll('[data-who]').forEach(function (el) {
       el.classList.toggle('hidden', v !== 'all' && el.getAttribute('data-who') !== v);
     });
+    if (btn) setAll(v !== 'all');
     try { localStorage.setItem('forum2026-who', v); } catch (e) {}
   }
+  if (btn) btn.addEventListener('click', function () {
+    var anyClosed = Array.prototype.some.call(document.querySelectorAll('details.full'), function (d) { return !d.open && !d.closest('.hidden'); });
+    setAll(anyClosed);
+  });
+  function openHash() {
+    var el = location.hash && document.getElementById(location.hash.slice(1));
+    var d = el && el.querySelector && el.querySelector('details.full');
+    if (d) d.open = true;
+  }
+  window.addEventListener('hashchange', openHash);
   try { var saved = localStorage.getItem('forum2026-who'); if (saved && sel.querySelector('option[value="' + saved + '"]')) sel.value = saved; } catch (e) {}
   sel.addEventListener('change', apply);
   document.getElementById('filter').hidden = false;
   apply();
+  openHash();
 })();
 </script>
 <footer class="site">
