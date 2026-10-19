@@ -25,6 +25,7 @@ Plain-language summaries of what Steinbach City Council has said and decided, wi
 - [Property standards: how does Steinbach keep rentals and yards maintained?](property-standards/) — The 2003 junk-and-weeds by-law, basement-suite safety rules, complaint-driven enforcement and residents' rental-upkeep concerns: council's record in its own words, compared with Brandon, Winkler, Winnipeg and Ontario cities that license rentals.
 - [Behind closed doors? How much of council's work happens outside public meetings](behind-closed-doors/) — Do unanimous votes, including on developers' applications, mean decisions were made in advance? Four tests on 103 meetings, council's closed committee and budget study sessions, and how they measure up against Manitoba's Municipal Act and councils such as Selkirk and Brandon.
 - [Recorded public deliberation on Steinbach City Council](council-deliberation/) — provisional, AI-coded Public Judgment & Deliberation Index for all 103 regular meetings, with the [methodology](council-deliberation/methodology/) and a downloadable data workbook.
+- [Who moves council's public-hearing motions?](public-hearing-motions/) — The 203 motions on public-hearing matters (Jan 2022 – Sept 2026), counted by mover and seconder, each with a summary, impact rating, video moment and minutes page.
 
 ## Site layout
 
@@ -40,6 +41,7 @@ transit/index.html
 council-deliberation/index.html               report
 council-deliberation/methodology/index.html   rubric methodology
 council-deliberation/steinbach-council-deliberation-data.xlsx
+public-hearing-motions/index.html
 ```
 
 To add a report, create a new folder with an `index.html` that links `../assets/css/style.css`, then add it to the list in `index.html` and above.
