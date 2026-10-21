@@ -9,6 +9,7 @@
 <meta property="og:type" content="article">
 <meta property="og:title" content="A bypass around Main Street? What council says and what the traffic study shows">
 <meta property="og:description" content="Council says traffic comes to Steinbach rather than through it. The annual WSP traffic study partly supports that, but it was never designed to measure through traffic. Compared with Portage la Prairie, Selkirk, Winkler and others.">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
 <link rel="stylesheet" href="../assets/css/style.css">
 <style>
   .profile { margin: 1rem 0 0.5rem; }
@@ -28,6 +29,46 @@
   @media (max-width: 520px) {
     .profile .row { grid-template-columns: 7.6rem 1fr; gap: 0.4rem; font-size: 0.8rem; }
   }
+  .mapfig { margin: 1rem 0 1.5rem; }
+  :root { --dir-a: #1d6fb8; --dir-b: #c4621a; }
+  @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { --dir-a: #3d8fd1; --dir-b: #d07a2c; } }
+  :root[data-theme="dark"] { --dir-a: #3d8fd1; --dir-b: #d07a2c; }
+  .map-legend[hidden] { display: none; }
+  .map-legend .ln.dir-a { background: var(--dir-a); }
+  .map-legend .ln.dir-b { background: var(--dir-b); }
+  .map-turns h4 { margin: 0.6rem 0 0.3rem; font-size: 0.95rem; }
+  .map-turns table td small { display: block; color: var(--muted); font-size: 0.75rem; line-height: 1.2; }
+  .map-turns table td.num, .map-turns table th.num { text-align: right; }
+  .map-turns .note { font-size: 0.85rem; color: var(--muted); margin: 0.3rem 0 0; }
+  .map-turns ul { margin: 0.3rem 0 0; padding-left: 1.2rem; font-size: 0.9rem; }
+  .map-toolbar { display: flex; flex-wrap: wrap; align-items: center; gap: 0.5rem 1rem; margin-bottom: 0.5rem; }
+  .yeartoggle { display: inline-flex; border: 1px solid var(--rule); border-radius: 6px; overflow: hidden; }
+  .yeartoggle button { font: inherit; font-size: 0.9rem; padding: 0.3rem 0.9rem; border: 0; background: var(--surface); color: var(--text); cursor: pointer; }
+  .yeartoggle button + button { border-left: 1px solid var(--rule); }
+  .yeartoggle button[aria-pressed="true"] { background: var(--accent); color: var(--bg); font-weight: 600; }
+  .yeartoggle button:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; }
+  #traffic-map { height: 560px; border: 1px solid var(--rule); border-radius: 8px; background: var(--surface); }
+  #traffic-map .map-fallback { padding: 1rem; color: var(--muted); }
+  .map-info { min-height: 2.6em; margin: 0.5rem 0 0; font-size: 0.9rem; }
+  .map-legend { display: flex; flex-wrap: wrap; align-items: center; gap: 0.4rem 1.1rem; font-size: 0.82rem; color: var(--muted); margin: 0.4rem 0 0; }
+  .map-legend .ln { display: inline-block; width: 2.2rem; background: var(--accent); border-radius: 3px; vertical-align: middle; margin-right: 0.35rem; }
+  .map-legend .dot { display: inline-block; width: 0.75rem; height: 0.75rem; border-radius: 50%; border: 2px solid var(--accent); background: var(--surface); vertical-align: middle; margin-right: 0.35rem; }
+  .map-legend .dot.edge { border-color: var(--context-bar); background: var(--context-bar); }
+  .leaflet-container { font: inherit; }
+  #traffic-map.dark-tiles .leaflet-tile-pane { filter: invert(1) hue-rotate(180deg) brightness(0.85) contrast(0.9) saturate(0.6); }
+  #traffic-map:not(.dark-tiles) .leaflet-tile-pane { filter: saturate(0.55); }
+  .leaflet-tooltip { background: var(--surface); color: var(--text); border: 1px solid var(--rule); box-shadow: 0 1px 4px rgba(0,0,0,.25); font-size: 0.8rem; }
+  .leaflet-tooltip.vol-label { padding: 1px 5px; font-weight: 600; font-variant-numeric: tabular-nums; }
+  .leaflet-tooltip-top:before { border-top-color: var(--rule); }
+  .leaflet-tooltip-right:before { border-right-color: var(--rule); }
+  .leaflet-tooltip-left:before { border-left-color: var(--rule); }
+  .leaflet-tooltip-bottom:before { border-bottom-color: var(--rule); }
+  .leaflet-bar a { background: var(--surface); color: var(--text); border-bottom-color: var(--rule); }
+  .leaflet-control-attribution { background: color-mix(in srgb, var(--surface) 85%, transparent) !important; color: var(--muted); }
+  .leaflet-control-attribution a { color: var(--accent); }
+  details.mapdata { margin: 0.6rem 0 0; font-size: 0.9rem; }
+  details.mapdata summary { cursor: pointer; color: var(--accent); }
+  @media (max-width: 520px) { #traffic-map { height: 470px; } }
 </style>
 </head>
 <body>
@@ -47,7 +88,7 @@
   <ul>
     <li><strong>Nobody is planning a bypass.</strong> Both highways are provincial, so a bypass would be the province's project. In 2018 the province called the idea &ldquo;just a hypothetical concept&rdquo;. Council has never moved, budgeted or asked for one at any meeting from 2022 to 2026.</li>
     <li><strong>Council's reason is its traffic study.</strong> In February 2026 Councillor Jac Siemens said the yearly reports show &ldquo;traffic comes to Steinbach, it doesn't go through Steinbach. So a bypass Doesn't make sense to me.&rdquo; No other council member has argued for or against a bypass on the record.</li>
-    <li><strong>The study's numbers partly support him.</strong> In the 2024 evening peak, two-way traffic on Brandt St at the south end of the city was about 725 vehicles an hour. Mid-city on PTH 12 it was about 2,200. That limits how much north&ndash;south traffic can be passing through.</li>
+    <li><strong>The study's numbers partly support him.</strong> In the 2024 evening peak, two-way traffic on Brandt St at the south end of the city was about 725 vehicles an hour. Mid-city on PTH 12 it was about 2,200. At Brandt St and Main St, only about 225 drivers an hour turned between PTH 52 West and PTH 12 North. That limits how much traffic can be passing through.</li>
     <li><strong>But the study can't measure through traffic.</strong> It counts turns at 20 highway intersections for a few weekday hours. It doesn't record where trips start or end, and it doesn't report truck numbers. No origin&ndash;destination survey of Steinbach was found.</li>
     <li><strong>Manitoba peers haven't built recent bypasses.</strong> Winkler, Morden and Niverville rebuilt their highways through town with the province, as Steinbach did at Loewen Blvd. Bypasses at Portage la Prairie, Brandon, Selkirk and Dauphin came with major provincial highway projects decades ago. Where Steinbach-sized cities have recently got one, such as Estevan in Saskatchewan, the province built it for heavy truck traffic. Yorkton measured its traffic with a licence-plate survey, found only 15% passing through, and put a bypass off. Steinbach has counted neither its through traffic nor its trucks.</li>
   </ul>
@@ -88,7 +129,57 @@
 <p>Every year since 1997 the city has paid WSP Canada to count traffic on the two highways. The 2024 study, presented on March 18, 2025, counted 20 intersections on four weekdays in late September and early October 2024, from 3 to 6 p.m., plus a.m. counts at four sites (<a href="#src-study">study</a>, pp.&nbsp;1&ndash;4). It is the main evidence council points to on the bypass question.</p>
 
 <h3>Where the traffic is</h3>
-<p>The chart adds the two highway approaches at each counted intersection: northbound plus southbound on PTH 12, eastbound plus westbound on PTH 52. That gives a rough two-way flow on the highway at each point in the evening peak hour. Cross-street traffic isn't included. The highlighted bars are the outermost intersections the study counts on each route.</p>
+<p>The map shows each stretch of PTH 12 and PTH 52 between two counted intersections, drawn wider the more traffic it carries in the weekday evening peak hour. Switch between the 2024 and 2025 studies, or split each stretch by direction. Tap or click an intersection to see where its traffic goes: how many drivers turned left, turned right or went straight, from each direction.</p>
+
+<figure class="mapfig" aria-labelledby="map-cap">
+  <div class="map-toolbar">
+    <div class="yeartoggle" role="group" aria-label="Traffic study year">
+      <button type="button" data-year="2024" aria-pressed="true">2024 study</button>
+      <button type="button" data-year="2025" aria-pressed="false">2025 study</button>
+    </div>
+    <div class="yeartoggle" role="group" aria-label="What the lines show">
+      <button type="button" data-view="total" aria-pressed="true">Both directions</button>
+      <button type="button" data-view="dir" aria-pressed="false">By direction</button>
+    </div>
+  </div>
+  <div id="traffic-map" role="region" aria-label="Map of evening peak-hour traffic on PTH 12 and PTH 52 in Steinbach"><p class="map-fallback">The interactive map needs JavaScript and an internet connection. The same numbers are in the tables below the map and in the chart that follows.</p></div>
+  <p class="map-legend" id="legend-total"><span><span class="ln" style="height:4px"></span>about 750 vehicles/hr</span><span><span class="ln" style="height:9px"></span>about 1,500</span><span><span class="ln" style="height:15px"></span>about 2,250</span><span><span class="dot"></span>counted intersection (tap for turns)</span><span><span class="dot edge"></span>outermost counted intersection</span></p>
+  <p class="map-legend" id="legend-dir" hidden><span><span class="ln dir-a" style="height:7px"></span>northbound or eastbound</span><span><span class="ln dir-b" style="height:7px"></span>southbound or westbound</span><span>Each colour sits on the side of the road it drives on; wider = more vehicles.</span></p>
+  <p class="map-info" id="map-info" aria-live="polite">Hover over or tap a stretch of highway.</p>
+  <div class="map-turns" id="map-turns" aria-live="polite"></div>
+  <figcaption id="map-cap" class="meta">Vehicles per hour, weekday p.m. peak hour, from the 2024 and 2025 WSP studies. Stretch volumes come from Table 2.1: each stretch adds the traffic arriving at its two ends (southbound at the south end plus northbound at the north end on PTH 12; eastbound plus westbound on PTH 52). They were calculated for this page, not by WSP; WSP's own corridor charts give similar but not identical figures. Turning counts were read from the studies' Figures 2.3 and 2.4, and every approach was checked against Table 2.1. Loewen Blvd wasn't counted in either year, so Acres Dr to Main St is one stretch. Highway lines: Manitoba Transportation and Infrastructure. Map and streets: OpenStreetMap contributors. The North Gate Dr and Superstore/Co-op access positions are approximate.</figcaption>
+  <details class="mapdata">
+    <summary>Table of the map's stretch numbers</summary>
+    <div class="table-wrap">
+    <table class="compact">
+      <thead><tr><th>Road</th><th>Stretch</th><th>2024</th><th>2024 by direction</th><th>2025</th><th>2025 by direction</th></tr></thead>
+      <tbody>
+      <tr><td>PTH 12</td><td>North Gate Dr &rarr; Clear Springs Rd</td><td>1,875</td><td>&uarr;985 &darr;890</td><td>1,980</td><td>&uarr;990 &darr;990</td></tr>
+      <tr><td>PTH 12</td><td>Clear Springs Rd &rarr; Clearspring Centre / Golfair Rd</td><td>2,015</td><td>&uarr;935 &darr;1,080</td><td>2,045</td><td>&uarr;965 &darr;1,080</td></tr>
+      <tr><td>PTH 12</td><td>Clearspring Centre / Golfair Rd &rarr; Park Rd</td><td>2,220</td><td>&uarr;1,050 &darr;1,170</td><td>2,235</td><td>&uarr;1,005 &darr;1,230</td></tr>
+      <tr><td>PTH 12</td><td>Park Rd &rarr; Superstore / Co-op access</td><td>2,150</td><td>&uarr;1,030 &darr;1,120</td><td>2,310</td><td>&uarr;1,100 &darr;1,210</td></tr>
+      <tr><td>PTH 12</td><td>Superstore / Co-op access &rarr; Acres Dr / Penfeld Dr</td><td>2,190</td><td>&uarr;1,055 &darr;1,135</td><td>2,325</td><td>&uarr;1,040 &darr;1,285</td></tr>
+      <tr><td>PTH 12</td><td>Acres Dr / Penfeld Dr &rarr; Main St</td><td>1,885</td><td>&uarr;915 &darr;970</td><td>2,055</td><td>&uarr;1,065 &darr;990</td></tr>
+      <tr><td>PTH 12</td><td>Main St &rarr; Woodhaven Ave / Friesen Ave</td><td>1,470</td><td>&uarr;725 &darr;745</td><td>1,470</td><td>&uarr;735 &darr;735</td></tr>
+      <tr><td>PTH 12</td><td>Woodhaven Ave / Friesen Ave &rarr; Reimer Ave</td><td>1,300</td><td>&uarr;590 &darr;710</td><td>1,350</td><td>&uarr;605 &darr;745</td></tr>
+      <tr><td>PTH 12</td><td>Reimer Ave &rarr; McKenzie Ave</td><td>1,310</td><td>&uarr;575 &darr;735</td><td>1,345</td><td>&uarr;565 &darr;780</td></tr>
+      <tr><td>PTH 12</td><td>McKenzie Ave &rarr; Chrysler Gate</td><td>1,015</td><td>&uarr;415 &darr;600</td><td>1,080</td><td>&uarr;470 &darr;610</td></tr>
+      <tr><td>PTH 12</td><td>Chrysler Gate &rarr; Madison Dr</td><td>880</td><td>&uarr;315 &darr;565</td><td>925</td><td>&uarr;360 &darr;565</td></tr>
+      <tr><td>PTH 12</td><td>Madison Dr &rarr; Hanover Rd</td><td>745</td><td>&uarr;260 &darr;485</td><td>825</td><td>&uarr;325 &darr;500</td></tr>
+      <tr><td>PTH 52</td><td>Westland Dr &rarr; Bushfarm Rd</td><td>1,840</td><td>&rarr;765 &larr;1,075</td><td>1,875</td><td>&rarr;710 &larr;1,165</td></tr>
+      <tr><td>PTH 52</td><td>Bushfarm Rd &rarr; Keating Rd</td><td>1,820</td><td>&rarr;730 &larr;1,090</td><td>1,835</td><td>&rarr;740 &larr;1,095</td></tr>
+      <tr><td>PTH 52</td><td>Keating Rd &rarr; Industrial Rd</td><td>1,725</td><td>&rarr;740 &larr;985</td><td>1,745</td><td>&rarr;760 &larr;985</td></tr>
+      <tr><td>PTH 52</td><td>Industrial Rd &rarr; Lund Rd</td><td>1,555</td><td>&rarr;730 &larr;825</td><td>1,595</td><td>&rarr;860 &larr;735</td></tr>
+      <tr><td>PTH 52</td><td>Lund Rd &rarr; Giesbrecht St</td><td>1,730</td><td>&rarr;860 &larr;870</td><td>1,570</td><td>&rarr;825 &larr;745</td></tr>
+      <tr><td>PTH 52</td><td>Giesbrecht St &rarr; Brandt St</td><td>1,680</td><td>&rarr;860 &larr;820</td><td>1,630</td><td>&rarr;810 &larr;820</td></tr>
+      <tr><td>PTH 52</td><td>Brandt St &rarr; McKenzie Ave / Hespeler St</td><td>1,425</td><td>&rarr;550 &larr;875</td><td>1,505</td><td>&rarr;575 &larr;930</td></tr>
+      </tbody>
+    </table>
+    </div>
+  </details>
+</figure>
+
+<p>The chart below gives the same picture for 2024 at each intersection. It adds the two highway approaches at each counted intersection: northbound plus southbound on PTH 12, eastbound plus westbound on PTH 52. That gives a rough two-way flow on the highway at each point in the evening peak hour. Cross-street traffic isn't included. The highlighted bars are the outermost intersections the study counts on each route.</p>
 
 <figure class="profile" aria-labelledby="profile-cap">
   <h4>PTH 12 North / Brandt St, north to south</h4>
@@ -111,9 +202,9 @@
   <div class="row edge"><span class="name">Westland Dr <small>(west end)</small></span><span class="track"><span class="bar" style="--w:0.818"></span><span class="val">1,800</span></span></div>
   <div class="row"><span class="name">Bushfarm Rd</span><span class="track"><span class="bar" style="--w:0.843"></span><span class="val">1,855</span></span></div>
   <div class="row"><span class="name">Keating Rd</span><span class="track"><span class="bar" style="--w:0.780"></span><span class="val">1,715</span></span></div>
+  <div class="row"><span class="name">Industrial Rd</span><span class="track"><span class="bar" style="--w:0.711"></span><span class="val">1,565</span></span></div>
   <div class="row"><span class="name">Lund Rd</span><span class="track"><span class="bar" style="--w:0.727"></span><span class="val">1,600</span></span></div>
   <div class="row"><span class="name">Giesbrecht St</span><span class="track"><span class="bar" style="--w:0.764"></span><span class="val">1,680</span></span></div>
-  <div class="row"><span class="name">Industrial Rd</span><span class="track"><span class="bar" style="--w:0.711"></span><span class="val">1,565</span></span></div>
   <div class="row"><span class="name">Brandt St (PTH 12)</span><span class="track"><span class="bar" style="--w:0.789"></span><span class="val">1,735</span></span></div>
   <div class="row"><span class="name">McKenzie Ave / Hespeler St</span><span class="track"><span class="bar" style="--w:0.518"></span><span class="val">1,140</span></span></div>
   <p class="key"><span>Counted intersection</span><span class="edge">Outermost counted intersection</span></p>
@@ -142,7 +233,8 @@
 
 <h3>What the numbers can and can't say</h3>
 <p>A vehicle passing through Steinbach has to enter at one end of a highway and leave at another. On Brandt St, two-way traffic at the south end (about 725 an hour) is a third of the flow at Park Rd (about 2,200). So at most about 725 vehicles an hour in the evening peak could be travelling right through on PTH 12 from north to south. The real number is likely lower, because many of those trips start or end in the south of the city. Traffic also builds toward the middle of both corridors and falls off toward the ends, and westbound PTH 52 is heavier than eastbound in the evening, the pattern of people leaving jobs in Steinbach. Both fit Councillor Siemens's point that most traffic is coming to Steinbach.</p>
-<p>The counts can't settle the question, though. At the west end (about 1,800 an hour) and the north end (about 1,880), volumes are high enough that a large share could be passing between PTH 52 and PTH 12 North, or could all be local. Turning counts can't tell those apart. Only an origin&ndash;destination survey, which matches licence plates or tracks trips at points around the city, can. None was found for Steinbach.</p>
+<p>The west end (about 1,800 an hour) and the north end (about 1,880) carry more traffic, and the obvious bypass route would link them. The study's turning counts help here. At Brandt St and Main St, 140 drivers an hour turned from PTH 52 West onto PTH 12 North and 85 turned the other way in 2024: 225 in all, under 7% of the 3,430 vehicles through that junction. In 2025 it was 180. Some drivers may cut through on Industrial Rd and Park Rd West instead. Even if every turn on that route were a through trip, the total stays below about 550 an hour in either year, and many of those trips are local. The 2024 study shows evening traffic heading out of the city in both directions: westbound on PTH 52 at Westland Dr (1,075) outnumbered eastbound (725), and southbound on Brandt St at Hanover Rd (485) outnumbered northbound (240).</p>
+<p>The counts still can't follow a vehicle from one end of the city to the other. Only an origin&ndash;destination survey, which matches licence plates or tracks trips at points around the city, can. None was found for Steinbach.</p>
 
 <h2 id="said">What council has said and done</h2>
 <h3>&ldquo;Traffic comes to Steinbach&rdquo;</h3>
@@ -270,7 +362,7 @@
 
 <h2 id="findings">Key findings</h2>
 <h3 id="finding-1"><span class="num">1</span>The bypass was dismissed, not studied</h3>
-<p>Council's only stated reason (<a href="#reason-1">reason 1</a>) rests on a study that measures intersections, not trips. Its numbers make a large north&ndash;south through flow unlikely. But they can't rule out through traffic between PTH 52 West and PTH 12 North, the two busiest edges. An origin&ndash;destination survey would answer the question directly.</p>
+<p>Council's only stated reason (<a href="#reason-1">reason 1</a>) rests on a study that measures intersections, not trips. Its numbers make a large north&ndash;south through flow unlikely. Its turning counts suggest the west-to-north movement, the one a bypass would most likely serve, is also modest: at most about 550 vehicles an hour in the evening peak, and probably far fewer. But that's an upper limit worked out from turning counts, not a measurement. An origin&ndash;destination survey would answer the question directly, as Yorkton's did.</p>
 
 <h3 id="finding-2"><span class="num">2</span>Steinbach's approach matches its closest peers</h3>
 <p>The province controls the highways (<a href="#reason-2">reason 2</a>), and no Manitoba city of Steinbach's size has had a bypass built recently. Winkler, Morden and Niverville, like Steinbach, are getting their highways rebuilt through town with cost-sharing. The bypassed cities, Portage la Prairie, Brandon, Selkirk and Dauphin, got them decades ago as part of larger provincial highway projects, not at a city's request.</p>
@@ -324,6 +416,8 @@
     <li><strong>Transcripts.</strong> Meeting quotes come from automatic transcripts of the official videos. The transcription often misspells the city's name; quotes show it correctly as Steinbach. Other words are left as transcribed (&ldquo;Lowen&rdquo; is Loewen). Each quote links to its moment in the video.</li>
     <li><strong>Speakers.</strong> Quotes are from speakers identified with high confidence, except one. The March 21, 2023 &ldquo;great bypass&rdquo; remark was identified with medium confidence in the transcript as Councillor Bill Hiebert; SteinbachOnline's report of the meeting attributes the same words to him. Council members and city staff are named; residents are identified by initials.</li>
     <li><strong>Traffic study.</strong> Study figures are from the 2024 Steinbach Annual Traffic Counting Study (WSP Canada, dated March 3, 2025), in the March 18, 2025 council agenda package. Page numbers are the study's own. The two-way flow figures in the chart were added up for this page from the study's Table 2.1. They are approach volumes, counted on different days, so they show the pattern, not exact traffic on each block. The 2025 study (WSP, January 2026) is in the February 17, 2026 agenda package; its Table 2.1 totals were added up from the approach columns because the PDF's table text is scrambled. The province's own daily highway counts weren't used, because station labels in its published tables couldn't be matched reliably to locations north or south of the city.</li>
+    <li><strong>Turning counts.</strong> The studies publish turning movements only as pictures (Figures 2.3 and 2.4: 2024 study pp.&nbsp;8&ndash;9; 2025 study pp.&nbsp;13&ndash;14). The numbers were read from those pictures. Every approach was checked against the study's Table 2.1, and all match within rounding except one: in 2025 the northbound movements at Woodhaven Ave / Friesen Ave add to 585, while Table 2.1 gives 605. The map shows both. The 2025 study's p.&nbsp;14 figure is captioned &ldquo;2024&rdquo;, but its numbers are 2025's. The PTH 52 West to PTH 12 North figures are upper limits worked out for this page, not WSP findings.</li>
+    <li><strong>Map.</strong> Each stretch's volume is calculated from the studies' Table 2.1, as explained under the map. Highway lines come from Manitoba Transportation and Infrastructure's highway centreline layer. Intersection positions come from OpenStreetMap streets. North Gate Dr isn't named in OpenStreetMap, so it was placed using the spacing on the study's own map, and the Superstore/Co-op access was placed between the two stores. The background map is &copy; OpenStreetMap contributors.</li>
     <li><strong>Decisions.</strong> Resolutions were checked against the official minutes. Searches covered &ldquo;bypass&rdquo;, &ldquo;perimeter&rdquo;, &ldquo;ring road&rdquo;, &ldquo;truck route&rdquo; and &ldquo;through traffic&rdquo; in all 103 regular council meetings from January 2022 to September 15, 2026. Discussions in closed sessions or council planning sessions aren't public.</li>
     <li><strong>Not confirmed.</strong> The 2018 provincial access study isn't published, so its bypass wording is known only from news coverage. The build years of the Selkirk and Dauphin bypasses, and who paid for them, weren't confirmed.</li>
   </ul>
@@ -343,7 +437,8 @@
 <ul class="sources">
   <li id="src-study">Traffic study: WSP Canada, <em>2024 Steinbach Annual Traffic Counting Study</em> (Project CA0041884.0650), in the City of Steinbach council agenda package for March 18, 2025, pp.&nbsp;65&ndash;100; WSP Canada, <em>2025 Steinbach Annual Traffic Count and Analysis Program</em> (January 2026), in the <a href="https://events.steinbach.ca/council/Detail/2026-02-17-1930-Regular-Meeting-of-Council/bd679fe2-5398-40f1-a495-b4ce011702b3">February 17, 2026 agenda package</a></li>
   <li>City: <a href="https://www.steinbach.ca/media/jnro2wks/by-law_2244_official_city_plan.pdf">Official Community Plan, By-law 2244 (2025)</a>; <a href="https://www.steinbach.ca/residents/bylaw-enforcement/traffic-vehicles-parking/">Truck routes</a>; <a href="https://steinbachonline.com/articles/steinbach-city-council-is-looking-forward-to-paving-park-road-west">Park Road West paving (SteinbachOnline, 2023)</a></li>
-  <li>Provincial plans and data: <a href="https://manitoba.ca/mti/myhis/pdf/2025_2026_update_strategy.pdf">Multi-year Infrastructure Investment Strategy 2025/26</a>; <a href="https://services6.arcgis.com/HQUud09zgy3Asw9X/arcgis/rest/services/Manitoba_truck_traffic_volumes_2019/FeatureServer/0">2019 truck traffic estimates</a></li>
+  <li>Provincial plans and data: <a href="https://manitoba.ca/mti/myhis/pdf/2025_2026_update_strategy.pdf">Multi-year Infrastructure Investment Strategy 2025/26</a>; <a href="https://services6.arcgis.com/HQUud09zgy3Asw9X/arcgis/rest/services/Manitoba_truck_traffic_volumes_2019/FeatureServer/0">2019 truck traffic estimates and highway centrelines</a></li>
+  <li>Map: <a href="https://leafletjs.com/">Leaflet</a>; background map and streets &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap contributors</a></li>
   <li>Province: <a href="https://steinbachonline.com/articles/no-plans-at-this-time-for-perimeter-highway-around-steinbach">No plans for a perimeter highway (SteinbachOnline, 2018)</a>; <a href="https://engagemb.ca/functional-design-of-highway-52/news_feed/engagement-background">PTH 52 functional design background (EngageMB)</a></li>
   <li>SteinbachOnline: <a href="https://steinbachonline.com/local/steinbach-traffic-growing-steadily">Traffic growing steadily (2017)</a>; <a href="https://steinbachonline.com/articles/steinbach-traffic-study-shows-several-intersections-not-meeting-city-standards-">2023 traffic study</a>; <a href="https://steinbachonline.com/articles/city-reviews-2025-traffic-study-pushes-for-lights-at-pth-52-and-giesbrecht">2025 traffic study</a></li>
   <li>Research: <a href="https://vtc.rutgers.edu/wp-content/uploads/2014/04/Bypass_05.pdf">Before-and-After Evaluation of Bypass Roads in New Jersey (Rutgers, 2005)</a>; <a href="https://archives.bape.gouv.qc.ca/sections/mandats/R131/documents/DB23.pdf">Economic Impacts of Highway Bypasses on Communities (WisDOT, 1998)</a>; <a href="http://caee.webhost.utexas.edu/prof/kockelman/public_html/TRB01Bypasses.pdf">Srinivasan &amp; Kockelman, Texas relief routes (2002)</a>; <a href="https://www.cutr.usf.edu/wp-content/uploads/2018/04/Bypass-Basics-White-Paper-2014.pdf">Bypass Basics (CUTR for Florida DOT, 2014)</a>; <a href="https://world-spectator.com/news_story.php?id=343">Moosomin traffic count (World-Spectator, 2016)</a></li>
@@ -356,5 +451,217 @@
 </footer>
 
 </main>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+<script type="application/json" id="map-data">{"segments":[{"from":"North Gate Dr","to":"Clear Springs Rd","road":12,"coords":[[49.567004,-96.687704],[49.561737,-96.68781],[49.55996,-96.687849]],"v2024":1875,"v2025":1980,"note":"","d2024":{"SB":890,"NB":985},"d2025":{"SB":990,"NB":990}},{"from":"Clear Springs Rd","to":"Clearspring Centre / Golfair Rd","road":12,"coords":[[49.55996,-96.687849],[49.556408,-96.687925],[49.550942,-96.688028],[49.548341,-96.68807]],"v2024":2015,"v2025":2045,"note":"","d2024":{"SB":1080,"NB":935},"d2025":{"SB":1080,"NB":965}},{"from":"Clearspring Centre / Golfair Rd","to":"Park Rd","road":12,"coords":[[49.548341,-96.68807],[49.545588,-96.688116],[49.545134,-96.688131]],"v2024":2220,"v2025":2235,"note":"","d2024":{"SB":1170,"NB":1050},"d2025":{"SB":1230,"NB":1005}},{"from":"Park Rd","to":"Superstore / Co-op access","road":12,"coords":[[49.545134,-96.688131],[49.544851,-96.688141],[49.544012,-96.688163],[49.543154,-96.688121],[49.542196,-96.68812],[49.541981,-96.688124]],"v2024":2150,"v2025":2310,"note":"","d2024":{"SB":1120,"NB":1030},"d2025":{"SB":1210,"NB":1100}},{"from":"Superstore / Co-op access","to":"Acres Dr / Penfeld Dr","road":12,"coords":[[49.541981,-96.688124],[49.541292,-96.688137],[49.540311,-96.688155],[49.539495,-96.688147],[49.538931,-96.68816]],"v2024":2190,"v2025":2325,"note":"","d2024":{"SB":1135,"NB":1055},"d2025":{"SB":1285,"NB":1040}},{"from":"Acres Dr / Penfeld Dr","to":"Main St (PTH 52)","road":12,"coords":[[49.538931,-96.68816],[49.535118,-96.688244],[49.532744,-96.688292],[49.532631,-96.688288],[49.532518,-96.688294],[49.532406,-96.688308],[49.532269,-96.688324],[49.532145,-96.688375],[49.532022,-96.688445],[49.531829,-96.688628],[49.531631,-96.688857],[49.531423,-96.689141],[49.530305,-96.690834],[49.530175,-96.690983],[49.530074,-96.691079]],"v2024":1885,"v2025":2055,"note":"Loewen Blvd, between these two, was not counted (construction).","d2024":{"SB":970,"NB":915},"d2025":{"SB":990,"NB":1065}},{"from":"Main St (PTH 52)","to":"Woodhaven Ave / Friesen Ave","road":12,"coords":[[49.530074,-96.691079],[49.52997,-96.691133],[49.529826,-96.691175],[49.529657,-96.69119],[49.529335,-96.691198],[49.524838,-96.691215]],"v2024":1470,"v2025":1470,"note":"","d2024":{"SB":745,"NB":725},"d2025":{"SB":735,"NB":735}},{"from":"Woodhaven Ave / Friesen Ave","to":"Reimer Ave","road":12,"coords":[[49.524838,-96.691215],[49.52482,-96.691215],[49.522202,-96.691222]],"v2024":1300,"v2025":1350,"note":"","d2024":{"SB":710,"NB":590},"d2025":{"SB":745,"NB":605}},{"from":"Reimer Ave","to":"McKenzie Ave","road":12,"coords":[[49.522202,-96.691222],[49.517528,-96.691235],[49.517521,-96.691235]],"v2024":1310,"v2025":1345,"note":"","d2024":{"SB":735,"NB":575},"d2025":{"SB":780,"NB":565}},{"from":"McKenzie Ave","to":"Chrysler Gate","road":12,"coords":[[49.517521,-96.691235],[49.51742,-96.691234],[49.516866,-96.691232],[49.513226,-96.691167]],"v2024":1015,"v2025":1080,"note":"","d2024":{"SB":600,"NB":415},"d2025":{"SB":610,"NB":470}},{"from":"Chrysler Gate","to":"Madison Dr","road":12,"coords":[[49.513226,-96.691167],[49.512319,-96.691151],[49.510933,-96.69128],[49.50959,-96.691272]],"v2024":880,"v2025":925,"note":"","d2024":{"SB":565,"NB":315},"d2025":{"SB":565,"NB":360}},{"from":"Madison Dr","to":"Hanover Rd","road":12,"coords":[[49.50959,-96.691272],[49.506714,-96.691254],[49.50272,-96.691238],[49.50269,-96.691238]],"v2024":745,"v2025":825,"note":"","d2024":{"SB":485,"NB":260},"d2025":{"SB":500,"NB":325}},{"from":"Westland Dr","to":"Bushfarm Rd","road":52,"coords":[[49.532079,-96.725456],[49.532079,-96.723574],[49.532079,-96.719182],[49.532093,-96.71726],[49.532124,-96.715702],[49.532106,-96.714314],[49.532098,-96.714058]],"v2024":1840,"v2025":1875,"note":"","d2024":{"EB":765,"WB":1075},"d2025":{"EB":710,"WB":1165}},{"from":"Bushfarm Rd","to":"Keating Rd","road":52,"coords":[[49.532098,-96.714058],[49.53209,-96.713791],[49.532081,-96.713497],[49.53207,-96.711183]],"v2024":1820,"v2025":1835,"note":"","d2024":{"EB":730,"WB":1090},"d2025":{"EB":740,"WB":1095}},{"from":"Keating Rd","to":"Industrial Rd","road":52,"coords":[[49.53207,-96.711183],[49.532051,-96.706937],[49.532054,-96.704081]],"v2024":1725,"v2025":1745,"note":"","d2024":{"EB":740,"WB":985},"d2025":{"EB":760,"WB":985}},{"from":"Industrial Rd","to":"Lund Rd","road":52,"coords":[[49.532054,-96.704081],[49.532057,-96.700813],[49.532061,-96.69966]],"v2024":1555,"v2025":1595,"note":"","d2024":{"EB":730,"WB":825},"d2025":{"EB":860,"WB":735}},{"from":"Lund Rd","to":"Giesbrecht St","road":52,"coords":[[49.532061,-96.69966],[49.532068,-96.697495],[49.53207,-96.696903],[49.53206,-96.696249]],"v2024":1730,"v2025":1570,"note":"","d2024":{"EB":860,"WB":870},"d2025":{"EB":825,"WB":745}},{"from":"Giesbrecht St","to":"Main St (PTH 52)","road":52,"coords":[[49.53206,-96.696249],[49.532057,-96.696013],[49.532035,-96.695237],[49.532005,-96.6949],[49.531944,-96.694547],[49.53186,-96.694222],[49.531765,-96.693924],[49.531652,-96.693637],[49.530854,-96.692305],[49.530163,-96.691239],[49.530074,-96.691079]],"v2024":1680,"v2025":1630,"note":"","d2024":{"EB":860,"WB":820},"d2025":{"EB":810,"WB":820}},{"from":"Main St (PTH 52)","to":"McKenzie Ave / Hespeler St","road":52,"coords":[[49.530074,-96.691079],[49.529612,-96.690265],[49.526325,-96.684892],[49.523848,-96.680932],[49.522285,-96.67842],[49.521392,-96.676604],[49.519096,-96.671831],[49.518161,-96.669865],[49.518022,-96.669579],[49.51798,-96.669484]],"v2024":1425,"v2025":1505,"note":"","d2024":{"EB":550,"WB":875},"d2025":{"EB":575,"WB":930}}],"stubs":[{"label":"PTH 12 north to PTH 1 and Winnipeg","coords":[[49.580521,-96.687091],[49.580436,-96.687073],[49.579036,-96.686875],[49.578354,-96.686778],[49.577602,-96.686685],[49.57684,-96.686639],[49.575435,-96.686623],[49.574836,-96.686649],[49.57386,-96.686688],[49.573349,-96.68674],[49.572844,-96.68681],[49.57234,-96.686897],[49.570177,-96.68732],[49.569394,-96.687458],[49.568611,-96.687577],[49.567845,-96.687659],[49.567132,-96.687702],[49.567004,-96.687704]]},{"label":"PTH 12 south","coords":[[49.50269,-96.691238],[49.498245,-96.691266],[49.495532,-96.691238],[49.489124,-96.691172]]},{"label":"PTH 52 west to Mitchell and PTH 59","coords":[[49.532071,-96.746216],[49.532079,-96.725456]]},{"label":"PTH 52 east","coords":[[49.51798,-96.669484],[49.517863,-96.669212],[49.517717,-96.668781],[49.517594,-96.668293],[49.517495,-96.667795],[49.517413,-96.667287],[49.517354,-96.666714],[49.51733,-96.666139],[49.517314,-96.660885],[49.517297,-96.652139],[49.517325,-96.648913]]}],"points":[{"name":"North Gate Dr","lat":49.567004,"lon":-96.687704,"edge":true,"t2024":1955,"t2025":2060,"approx":true,"tm":{"2024":{"SB":[15,870,10],"WB":[5,"<5",15],"EB":[15,"<5",40],"NB":[40,945,"<5"]},"2025":{"SB":[5,955,10],"WB":[5,"<5",15],"EB":[20,"<5",60],"NB":[25,960,"<5"]}},"legs":{"N":"PTH 12 north","S":"PTH 12 south","W":"North Gate Dr west","E":"North Gate Dr east"},"app":{"2024":{"NB":985,"SB":895,"EB":55,"WB":20},"2025":{"NB":990,"SB":970,"EB":80,"WB":20}}},{"name":"Clear Springs Rd","lat":49.55996,"lon":-96.687849,"edge":false,"t2024":2115,"t2025":2200,"tm":{"2024":{"SB":[45,820,25],"WB":[145,20,35],"EB":[30,20,40],"NB":[15,855,65]},"2025":{"SB":[70,890,30],"WB":[120,20,30],"EB":[45,10,20],"NB":[10,890,65]}},"legs":{"N":"PTH 12 north","S":"PTH 12 south","W":"Clear Springs Rd West","E":"Clear Springs Rd East"},"app":{"2024":{"NB":935,"SB":890,"EB":90,"WB":200},"2025":{"NB":965,"SB":990,"EB":75,"WB":170}}},{"name":"Clearspring Centre / Golfair Rd","lat":49.548341,"lon":-96.68807,"edge":false,"t2024":2600,"t2025":2545,"tm":{"2024":{"SB":[5,895,180],"WB":[5,"<5",5],"EB":[230,"<5",230],"NB":[215,830,5]},"2025":{"SB":[5,920,155],"WB":["<5","<5",5],"EB":[200,"<5",255],"NB":[130,875,"<5"]}},"legs":{"N":"PTH 12 north","S":"PTH 12 south","W":"Clearspring Centre","E":"Golfair Rd"},"app":{"2024":{"NB":1050,"SB":1080,"EB":460,"WB":10},"2025":{"NB":1005,"SB":1080,"EB":455,"WB":5}}},{"name":"Park Rd","lat":49.545134,"lon":-96.688131,"edge":false,"t2024":3260,"t2025":3425,"tm":{"2024":{"SB":[275,725,170],"WB":[85,165,165],"EB":[150,235,260],"NB":[325,610,95]},"2025":{"SB":[275,755,200],"WB":[65,160,185],"EB":[175,205,305],"NB":[360,660,80]}},"legs":{"N":"PTH 12 north","S":"PTH 12 south","W":"Park Rd West","E":"Park Rd East"},"app":{"2024":{"NB":1030,"SB":1170,"EB":645,"WB":415},"2025":{"NB":1100,"SB":1230,"EB":685,"WB":410}}},{"name":"Superstore / Co-op access","lat":49.541981,"lon":-96.688124,"edge":false,"t2024":2580,"t2025":2635,"tm":{"2024":{"SB":[115,930,75],"WB":[15,10,60],"EB":[85,20,215],"NB":[165,880,10]},"2025":{"SB":[85,1035,90],"WB":[15,10,55],"EB":[90,20,195],"NB":[175,850,15]}},"legs":{"N":"PTH 12 north","S":"PTH 12 south","W":"Superstore access","E":"Co-op access"},"app":{"2024":{"NB":1055,"SB":1120,"EB":320,"WB":85},"2025":{"NB":1040,"SB":1210,"EB":305,"WB":80}}},{"name":"Acres Dr / Penfeld Dr","lat":49.538931,"lon":-96.68816,"edge":false,"t2024":2440,"t2025":2840,"tm":{"2024":{"SB":[185,880,70],"WB":[60,50,135],"EB":[50,60,35],"NB":[45,785,85]},"2025":{"SB":[245,1000,40],"WB":[65,45,200],"EB":[45,95,40],"NB":[40,945,80]}},"legs":{"N":"PTH 12 north","S":"PTH 12 south (to Main St)","W":"Acres Dr","E":"Penfeld Dr"},"app":{"2024":{"NB":915,"SB":1135,"EB":145,"WB":245},"2025":{"NB":1065,"SB":1285,"EB":180,"WB":310}}},{"name":"Loewen Blvd","lat":49.53216,"lon":-96.688369,"edge":false,"note":"Not counted in 2024 or 2025 (construction)"},{"name":"Main St (PTH 52)","lat":49.530074,"lon":-96.691079,"edge":false,"t2024":3430,"t2025":3465,"tm":{"2024":{"SB":[365,520,85],"WB":[85,545,245],"EB":[140,515,205],"NB":[240,435,50]},"2025":{"SB":[390,550,50],"WB":[80,500,350],"EB":[130,445,235],"NB":[225,425,85]}},"legs":{"N":"PTH 12 north","S":"Brandt St south","W":"PTH 52 west","E":"Main St east"},"app":{"2024":{"NB":725,"SB":970,"EB":860,"WB":875},"2025":{"NB":735,"SB":990,"EB":810,"WB":930}}},{"name":"Woodhaven Ave / Friesen Ave","lat":49.524838,"lon":-96.691215,"edge":false,"t2024":1445,"t2025":1475,"tm":{"2024":{"SB":[15,705,25],"WB":[10,25,10],"EB":[25,20,20],"NB":[35,545,10]},"2025":{"SB":[45,665,25],"WB":[25,35,5],"EB":[20,20,30],"NB":[25,545,15]}},"legs":{"N":"Brandt St north (to Main St)","S":"Brandt St south","W":"Woodhaven Ave","E":"Friesen Ave"},"app":{"2024":{"NB":590,"SB":745,"EB":65,"WB":45},"2025":{"NB":605,"SB":735,"EB":70,"WB":65}}},{"name":"Reimer Ave","lat":49.522202,"lon":-96.691222,"edge":false,"t2024":1735,"t2025":1780,"tm":{"2024":{"SB":[90,550,70],"WB":[85,110,55],"EB":[75,65,60],"NB":[50,475,50]},"2025":{"SB":[85,580,80],"WB":[90,130,55],"EB":[80,80,35],"NB":[50,470,45]}},"legs":{"N":"Brandt St north","S":"Brandt St south","W":"Reimer Ave west","E":"Reimer Ave east"},"app":{"2024":{"NB":575,"SB":710,"EB":200,"WB":250},"2025":{"NB":565,"SB":745,"EB":195,"WB":275}}},{"name":"McKenzie Ave","lat":49.517521,"lon":-96.691235,"edge":false,"t2024":1810,"t2025":1875,"tm":{"2024":{"SB":[150,470,115],"WB":[95,160,125],"EB":[115,130,35],"NB":[50,295,70]},"2025":{"SB":[165,460,155],"WB":[110,140,120],"EB":[110,110,35],"NB":[50,335,85]}},"legs":{"N":"Brandt St north","S":"Brandt St south","W":"McKenzie Ave west","E":"McKenzie Ave east"},"app":{"2024":{"NB":415,"SB":735,"EB":280,"WB":380},"2025":{"NB":470,"SB":780,"EB":255,"WB":370}}},{"name":"Chrysler Gate","lat":49.513226,"lon":-96.691167,"edge":false,"t2024":1050,"t2025":1100,"tm":{"2024":{"SB":[75,525,"<5"],"WB":[35,"<5",90],"EB":[5,"<5",5],"NB":["<5",305,10]},"2025":{"SB":[60,550,"<5"],"WB":[25,"<5",95],"EB":[5,"<5",5],"NB":["<5",355,5]}},"legs":{"N":"Brandt St north","S":"Brandt St south","W":"private access","E":"Chrysler Gate"},"app":{"2024":{"NB":315,"SB":600,"EB":10,"WB":125},"2025":{"NB":360,"SB":610,"EB":10,"WB":120}}},{"name":"Madison Dr","lat":49.50959,"lon":-96.691272,"edge":false,"t2024":880,"t2025":945,"tm":{"2024":{"SB":[80,485,null],"WB":[5,null,50],"NB":[null,260,"<5"]},"2025":{"SB":[55,510,null],"WB":[10,null,45],"NB":[null,315,10]}},"legs":{"N":"Brandt St north","S":"Brandt St south","E":"Madison Dr"},"app":{"2024":{"NB":260,"SB":565,"EB":0,"WB":55},"2025":{"NB":325,"SB":565,"EB":0,"WB":55}}},{"name":"Hanover Rd","lat":49.50269,"lon":-96.691238,"edge":true,"t2024":770,"t2025":865,"tm":{"2024":{"SB":[20,435,30],"WB":[5,10,15],"EB":[5,5,5],"NB":[5,235,"<5"]},"2025":{"SB":[10,475,15],"WB":[5,10,15],"EB":[15,5,5],"NB":[10,295,5]}},"legs":{"N":"Brandt St north","S":"PTH 12 south","W":"Hanover Rd West","E":"Hanover Rd East"},"app":{"2024":{"NB":240,"SB":485,"EB":15,"WB":30},"2025":{"NB":310,"SB":500,"EB":25,"WB":30}}},{"name":"Westland Dr","lat":49.532079,"lon":-96.725456,"edge":true,"t2024":1820,"t2025":1915,"tm":{"2024":{"WB":[20,1045,10],"NB":["<5","<5",5],"SB":[15,"<5","<5"],"EB":["<5",725,"<5"]},"2025":{"WB":[15,1130,20],"NB":["<5","<5",5],"SB":[15,"<5",10],"EB":[5,715,"<5"]}},"legs":{"W":"PTH 52 west","E":"PTH 52 east (into the city)","N":"Westland Dr north","S":"Westland Dr south"},"app":{"2024":{"NB":5,"SB":15,"EB":725,"WB":1075},"2025":{"NB":5,"SB":25,"EB":720,"WB":1165}}},{"name":"Bushfarm Rd","lat":49.532098,"lon":-96.714058,"edge":false,"t2024":1930,"t2025":1920,"tm":{"2024":{"WB":[65,1025,"<5"],"NB":[30,"<5",30],"SB":[10,"<5",5],"EB":[5,715,45]},"2025":{"WB":[75,1015,5],"NB":[40,"<5",60],"SB":[10,"<5",5],"EB":[10,645,55]}},"legs":{"W":"PTH 52 west","E":"PTH 52 east","N":"Bushfarm Rd north","S":"Bushfarm Rd south"},"app":{"2024":{"NB":60,"SB":15,"EB":765,"WB":1090},"2025":{"NB":100,"SB":15,"EB":710,"WB":1095}}},{"name":"Keating Rd","lat":49.53207,"lon":-96.711183,"edge":false,"t2024":1875,"t2025":1905,"tm":{"2024":{"WB":[15,950,20],"NB":[5,"<5",5],"SB":[20,5,125],"EB":[55,670,5]},"2025":{"WB":[20,945,20],"NB":[5,"<5",10],"SB":[25,"<5",140],"EB":[70,670,"<5"]}},"legs":{"W":"PTH 52 west","E":"PTH 52 east","N":"Keating Rd north","S":"Keating Rd south"},"app":{"2024":{"NB":10,"SB":150,"EB":730,"WB":985},"2025":{"NB":15,"SB":165,"EB":740,"WB":985}}},{"name":"Industrial Rd","lat":49.532054,"lon":-96.704081,"edge":false,"t2024":2195,"t2025":2235,"tm":{"2024":{"WB":[45,630,150],"NB":[20,15,60],"SB":[180,20,335],"EB":[190,535,15]},"2025":{"WB":[50,545,140],"NB":[45,40,110],"SB":[180,40,325],"EB":[210,515,35]}},"legs":{"W":"PTH 52 west","E":"PTH 52 east","N":"Industrial Rd north","S":"Industrial Rd south"},"app":{"2024":{"NB":95,"SB":535,"EB":740,"WB":825},"2025":{"NB":195,"SB":545,"EB":760,"WB":735}}},{"name":"Lund Rd","lat":49.532061,"lon":-96.69966,"edge":false,"t2024":1830,"t2025":1810,"tm":{"2024":{"WB":[25,760,85],"NB":[15,"<5",15],"SB":[125,5,70],"EB":[20,700,10]},"2025":{"WB":[15,670,60],"NB":[10,5,15],"SB":[105,"<5",70],"EB":[35,815,10]}},"legs":{"W":"PTH 52 west","E":"PTH 52 east","N":"Lund Rd north","S":"Lund Rd south"},"app":{"2024":{"NB":30,"SB":200,"EB":730,"WB":870},"2025":{"NB":30,"SB":175,"EB":860,"WB":745}}},{"name":"Giesbrecht St","lat":49.53206,"lon":-96.696249,"edge":false,"t2024":1900,"t2025":1865,"tm":{"2024":{"WB":[65,725,30],"NB":[100,5,40],"SB":[30,10,35],"EB":[5,700,155]},"2025":{"WB":[80,705,35],"NB":[110,5,35],"SB":[25,5,40],"EB":[10,675,140]}},"legs":{"W":"PTH 52 west","E":"PTH 52 east (to Brandt St)","N":"Giesbrecht St north","S":"Giesbrecht St south"},"app":{"2024":{"NB":145,"SB":75,"EB":860,"WB":820},"2025":{"NB":150,"SB":70,"EB":825,"WB":820}}},{"name":"McKenzie Ave / Hespeler St","lat":49.51798,"lon":-96.669484,"edge":false,"t2024":1800,"t2025":1870,"tm":{"2024":{"SB":[185,105,65],"EB":[70,445,35],"WB":[145,310,135],"NB":[35,110,160]},"2025":{"SB":[200,95,90],"EB":[65,460,50],"WB":[155,335,130],"NB":[20,90,180]}},"legs":{"W":"Main St west (to Brandt St)","E":"PTH 52 / Main St east","N":"Hespeler St North","S":"McKenzie Ave"},"app":{"2024":{"NB":305,"SB":355,"EB":550,"WB":590},"2025":{"NB":290,"SB":385,"EB":575,"WB":620}}}]}</script>
+<script>
+(function () {
+  var el = document.getElementById('traffic-map');
+  if (!window.L || !el) return;
+  el.innerHTML = '';
+  var DATA = JSON.parse(document.getElementById('map-data').textContent);
+  var info = document.getElementById('map-info');
+  var turnsBox = document.getElementById('map-turns');
+  var year = '2024', view = 'total', selected = 'Main St (PTH 52)';
+  var fmt = function (n) { return Number(n).toLocaleString('en-CA'); };
+  var css = function (v) { return getComputedStyle(document.documentElement).getPropertyValue(v).trim(); };
+  var clamp = function (x, a, b) { return Math.max(a, Math.min(b, x)); };
+  var wTotal = function (v) { return clamp(3 + (v - 600) * 15 / 1800, 3, 18); };
+  var wDir = function (v) { return clamp(2 + (v - 250) * 9 / 1000, 2, 11); };
+  var J = 'Main St (PTH 52)';
+  var nm = function (n, road) { return n !== J ? n : (road === 12 ? 'Main St' : road === 52 ? 'Brandt St' : 'Brandt St and Main St'); };
+  var esc = function (t) { return String(t).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); };
+  var dark = function () {
+    var t = document.documentElement.getAttribute('data-theme');
+    if (t) return t === 'dark';
+    return window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+  };
+  var mobile = L.Browser.mobile;
+  var map = L.map(el, { scrollWheelZoom: false, dragging: !mobile, tap: !mobile, zoomSnap: 0.25 });
+  map.on('click focus', function () { map.scrollWheelZoom.enable(); });
+  var allCoords = [];
+  DATA.segments.forEach(function (g) { allCoords = allCoords.concat(g.coords); });
+  map.fitBounds(L.latLngBounds(allCoords), { paddingTopLeft: [18, 18], paddingBottomRight: [18, 44] });
+  var attr = '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors | Highways: Manitoba MTI | Counts: WSP';
+  var tiles = null;
+  function setTiles() {
+    if (tiles) map.removeLayer(tiles);
+    tiles = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 19, attribution: attr }).addTo(map);
+    el.classList.toggle('dark-tiles', dark());
+  }
+  setTiles();
+
+  // Offset a polyline sideways by px pixels (positive = right of the coordinate direction).
+  function offsetLatLngs(coords, px) {
+    var pts = coords.map(function (c) { return map.latLngToLayerPoint(L.latLng(c[0], c[1])); });
+    var out = [];
+    for (var i = 0; i < pts.length; i++) {
+      var a = pts[Math.max(0, i - 1)], b = pts[Math.min(pts.length - 1, i + 1)];
+      var dx = b.x - a.x, dy = b.y - a.y, len = Math.sqrt(dx * dx + dy * dy) || 1;
+      var p = L.point(pts[i].x + (-dy / len) * px, pts[i].y + (dx / len) * px);
+      out.push(map.layerPointToLatLng(p));
+    }
+    return out;
+  }
+
+  var stubs = DATA.stubs.map(function (st) {
+    return L.polyline(st.coords, { weight: 3, dashArray: '4 6', interactive: false }).addTo(map);
+  });
+  var LABELS = ['North Gate Dr|Clear Springs Rd', 'Clearspring Centre / Golfair Rd|Park Rd', 'Reimer Ave|McKenzie Ave',
+    'Madison Dr|Hanover Rd', 'Westland Dr|Bushfarm Rd', 'Industrial Rd|Lund Rd', 'Main St (PTH 52)|McKenzie Ave / Hespeler St'];
+  var segs = DATA.segments.map(function (g) {
+    var total = L.polyline(g.coords, { lineCap: 'butt', interactive: false });
+    var dA = L.polyline(g.coords, { lineCap: 'butt', interactive: false });   // NB or EB
+    var dB = L.polyline(g.coords, { lineCap: 'butt', interactive: false });   // SB or WB
+    var hit = L.polyline(g.coords, { weight: 26, opacity: 0, color: '#000' });
+    var lab = null;
+    if (LABELS.indexOf(g.from + '|' + g.to) >= 0) {
+      var mid = g.coords[Math.floor(g.coords.length / 2)];
+      var left = g.from === 'Reimer Ave', above = g.from === 'Industrial Rd';
+      lab = L.tooltip({ permanent: true, interactive: false, direction: g.road === 12 ? (left ? 'left' : 'right') : (above ? 'top' : 'bottom'),
+        className: 'vol-label', offset: g.road === 12 ? [left ? -14 : 14, 0] : [0, above ? -14 : 14] }).setLatLng(mid);
+    }
+    function dirs() {
+      var d = g['d' + year];
+      return g.road === 12 ? { a: d.NB, b: d.SB, an: 'northbound', bn: 'southbound', as: '↑', bs: '↓' }
+                           : { a: d.EB, b: d.WB, an: 'eastbound', bn: 'westbound', as: '→', bs: '←' };
+    }
+    function text() {
+      var head = nm(g.from, g.road) + ' to ' + nm(g.to, g.road) + ' (' + (g.road === 12 ? 'PTH 12' : 'PTH 52') + '), ' + year + ' evening peak: ';
+      var d = dirs();
+      var body = view === 'total' ? fmt(g['v' + year]) + ' vehicles an hour both ways (' + fmt(d.a) + ' ' + d.an + ', ' + fmt(d.b) + ' ' + d.bn + ').'
+                                  : fmt(d.a) + ' ' + d.an + ' and ' + fmt(d.b) + ' ' + d.bn + ' vehicles an hour.';
+      return head + body + (g.note ? ' ' + g.note : '');
+    }
+    hit.on('mouseover click', function () { info.textContent = text(); });
+    hit.bindTooltip(function () {
+      var d = dirs();
+      return view === 'total' ? fmt(g['v' + year]) + ' vehicles/hr' : d.as + ' ' + fmt(d.a) + '  ' + d.bs + ' ' + fmt(d.b);
+    }, { sticky: true });
+    return { g: g, total: total, dA: dA, dB: dB, hit: hit, lab: lab, dirs: dirs };
+  });
+  var pts = DATA.points.map(function (p) {
+    var m = L.circleMarker([p.lat, p.lon], { radius: p.edge ? 6.5 : 5, weight: 2, fillOpacity: 1 });
+    m.bindTooltip(function () { return esc(nm(p.name)) + (p.tm ? ' (tap for turns)' : ''); });
+    m.on('mouseover', function () {
+      info.textContent = p.note ? nm(p.name) + ': ' + p.note + '.' :
+        nm(p.name) + (p.edge ? ' (outermost counted intersection)' : '') + ': ' + fmt(p['t' + year]) + ' vehicles an hour entering from all directions, ' + year + '.' + (p.approx ? ' Position approximate.' : '');
+    });
+    m.on('click', function () { selected = p.name; renderTurns(); });
+    return { p: p, m: m };
+  });
+  // Draw order: lines, then hit targets, then intersections on top.
+  segs.forEach(function (s) { s.total.addTo(map); });
+  segs.forEach(function (s) { s.hit.addTo(map); if (s.lab) s.lab.addTo(map); });
+  pts.forEach(function (o) { o.m.addTo(map); });
+
+  function placeDirs() {
+    segs.forEach(function (s) {
+      var d = s.dirs(), wa = wDir(d.a), wb = wDir(d.b);
+      // PTH 12 coordinates run north to south (southbound); PTH 52 runs west to east (eastbound).
+      // Right-hand traffic: each direction sits to the right of its own travel.
+      if (s.g.road === 12) { s.dB.setLatLngs(offsetLatLngs(s.g.coords, wb / 2 + 1)); s.dA.setLatLngs(offsetLatLngs(s.g.coords, -(wa / 2 + 1))); }
+      else { s.dA.setLatLngs(offsetLatLngs(s.g.coords, wa / 2 + 1)); s.dB.setLatLngs(offsetLatLngs(s.g.coords, -(wb / 2 + 1))); }
+      s.dA.setStyle({ weight: wa }); s.dB.setStyle({ weight: wb });
+    });
+  }
+  function paint() {
+    var accent = css('--accent'), edge = css('--context-bar'), surface = css('--surface'), muted = css('--muted');
+    var ca = css('--dir-a'), cb = css('--dir-b');
+    segs.forEach(function (s) {
+      s.total.setStyle({ color: accent, weight: wTotal(s.g['v' + year]), opacity: 0.85 });
+      s.dA.setStyle({ color: ca, opacity: 0.95 }); s.dB.setStyle({ color: cb, opacity: 0.95 });
+      if (view === 'total') {
+        if (!map.hasLayer(s.total)) map.addLayer(s.total);
+        map.removeLayer(s.dA); map.removeLayer(s.dB);
+      } else {
+        map.removeLayer(s.total);
+        if (!map.hasLayer(s.dA)) map.addLayer(s.dA);
+        if (!map.hasLayer(s.dB)) map.addLayer(s.dB);
+      }
+      if (s.lab) {
+        var d = s.dirs();
+        s.lab.setContent(view === 'total' ? fmt(s.g['v' + year]) : d.as + fmt(d.a) + ' ' + d.bs + fmt(d.b));
+      }
+    });
+    if (view === 'dir') placeDirs();
+    stubs.forEach(function (l) { l.setStyle({ color: muted, opacity: 0.8 }); });
+    segs.forEach(function (s) { if (s.hit._path) s.hit.bringToFront(); });
+    pts.forEach(function (o) {
+      o.m.setStyle({ color: o.p.edge ? edge : accent, fillColor: o.p.name === selected ? (o.p.edge ? edge : accent) : (o.p.edge ? edge : surface) });
+      if (o.m._path) o.m.bringToFront();
+    });
+    document.getElementById('legend-total').hidden = view !== 'total';
+    document.getElementById('legend-dir').hidden = view !== 'dir';
+  }
+  map.on('zoomend', function () { if (view === 'dir') placeDirs(); });
+
+  // Turning-movement panel
+  var FROM = { SB: 'N', NB: 'S', EB: 'W', WB: 'E' };
+  var DEST = { SB: ['E', 'S', 'W'], NB: ['W', 'N', 'E'], EB: ['N', 'E', 'S'], WB: ['S', 'W', 'N'] };
+  var ORDER = ['SB', 'NB', 'EB', 'WB'];
+  var val = function (v) { return v === '<5' ? 2 : (v || 0); };
+  function cell(v, leg) {
+    if (v === null || v === undefined) return '<td class="num">&ndash;</td>';
+    return '<td class="num"><strong>' + (v === '<5' ? '&lt;5' : fmt(v)) + '</strong><small>to ' + esc(leg) + '</small></td>';
+  }
+  function renderTurns() {
+    var p = null;
+    DATA.points.forEach(function (q) { if (q.name === selected) p = q; });
+    if (!p) return;
+    if (!p.tm) { turnsBox.innerHTML = '<h4>' + esc(nm(p.name)) + '</h4><p class="note">' + esc(p.note || 'No turning counts.') + '</p>'; paint(); return; }
+    var tm = p.tm[year], legs = p.legs, app = p.app[year];
+    var h = '<h4>Where traffic goes at ' + esc(nm(p.name)) + ', ' + year + ' evening peak hour</h4>';
+    h += '<div class="table-wrap"><table class="compact"><thead><tr><th>Arriving from</th><th class="num">Turn left</th><th class="num">Straight</th><th class="num">Turn right</th><th class="num">Total</th></tr></thead><tbody>';
+    var notes = [], lines = [];
+    ORDER.forEach(function (a) {
+      if (!tm[a]) return;
+      var mv = tm[a], dest = DEST[a];
+      var star = (p.name === 'Woodhaven Ave / Friesen Ave' && year === '2025' && a === 'NB') ? '*' : '';
+      h += '<tr><td>' + esc(legs[FROM[a]]) + '</td>' + cell(mv[0], legs[dest[0]]) + cell(mv[1], legs[dest[1]]) + cell(mv[2], legs[dest[2]]) +
+           '<td class="num">' + fmt(app[a]) + star + '</td></tr>';
+      var sum = val(mv[0]) + val(mv[1]) + val(mv[2]);
+      if (/^(PTH|Brandt|Main)/.test(legs[FROM[a]]) && mv[1] !== null && sum > 200) {
+        lines.push('From ' + legs[FROM[a]] + ': ' + Math.round(100 * val(mv[1]) / sum) + '% went straight on.');
+      }
+      if (star) notes.push('* The study’s turning figure adds to ' + fmt(sum) + ' for this approach; its Table 2.1 says ' + fmt(app[a]) + '.');
+    });
+    h += '</tbody></table></div>';
+    if (lines.length) h += '<ul>' + lines.map(function (t) { return '<li>' + esc(t) + '</li>'; }).join('') + '</ul>';
+    if (p.name === J) {
+      var e = tm.EB, sb = tm.SB;
+      h += '<p class="note">Turns between PTH 52 west and PTH 12 north here: ' + fmt(val(e[0])) + ' from PTH 52 onto PTH 12 north and ' + fmt(val(sb[2])) + ' from PTH 12 onto PTH 52 west, ' + fmt(val(e[0]) + val(sb[2])) + ' in all. That’s the movement a bypass northwest of the city would serve.</p>';
+    }
+    notes.forEach(function (t) { h += '<p class="note">' + esc(t) + '</p>'; });
+    h += '<p class="note">&lt;5 means fewer than 5 vehicles. Totals are the study’s approach volumes (Table 2.1).</p>';
+    turnsBox.innerHTML = h;
+    paint();
+  }
+
+  paint();
+  renderTurns();
+
+  document.querySelectorAll('[data-year]').forEach(function (b) {
+    b.addEventListener('click', function () {
+      year = b.getAttribute('data-year');
+      document.querySelectorAll('[data-year]').forEach(function (x) { x.setAttribute('aria-pressed', x === b ? 'true' : 'false'); });
+      renderTurns();
+      info.textContent = 'Showing the ' + year + ' study. Hover over or tap a stretch of highway.';
+    });
+  });
+  document.querySelectorAll('[data-view]').forEach(function (b) {
+    b.addEventListener('click', function () {
+      view = b.getAttribute('data-view');
+      document.querySelectorAll('[data-view]').forEach(function (x) { x.setAttribute('aria-pressed', x === b ? 'true' : 'false'); });
+      paint();
+      info.textContent = view === 'dir' ? 'Blue lines carry northbound or eastbound traffic; orange lines carry southbound or westbound traffic.' : 'Showing both directions together.';
+    });
+  });
+  if (window.matchMedia) {
+    var mq = window.matchMedia('(prefers-color-scheme: dark)');
+    var onChange = function () { setTiles(); paint(); };
+    if (mq.addEventListener) mq.addEventListener('change', onChange); else if (mq.addListener) mq.addListener(onChange);
+  }
+})();
+</script>
 </body>
 </html>
