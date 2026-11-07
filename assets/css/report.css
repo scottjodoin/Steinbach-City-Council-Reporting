@@ -1,0 +1,68 @@
+/* Multi-page topic reports (summary + sub-pages). Uses the site colour tokens from style.css. Mirrors advocacy/advocacy.css. */
+
+/* Report navigation: always visible, wraps on phones */
+nav.subnav { margin: 0 0 20px; padding: 10px 0; border-top: 1px solid var(--rule); border-bottom: 1px solid var(--rule); }
+nav.subnav ul { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 6px 8px; }
+nav.subnav a { display: inline-block; padding: 4px 10px; border-radius: 999px; font-size: 14px; text-decoration: none;
+               color: var(--accent); background: var(--accent-soft); }
+nav.subnav a[aria-current="page"] { background: var(--accent); color: var(--surface); font-weight: 700; }
+
+/* Choice cards on the summary and overview pages */
+.paths { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 12px; margin: 0 0 24px; }
+.path { display: block; background: var(--surface); border: 1px solid var(--rule); border-radius: 10px; padding: 14px 16px;
+        text-decoration: none; color: var(--text); }
+.path:hover, .path:focus-visible { border-color: var(--accent); }
+.path .k { margin: 0 0 4px; font-size: 13px; text-transform: uppercase; letter-spacing: .05em; color: var(--muted); }
+.path .t { margin: 0 0 6px; font-weight: 700; font-size: 17px; color: var(--accent); }
+.path .d { margin: 0; font-size: 15px; }
+.path .n { margin: 8px 0 0; font-size: 14px; color: var(--muted); }
+
+/* Plain-language "in short" box at the top of each sub-page */
+.inshort { border-left: 4px solid var(--accent); background: var(--accent-soft); border-radius: 0 8px 8px 0; padding: 12px 16px; margin: 0 0 24px; }
+.inshort h2 { margin: 0 0 6px; padding: 0; border: 0; font-size: 18px; }
+.inshort p:last-child, .inshort ul:last-child { margin-bottom: 0; }
+.inshort p, .inshort ul { margin: 0 0 6px; }
+.inshort ul { padding-left: 20px; }
+
+/* Folded detail */
+details.more { border: 1px solid var(--rule); border-radius: 8px; background: var(--surface); margin: 0 0 20px; }
+details.more > summary { cursor: pointer; padding: 10px 14px; font-weight: 600; color: var(--accent); }
+details.more > summary span { font-weight: 400; color: var(--muted); }
+details.more > .inner { padding: 0 14px 6px; }
+
+/* Previous / next between term pages */
+.pager { display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; margin: 24px 0; }
+
+/* Tables */
+td.num-cell { text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; }
+tr.total td { font-weight: 700; border-top: 2px solid var(--rule); }
+.all-requests td:first-child { width: 4.5em; }
+ul.years li, ul.roles li { margin-bottom: 6px; }
+
+/* Member chooser and member pages */
+.members { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 12px; margin: 0 0 20px; }
+.member { display: block; background: var(--surface); border: 1px solid var(--rule); border-radius: 8px; padding: 14px 16px;
+          text-decoration: none; color: var(--text); }
+a.member:hover, a.member:focus-visible { border-color: var(--accent); }
+.member h3 { margin: 0 0 2px; font-size: 17px; color: var(--accent); }
+.member .served { margin: 0 0 8px; color: var(--muted); font-size: 14px; }
+.member p { margin: 0 0 6px; font-size: 15px; }
+p.served-line { color: var(--muted); margin-top: -6px; }
+
+/* Filters on the all-requests page */
+.filters { display: flex; flex-wrap: wrap; gap: 8px 12px; align-items: end; margin: 0 0 12px; }
+.filters label { display: flex; flex-direction: column; font-size: 13px; color: var(--muted); gap: 4px; }
+.filters select { font: inherit; font-size: 15px; padding: 6px 8px; border: 1px solid var(--rule); border-radius: 6px;
+                  background: var(--surface); color: var(--text); max-width: 100%; }
+.filters .count { font-size: 14px; color: var(--muted); padding-bottom: 8px; }
+
+@media (max-width: 480px) {
+  .filters label { flex: 1 1 40%; } .filters select { width: 100%; }
+  table.by-year th, table.by-year td { padding: 8px 3px; font-size: 13px; letter-spacing: 0; }
+  nav.subnav a { font-size: 13px; padding: 4px 8px; }
+}
+
+/* Figures table on topic summaries */
+table.figures td, table.figures th { white-space: nowrap; }
+table.figures td:first-child { white-space: normal; }
+.all-requests td .meta { display: block; margin-top: 2px; }

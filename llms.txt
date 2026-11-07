@@ -11,7 +11,7 @@
 
 Taxes, budgets, housing, business and the city's long-term plans.
 
-- [Taxes, spending and priorities: how does Steinbach pay its way?](https://steinbachcitycouncilreporting.ca/taxes-spending/): Council's priorities, five years of budgets, reserves and the five-year debt rule, and how Steinbach's tax rate compares with Brandon, Selkirk and Thompson. (Meetings Jan 2022 – Sept 2026 · Updated Oct 13, 2026)
+- [Taxes, spending and priorities: how does Steinbach pay its way?](https://steinbachcitycouncilreporting.ca/taxes-spending/): 152 decisions over eleven years: every budget since 2016, the five-year debt rule, reserves and growth fees, how each council member voted, council's reasons in its own words, and how Steinbach compares. (Meetings Dec 2015 – Nov 2026 · Updated Nov 7, 2026)
 - [Steinbach in 10 to 20 years: what has council planned?](https://steinbachcitycouncilreporting.ca/future-planning/): Growth to 35,000–45,000 people, the $215 million wastewater decision, annexation and neighbours, and the plans that exist and don't, compared with Brandon and Winkler. (Meetings Jan 2022 – Sept 2026 · Updated Oct 13, 2026)
 - [Housing and development: keeping up with growth](https://steinbachcitycouncilreporting.ca/housing-development/): Affordable housing, apartments versus single-family neighbourhoods, and who pays for growth, compared with Brandon and Niverville. (Meetings Jan 2022 – Sept 2026 · Updated Oct 13, 2026)
 - [Business growth and investment: what has council done?](https://steinbachcitycouncilreporting.ca/business-growth/): The end of the economic development office, the industrial land squeeze, the Chamber's business tax and downtown rules, compared with Winkler, Morden and Portage. (Meetings Jan 2022 – Sept 2026 · Updated Oct 13, 2026)
@@ -87,6 +87,24 @@ Sub-pages of the reports above (for example, the advocacy report's pages by coun
 - [The story by term](https://steinbachcitycouncilreporting.ca/advocacy/terms/): How Steinbach City Council's response to requests from residents and groups changed from term to term and year to year, 2015 to 2026.
 - [What works, and what doesn’t](https://steinbachcitycouncilreporting.ca/advocacy/what-works/): Which routes into Steinbach City Council, which evidence and which timing moved decisions, whether surveys count, and council's reasons for saying no.
 - [Public Judgment & Deliberation Index (PJDI)](https://steinbachcitycouncilreporting.ca/council-deliberation/methodology/): The Public Judgment & Deliberation Index (PJDI) v1.0: a rubric for analyzing recorded public deliberation in Canadian municipal council minutes and transcripts.
+- [How Steinbach compares](https://steinbachcitycouncilreporting.ca/taxes-spending/compare/): How Steinbach's tax rate, debt, reserves, growth fees and budget openness compare with Brandon, Winkler, Morden, Portage la Prairie, Selkirk, Niverville and others in 2026.
+- [Bill Hiebert: taxes, budgets and spending](https://steinbachcitycouncilreporting.ca/taxes-spending/members/bill-hiebert/): What Bill Hiebert said and did on Steinbach's taxes, budgets, debt and spending, 2015 to 2026, with split votes and quotes.
+- [Cari Penner: taxes, budgets and spending](https://steinbachcitycouncilreporting.ca/taxes-spending/members/cari-penner/): What Cari Penner said and did on Steinbach's taxes, budgets, debt and spending, 2015 to 2026, with split votes and quotes.
+- [Chris Goertzen: taxes, budgets and spending](https://steinbachcitycouncilreporting.ca/taxes-spending/members/chris-goertzen/): What Chris Goertzen said and did on Steinbach's taxes, budgets, debt and spending, 2015 to 2026, with split votes and quotes.
+- [Damian Penner: taxes, budgets and spending](https://steinbachcitycouncilreporting.ca/taxes-spending/members/damian-penner/): What Damian Penner said and did on Steinbach's taxes, budgets, debt and spending, 2015 to 2026, with split votes and quotes.
+- [Earl Funk: taxes, budgets and spending](https://steinbachcitycouncilreporting.ca/taxes-spending/members/earl-funk/): What Earl Funk said and did on Steinbach's taxes, budgets, debt and spending, 2015 to 2026, with split votes and quotes.
+- [Council members on taxes and spending](https://steinbachcitycouncilreporting.ca/taxes-spending/members/): How each Steinbach council member voted and spoke on taxes, budgets, debt and spending from 2015 to 2026, with every split vote.
+- [Jac Siemens: taxes, budgets and spending](https://steinbachcitycouncilreporting.ca/taxes-spending/members/jac-siemens/): What Jac Siemens said and did on Steinbach's taxes, budgets, debt and spending, 2015 to 2026, with split votes and quotes.
+- [Jake Hiebert: taxes, budgets and spending](https://steinbachcitycouncilreporting.ca/taxes-spending/members/jake-hiebert/): What Jake Hiebert said and did on Steinbach's taxes, budgets, debt and spending, 2015 to 2026, with split votes and quotes.
+- [John Fehr: taxes, budgets and spending](https://steinbachcitycouncilreporting.ca/taxes-spending/members/john-fehr/): What John Fehr said and did on Steinbach's taxes, budgets, debt and spending, 2015 to 2026, with split votes and quotes.
+- [Michael Zwaagstra: taxes, budgets and spending](https://steinbachcitycouncilreporting.ca/taxes-spending/members/michael-zwaagstra/): What Michael Zwaagstra said and did on Steinbach's taxes, budgets, debt and spending, 2015 to 2026, with split votes and quotes.
+- [Susan Penner: taxes, budgets and spending](https://steinbachcitycouncilreporting.ca/taxes-spending/members/susan-penner/): What Susan Penner said and did on Steinbach's taxes, budgets, debt and spending, 2015 to 2026, with split votes and quotes.
+- [Council’s reasons, in its own words](https://steinbachcitycouncilreporting.ca/taxes-spending/reasons/): The eight reasons Steinbach City Council has given for how it taxes, borrows and spends, 2015 to 2026, in members' own words, with the counterpoints.
+- [Every decision and debate on taxes and spending](https://steinbachcitycouncilreporting.ca/taxes-spending/record/): Every Steinbach City Council decision and debate on taxes, budgets, debt, fees and spending from December 2015 to November 2026, filterable, with spreadsheet downloads.
+- [2014–2018: Mayor Chris Goertzen’s council](https://steinbachcitycouncilreporting.ca/taxes-spending/terms/2014-2018/): Steinbach City Council's taxes, budgets and spending in the 2014–2018 term: tax freezes, the RCMP cost jump, the arts centre and the golf club land deal.
+- [2018–2022: Mayor Earl Funk’s first council](https://steinbachcitycouncilreporting.ca/taxes-spending/terms/2018-2022/): Steinbach City Council's taxes, budgets and spending in the 2018–2022 term: frozen rates, COVID-19, who pays for local improvements, and saving for the event centre.
+- [2022–2026: Mayor Earl Funk’s second council](https://steinbachcitycouncilreporting.ca/taxes-spending/terms/2022-2026/): Steinbach City Council's taxes, budgets and spending in the 2022–2026 term: the event centre, a 5.1% increase, holding the rate in a reassessment year, and the wastewater bill ahead.
+- [The story by term](https://steinbachcitycouncilreporting.ca/taxes-spending/terms/): Steinbach's taxes and spending told council by council and year by year, 2015 to 2026, with what the new 2026–2030 council inherits.
 
 ## Optional
 
@@ -98,3 +116,7 @@ Data downloads behind the reports (CSV, Excel, JSON).
 - [candidate-forum-2026-transcript/transcript.json](https://steinbachcitycouncilreporting.ca/candidate-forum-2026-transcript/transcript.json)
 - [council-deliberation/steinbach-council-deliberation-data.xlsx](https://steinbachcitycouncilreporting.ca/council-deliberation/steinbach-council-deliberation-data.xlsx)
 - [residents-forum-2026-transcript/transcript.json](https://steinbachcitycouncilreporting.ca/residents-forum-2026-transcript/transcript.json)
+- [taxes-spending/data/actions.csv](https://steinbachcitycouncilreporting.ca/taxes-spending/data/actions.csv)
+- [taxes-spending/data/involvement.csv](https://steinbachcitycouncilreporting.ca/taxes-spending/data/involvement.csv)
+- [taxes-spending/data/moments.csv](https://steinbachcitycouncilreporting.ca/taxes-spending/data/moments.csv)
+- [taxes-spending/data/split_votes.csv](https://steinbachcitycouncilreporting.ca/taxes-spending/data/split_votes.csv)
