@@ -1,0 +1,5 @@
+# Everything on this site may be crawled and indexed.
+User-agent: *
+Allow: /
+
+Sitemap: https://steinbachcitycouncilreporting.ca/sitemap.xml

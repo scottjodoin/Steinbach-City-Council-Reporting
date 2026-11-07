@@ -28,6 +28,8 @@ Plain-language summaries of what Steinbach City Council has said and decided, wi
 - [Behind closed doors? How much of council's work happens outside public meetings](behind-closed-doors/) — Do unanimous votes, including on developers' applications, mean decisions were made in advance? Four tests on 103 meetings, council's closed committee and budget study sessions, and how they measure up against Manitoba's Municipal Act and councils such as Selkirk and Brandon.
 - [Recorded public deliberation on Steinbach City Council](council-deliberation/) — provisional, AI-coded Public Judgment & Deliberation Index for all 103 regular meetings, with the [methodology](council-deliberation/methodology/) and a downloadable data workbook.
 - [Who moves council's public-hearing motions?](public-hearing-motions/) — The 203 motions on public-hearing matters (Jan 2022 – Sept 2026), counted by mover and seconder, each with a summary, impact rating, video moment and minutes page.
+- [Unfinished business: questions for Steinbach's outgoing councillors](action-list/) — Promises, referrals and decisions from the 2022–2026 term that the public record leaves open, each with dated quotes and an answerable question.
+- [Serving Steinbach well: an action plan for council](action-list/candidate-action-plan/) — Practical steps drawn from these reports, for candidates and the new council.
 
 ## Site layout
 
@@ -46,7 +48,9 @@ council-deliberation/steinbach-council-deliberation-data.xlsx
 public-hearing-motions/index.html
 ```
 
-To add a report, create a new folder with an `index.html` that links `../assets/css/style.css`, then add it to the list in `index.html` and above.
+To add a report, create a new folder with an `index.html` that links `../assets/css/style.css`, then add it to the list in `index.html` (in the right topic group, with `data-keywords` for the search box) and above.
+
+Search and discovery: `robots.txt` allows all crawlers and points to `sitemap.xml`; `llms.txt` is a Markdown guide for AI assistants. All three are generated from the pages — rerun `python -I scripts/build_site_index.py answers` (from the project folder) after adding or changing a report. Don't add `noindex` to pages.
 
 ## Report conventions
 

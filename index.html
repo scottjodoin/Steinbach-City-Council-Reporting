@@ -5,198 +5,314 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%231f5f8b'/%3E%3Ctext x='16' y='23' font-size='19' text-anchor='middle' fill='white' font-family='Arial' font-weight='700'%3ES%3C/text%3E%3C/svg%3E">
 <title>Steinbach Council Reporting</title>
-<meta name="description" content="Plain-language summaries of what Steinbach City Council has said and decided, with quotes linked to the meeting videos.">
+<meta name="description" content="Plain-language reports on what Steinbach City Council has said and decided, by topic, with every quote linked to the meeting video.">
 <meta property="og:type" content="website">
 <meta property="og:title" content="Steinbach City Council Reporting">
-<meta property="og:description" content="Plain-language summaries of what Steinbach City Council has said and decided, with quotes linked to the meeting videos.">
+<meta property="og:description" content="Plain-language reports on what Steinbach City Council has said and decided, by topic, with every quote linked to the meeting video.">
 <link rel="stylesheet" href="assets/css/style.css">
+<style>
+  /* Home page only: start-here cards, topic jump links, search, grouped report cards */
+  .lede strong { font-weight: 600; }
+  .how { display: grid; grid-template-columns: repeat(auto-fit, minmax(145px, 1fr)); gap: 8px 16px; margin: 0 0 24px; padding: 0; list-style: none; font-size: 15px; color: var(--muted); }
+  .how li { padding-left: 22px; position: relative; }
+  .how li::before { content: "\2713"; position: absolute; left: 0; color: var(--accent); font-weight: 700; }
+  .finder { background: var(--surface); border: 1px solid var(--rule); border-radius: 10px; padding: 14px 16px; margin: 0 0 28px; }
+  .finder label { display: block; font-weight: 600; margin: 0 0 6px; }
+  .finder input { width: 100%; box-sizing: border-box; font: inherit; font-size: 16px; padding: 10px 12px; border: 1px solid var(--rule);
+                  border-radius: 8px; background: var(--bg); color: var(--text); }
+  .finder input:focus { outline: 2px solid var(--accent); outline-offset: 1px; }
+  .topics { list-style: none; margin: 12px 0 0; padding: 0; display: flex; flex-wrap: wrap; gap: 6px 8px; }
+  .topics a { display: inline-block; padding: 4px 10px; border-radius: 999px; font-size: 14px; text-decoration: none; color: var(--accent); background: var(--accent-soft); }
+  .topics .k { font-size: 14px; color: var(--muted); padding: 4px 4px 4px 0; }
+  .start { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 12px; margin: 0 0 8px; padding: 0; list-style: none; }
+  .start .report { height: 100%; box-sizing: border-box; }
+  .start .why { font-size: 13px; text-transform: uppercase; letter-spacing: .05em; color: var(--muted); margin: 0 0 4px; }
+  .group-intro { margin: -6px 0 16px; color: var(--muted); }
+  .report-list li.has-also .report { border-bottom-left-radius: 0; border-bottom-right-radius: 0; }
+  .also { margin: 0; padding: 8px 20px; font-size: 14px; border: 1px solid var(--rule); border-top: 0; border-radius: 0 0 10px 10px; background: var(--surface); }
+  .new { display: inline-block; font-size: 12px; font-weight: 700; letter-spacing: .03em; text-transform: uppercase; padding: 1px 7px; border-radius: 999px;
+         background: var(--good-bg); color: var(--good-fg); vertical-align: middle; margin-left: 6px; }
+  .report:focus-visible, .topics a:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+  #no-match { display: none; }
+  @media (max-width: 480px) { .report { padding: 14px 16px; } .also { padding: 8px 16px; } }
+</style>
 </head>
 <body>
 <main>
 
 <header class="page">
-  <p class="eyebrow">Steinbach, Manitoba</p>
+  <p class="eyebrow">Steinbach, Manitoba &middot; Independent &middot; Free to read and share</p>
   <h1>Steinbach City Council Reporting</h1>
-  <p class="lede">Plain-language summaries of what Steinbach City Council has said and decided. Every quote links to the moment it was said in the official meeting video, so you can check it yourself.</p>
+  <p class="lede">What has Steinbach City Council said and decided about the things you care about? Each report <strong>answers one question in plain language</strong>, credits what council does well, and compares Steinbach with other cities. Every quote links to the moment it was said in the official meeting video, so you can check it yourself.</p>
 </header>
 
-<h2 id="reports">Reports</h2>
-<ul class="report-list">
+<ul class="how" aria-label="How these reports work">
+  <li>Short summary first, detail if you want it</li>
+  <li>Quotes linked to the meeting videos</li>
+  <li>Decisions checked against the minutes</li>
+  <li>Meetings from 2015 to 2026</li>
+</ul>
+
+<div class="finder" role="search">
+  <label for="q">Find a report</label>
+  <input type="search" id="q" placeholder="Try &ldquo;flooding&rdquo;, &ldquo;taxes&rdquo; or &ldquo;Main Street&rdquo;" autocomplete="off">
+  <ul class="topics" aria-label="Browse by topic">
+    <li class="k">Or browse:</li>
+    <li><a href="#money">Money and growth</a></li>
+    <li><a href="#getting-around">Getting around</a></li>
+    <li><a href="#services">Safety, health and services</a></li>
+    <li><a href="#your-say">Having your say</a></li>
+    <li><a href="#follow-up">Follow-up</a></li>
+    <li><a href="#election">2026 election</a></li>
+  </ul>
+  <p id="no-match" class="meta" role="status">No report matches that search. Try a broader word, or browse the topics.</p>
+</div>
+
+<section id="start-here" aria-labelledby="start-h">
+<h2 id="start-h">New here? Start with one of these</h2>
+<ul class="start">
   <li>
-    <a class="report" href="candidate-forum-2026/">
-      <p class="title">2026 council candidates' forum: every question, every answer</p>
-      <p class="desc">All 10 candidates' answers on growth, infrastructure, taxes, business, quality of life and Steinbach in 20 years, side by side and linked to the video, plus a check of the four incumbents' answers against their council record.</p>
-      <p class="when">Chamber of Commerce forum, Oct 15, 2026 &middot; Updated Oct 16, 2026</p>
-    </a>
-  </li>
-  <li>
-    <a class="report" href="candidate-forum-2026-transcript/">
-      <p class="title">Transcript: 2026 council candidates' forum</p>
-      <p class="desc">The full forum transcript, speaker by speaker, with every turn linked to the video. Free to reuse; download as text or JSON.</p>
-      <p class="when">Chamber of Commerce forum, Oct 15, 2026 &middot; Updated Oct 16, 2026</p>
-    </a>
-  </li>
-  <li>
-    <a class="report" href="residents-forum-2026/">
-      <p class="title">Residents' election forum: what residents asked, and how four candidates answered</p>
-      <p class="desc">Residents' questions on housing, health, transportation and quality of life from the Southeast Equity Coalition and Strong Towns Steinbach forum, with full answers from the four candidates who attended, linked to the videos.</p>
-      <p class="when">Residents' forum, Oct 7, 2026 &middot; Updated Oct 16, 2026</p>
-    </a>
-  </li>
-  <li>
-    <a class="report" href="residents-forum-2026-transcript/">
-      <p class="title">Transcript: residents' election forum</p>
-      <p class="desc">The candidates' answers at the residents' forum, topic by topic, with every turn linked to the video. Download as text or JSON.</p>
-      <p class="when">Residents' forum, Oct 7, 2026 &middot; Updated Oct 16, 2026</p>
-    </a>
-  </li>
-  <li>
-    <a class="report" href="candidate-interviews-2026/">
-      <p class="title">Candidates in writing: growth and housing, flooding, and public safety</p>
-      <p class="desc">All 10 candidates' written answers to SteinbachOnline on three issues, side by side with summaries and key quotes, plus record checks for the incumbents.</p>
-      <p class="when">SteinbachOnline, Oct 7&ndash;15, 2026 &middot; Updated Oct 16, 2026</p>
+    <a class="report" href="advocacy/">
+      <p class="why">If you want something from council</p>
+      <p class="title">Advocating to council: what has worked, and what hasn't <span class="new">New</span></p>
+      <p class="desc">164 requests over eleven years: what residents and groups asked for, what they got, and how each council member responded.</p>
     </a>
   </li>
   <li>
     <a class="report" href="taxes-spending/">
+      <p class="why">If you pay property tax</p>
       <p class="title">Taxes, spending and priorities: how does Steinbach pay its way?</p>
-      <p class="desc">Priorities, five years of budgets, reserves and the five-year debt rule: council's record in its own words, and how Steinbach's tax rate compares with Brandon, Selkirk and Thompson.</p>
-      <p class="when">Meetings Jan 2022 &ndash; Sept 2026 &middot; Updated Oct 13, 2026</p>
-    </a>
-  </li>
-  <li>
-    <a class="report" href="housing-development/">
-      <p class="title">Housing and development: keeping up with growth</p>
-      <p class="desc">Affordable housing, infill apartments versus single-family neighbourhoods, and who pays for growth: council's record in its own words, and how Brandon, Niverville and others compare.</p>
-      <p class="when">Meetings Jan 2022 &ndash; Sept 2026 &middot; Updated Oct 13, 2026</p>
-    </a>
-  </li>
-  <li>
-    <a class="report" href="sewer-backups/">
-      <p class="title">Sewer backups: what council said, and how Steinbach compares</p>
-      <p class="desc">Council's plan after the 2024 and 2025 sewer backups, its reasons for not going further in its own words, and a comparison with what Brandon, Winnipeg, Toronto and other cities do.</p>
-      <p class="when">Meetings Sept 2025 &ndash; Sept 2026 &middot; Updated Oct 13, 2026</p>
+      <p class="desc">Five years of budgets, reserves and debt, and how Steinbach's tax rate compares with Brandon, Selkirk and Thompson.</p>
     </a>
   </li>
   <li>
     <a class="report" href="future-planning/">
+      <p class="why">If you wonder where Steinbach is headed</p>
       <p class="title">Steinbach in 10 to 20 years: what has council planned?</p>
-      <p class="desc">Growth to 35,000&ndash;45,000, the $215M wastewater decision, annexation and neighbours, and the plans that exist and don't: council's record in its own words, compared with Brandon and Winkler.</p>
+      <p class="desc">Growth to 35,000&ndash;45,000 people, the $215 million wastewater decision, annexation, and which long-term plans exist.</p>
+    </a>
+  </li>
+</ul>
+</section>
+
+<section class="group" id="money" aria-labelledby="money-h">
+<h2 id="money-h">Money, growth and planning</h2>
+<p class="group-intro">Taxes, budgets, housing, business and the city's long-term plans.</p>
+<ul class="report-list">
+  <li data-keywords="budget property tax mill rate reserves debt spending priorities financial plan">
+    <a class="report" href="taxes-spending/">
+      <p class="title">Taxes, spending and priorities: how does Steinbach pay its way?</p>
+      <p class="desc">Council's priorities, five years of budgets, reserves and the five-year debt rule, and how Steinbach's tax rate compares with Brandon, Selkirk and Thompson.</p>
       <p class="when">Meetings Jan 2022 &ndash; Sept 2026 &middot; Updated Oct 13, 2026</p>
     </a>
   </li>
-  <li>
-    <a class="report" href="health-wellbeing/">
-      <p class="title">Health and wellbeing: what can council do?</p>
-      <p class="desc">Doctor shortages, the Mayor's recruitment task force, clinic space, recreation and wellbeing: council's record in its own words, and how councils in Niverville, Clarington and others compare.</p>
+  <li data-keywords="growth population wastewater sewer treatment plant annexation official community plan long term strategic">
+    <a class="report" href="future-planning/">
+      <p class="title">Steinbach in 10 to 20 years: what has council planned?</p>
+      <p class="desc">Growth to 35,000&ndash;45,000 people, the $215 million wastewater decision, annexation and neighbours, and the plans that exist and don't, compared with Brandon and Winkler.</p>
       <p class="when">Meetings Jan 2022 &ndash; Sept 2026 &middot; Updated Oct 13, 2026</p>
     </a>
   </li>
-  <li>
-    <a class="report" href="homelessness/">
-      <p class="title">Homelessness in Steinbach: what's been done, and what could be</p>
-      <p class="desc">What council has done about homelessness, from The Bridge to the shelter zoning rules, its reasons for not doing more in its own words, and what councils in Brandon, Thompson and Lloydminster do.</p>
+  <li data-keywords="housing affordable apartments infill rental development growth zoning density">
+    <a class="report" href="housing-development/">
+      <p class="title">Housing and development: keeping up with growth</p>
+      <p class="desc">Affordable housing, apartments versus single-family neighbourhoods, and who pays for growth, compared with Brandon and Niverville.</p>
       <p class="when">Meetings Jan 2022 &ndash; Sept 2026 &middot; Updated Oct 13, 2026</p>
     </a>
   </li>
-  <li>
+  <li data-keywords="business economy jobs investment industrial land downtown chamber economic development">
+    <a class="report" href="business-growth/">
+      <p class="title">Business growth and investment: what has council done?</p>
+      <p class="desc">The end of the economic development office, the industrial land squeeze, the Chamber's business tax and downtown rules, compared with Winkler, Morden and Portage.</p>
+      <p class="when">Meetings Jan 2022 &ndash; Sept 2026 &middot; Updated Oct 13, 2026</p>
+    </a>
+  </li>
+  <li data-keywords="subdivision new neighbourhood drainage lot grading sidewalks parks playgrounds paving wells septic">
+    <a class="report" href="new-neighbourhood-services/">
+      <p class="title">New neighbourhoods: do drainage, sidewalks and parks arrive on time?</p>
+      <p class="desc">Lot grading, sidewalks, playgrounds and paving in new subdivisions, wells and septic on the city's edge, and who checks, compared with Brandon, Winnipeg and Calgary.</p>
+      <p class="when">Meetings Jan 2022 &ndash; Sept 2026 &middot; Updated Oct 14, 2026</p>
+    </a>
+  </li>
+</ul>
+</section>
+
+<section class="group" id="getting-around" aria-labelledby="around-h">
+<h2 id="around-h">Getting around</h2>
+<p class="group-intro">Traffic, highways and transit.</p>
+<ul class="report-list">
+  <li data-keywords="traffic congestion main street highway 12 52 intersections lights stop signs roads">
     <a class="report" href="traffic-congestion/">
       <p class="title">Traffic in Steinbach: what can council do, and what has it done?</p>
-      <p class="desc">Main Street and Highway 12 are provincial, but council has tools: traffic counts, cost-shared intersections and lobbying. Its record in its own words, the slow Giesbrecht lights, and what peers do.</p>
+      <p class="desc">Main Street and Highway 12 are provincial, but council has tools: traffic counts, cost-shared intersections and lobbying. What it has used, and what peers do.</p>
       <p class="when">Meetings Jan 2022 &ndash; Sept 2026 &middot; Updated Oct 13, 2026</p>
     </a>
   </li>
-  <li>
+  <li data-keywords="bypass main street highway trucks through traffic wsp traffic study">
     <a class="report" href="main-street-bypass/">
       <p class="title">A bypass around Main Street? What council says and what the traffic study shows</p>
-      <p class="desc">Council says traffic comes to Steinbach rather than through it. What the city's own WSP traffic studies show and can't show, the trucks no one counts, and how Yorkton, Portage la Prairie, Winkler and others handled their highways.</p>
+      <p class="desc">Council says traffic comes to Steinbach rather than through it. What the city's own traffic studies show and can't show, and how Yorkton, Portage and Winkler handled their highways.</p>
       <p class="when">Meetings Jan 2022 &ndash; Sept 2026 &middot; Updated Oct 20, 2026</p>
     </a>
   </li>
-  <li>
-    <a class="report" href="new-neighbourhood-services/">
-      <p class="title">New neighbourhoods: do drainage, sidewalks and parks arrive on time?</p>
-      <p class="desc">Lot grading, sidewalks, playgrounds and paving in new subdivisions, wells and septic in fringe areas, and who checks: council's record in its own words, compared with Brandon, Winnipeg and Calgary.</p>
+  <li data-keywords="transit bus accessible handi transit seniors on-demand">
+    <a class="report" href="transit/">
+      <p class="title">Can Steinbach have public transit?</p>
+      <p class="desc">Steinbach's only transit serves seniors and people with disabilities. What council has said about anything more, and how similar-size cities run transit.</p>
+      <p class="when">Meetings Jan 2022 &ndash; Sept 2026 &middot; Updated Oct 13, 2026</p>
+    </a>
+  </li>
+</ul>
+</section>
+
+<section class="group" id="services" aria-labelledby="services-h">
+<h2 id="services-h">Safety, health and services</h2>
+<p class="group-intro">Flooding, policing, health care, homelessness and the look and feel of the city.</p>
+<ul class="report-list">
+  <li data-keywords="sewer backup flooding basement storm drainage rain lift station georgetown">
+    <a class="report" href="sewer-backups/">
+      <p class="title">Sewer backups: what council said, and how Steinbach compares</p>
+      <p class="desc">Council's plan after the 2024 and 2025 sewer backups, its reasons for not going further, and what Brandon, Winnipeg, Toronto and other cities do.</p>
+      <p class="when">Meetings Sept 2025 &ndash; Sept 2026 &middot; Updated Oct 13, 2026</p>
+    </a>
+  </li>
+  <li data-keywords="crime police policing rcmp safety security patrols community safety officers">
+    <a class="report" href="crime-policing/">
+      <p class="title">Crime and policing in Steinbach</p>
+      <p class="desc">The 18-officer RCMP contract, policing priorities, overnight security patrols and community safety officers, and how cost and crime compare with Winkler, Morden, Brandon and Portage.</p>
       <p class="when">Meetings Jan 2022 &ndash; Sept 2026 &middot; Updated Oct 14, 2026</p>
     </a>
   </li>
-  <li>
-    <a class="report" href="public-notice/">
-      <p class="title">Public notice and having a say: do residents' objections count?</p>
-      <p class="desc">How residents hear about rezonings and variances, petitions, postponement requests and the 2025 plan review: council's record in its own words, how often objections changed the result, and how Brandon, Selkirk and Lethbridge compare.</p>
+  <li data-keywords="health doctors physicians clinic recruitment hospital wellbeing recreation">
+    <a class="report" href="health-wellbeing/">
+      <p class="title">Health and wellbeing: what can council do?</p>
+      <p class="desc">Doctor shortages, the mayor's recruitment task force, clinic space, recreation and wellbeing, and what councils in Niverville, Clarington and elsewhere do.</p>
+      <p class="when">Meetings Jan 2022 &ndash; Sept 2026 &middot; Updated Oct 13, 2026</p>
+    </a>
+  </li>
+  <li data-keywords="homelessness homeless shelter encampment bridge supportive housing outreach">
+    <a class="report" href="homelessness/">
+      <p class="title">Homelessness in Steinbach: what's been done, and what could be</p>
+      <p class="desc">From The Bridge to the shelter zoning rules: what council has done, its reasons for not doing more, and what Brandon, Thompson and Lloydminster do.</p>
+      <p class="when">Meetings Jan 2022 &ndash; Sept 2026 &middot; Updated Oct 13, 2026</p>
+    </a>
+  </li>
+  <li data-keywords="property standards rentals landlords yards weeds junk basement suites bylaw enforcement">
+    <a class="report" href="property-standards/">
+      <p class="title">Property standards: how does Steinbach keep rentals and yards maintained?</p>
+      <p class="desc">The junk-and-weeds by-law, basement-suite safety rules and complaint-driven enforcement, compared with cities that license rentals.</p>
       <p class="when">Meetings Jan 2022 &ndash; Sept 2026 &middot; Updated Oct 14, 2026</p>
     </a>
   </li>
-  <li>
+  <li data-keywords="quality of life noise newcomers racism inclusion flags parks green space recreation arts">
+    <a class="report" href="quality-of-life/">
+      <p class="title">Quality of life: noise, belonging, parks, recreation and arts</p>
+      <p class="desc">Noise enforcement, welcoming newcomers, flags and inclusion, green space, recreation and arts space, and how other councils compare.</p>
+      <p class="when">Meetings Jan 2022 &ndash; Sept 2026 &middot; Updated Oct 13, 2026</p>
+    </a>
+  </li>
+</ul>
+</section>
+
+<section class="group" id="your-say" aria-labelledby="say-h">
+<h2 id="say-h">Having your say, and how council works</h2>
+<p class="group-intro">How to get something from council, how it hears residents, and how openly it decides.</p>
+<ul class="report-list">
+  <li data-keywords="advocacy requests delegation letter petition grant council members votes playbook">
     <a class="report" href="advocacy/">
-      <p class="title">Advocating to council: what has worked, and what hasn't</p>
-      <p class="desc">164 requests from residents and groups across three councils, traced from first ask to outcome and told by term, by year and by council member: which routes, evidence and timing moved council, whether surveys count, how Brandon, Portage and others handle delegations and grants, a step-by-step playbook, and a filterable list with data downloads.</p>
+      <p class="title">Advocating to council: what has worked, and what hasn't <span class="new">New</span></p>
+      <p class="desc">164 requests over eleven years: what residents and groups asked for, what they got, how each council member responded, and a playbook for advocates.</p>
       <p class="when">Meetings Dec 2015 &ndash; Nov 2026 &middot; Updated Nov 6, 2026</p>
     </a>
   </li>
-  <li>
-    <a class="report" href="crime-policing/">
-      <p class="title">Crime and policing in Steinbach</p>
-      <p class="desc">The 18-officer RCMP contract, yearly policing priorities, overnight security patrols and community safety officers: council's record in its own words, and how officers per resident, cost and crime severity compare with Winkler, Morden, Brandon and Portage.</p>
+  <li data-keywords="public notice hearings rezoning variance objections petition consultation">
+    <a class="report" href="public-notice/">
+      <p class="title">Public notice and having a say: do residents' objections count?</p>
+      <p class="desc">How residents hear about rezonings and variances, and how often their objections changed the result, compared with Brandon, Selkirk and Lethbridge.</p>
       <p class="when">Meetings Jan 2022 &ndash; Sept 2026 &middot; Updated Oct 14, 2026</p>
     </a>
   </li>
-  <li>
-    <a class="report" href="business-growth/">
-      <p class="title">Business growth and investment: what has council done?</p>
-      <p class="desc">The end of the economic development office, the industrial land squeeze, the Chamber's business tax and downtown rules: council's record in its own words, and how Winkler, Morden and Portage compare.</p>
-      <p class="when">Meetings Jan 2022 &ndash; Sept 2026 &middot; Updated Oct 13, 2026</p>
-    </a>
-  </li>
-  <li>
-    <a class="report" href="quality-of-life/">
-      <p class="title">Quality of life: noise, belonging, parks, recreation and arts</p>
-      <p class="desc">Noise enforcement, racism and welcoming newcomers, flags and inclusion, green space, recreation and arts space: council's record in its own words, and how other councils compare.</p>
-      <p class="when">Meetings Jan 2022 &ndash; Sept 2026 &middot; Updated Oct 13, 2026</p>
-    </a>
-  </li>
-  <li>
-    <a class="report" href="transit/">
-      <p class="title">Can Steinbach have public transit?</p>
-      <p class="desc">Steinbach's only transit is ACCESSible Transit for seniors and people with disabilities. What council has said about anything more, and how Winkler, Selkirk and other similar-size cities run transit.</p>
-      <p class="when">Meetings Jan 2022 &ndash; Sept 2026 &middot; Updated Oct 13, 2026</p>
-    </a>
-  </li>
-  <li>
-    <a class="report" href="property-standards/">
-      <p class="title">Property standards: how does Steinbach keep rentals and yards maintained?</p>
-      <p class="desc">The 2003 junk-and-weeds by-law, basement-suite safety rules, complaint-driven enforcement and residents' rental-upkeep concerns: council's record in its own words, compared with Brandon, Winkler, Winnipeg and Ontario cities that license rentals.</p>
-      <p class="when">Meetings Jan 2022 &ndash; Sept 2026 &middot; Updated Oct 14, 2026</p>
-    </a>
-  </li>
-  <li>
+  <li data-keywords="closed doors transparency unanimous committee study sessions in camera municipal act">
     <a class="report" href="behind-closed-doors/">
       <p class="title">Behind closed doors? How much of council's work happens outside public meetings</p>
-      <p class="desc">Do unanimous votes, including on developers' applications, mean decisions were made in advance? Four tests on 103 meetings, council's closed committee and budget study sessions, and how they measure up against Manitoba's Municipal Act and councils such as Selkirk and Brandon.</p>
+      <p class="desc">Do unanimous votes mean decisions were made in advance? Four tests on 103 meetings, closed committee and budget sessions, and how they measure up against the Municipal Act.</p>
       <p class="when">Meetings Jan 2022 &ndash; Sept 2026 &middot; Updated Oct 14, 2026</p>
     </a>
   </li>
-  <li>
+  <li data-keywords="deliberation debate reasons explain votes transparency data">
     <a class="report" href="council-deliberation/">
       <p class="title">Recorded public deliberation on Steinbach City Council</p>
-      <p class="desc">How often councillors state a position and give reasons, out loud, on 527 substantive decisions across all 103 regular meetings, 2022&ndash;2026. Provisional and AI-coded; includes the full data download and the <span style="white-space:nowrap">rubric methodology</span>.</p>
+      <p class="desc">How often councillors state a position and give reasons out loud, across 527 decisions. Provisional and AI-coded, with the data and method.</p>
       <p class="when">Meetings Jan 2022 &ndash; Sept 2026 &middot; Updated Oct 13, 2026 &middot; Data: .xlsx</p>
     </a>
   </li>
-  <li>
+  <li data-keywords="motions public hearing mover seconder council members votes variances rezonings">
     <a class="report" href="public-hearing-motions/">
       <p class="title">Who moves council's public-hearing motions?</p>
-      <p class="desc">How many of the 203 motions on variances, rezonings, plans and by-laws after a public hearing each council member moved and seconded. Every motion is listed with a plain-language summary, an impact rating, its moment in the meeting video and its page in the minutes.</p>
+      <p class="desc">How many of the 203 motions after public hearings each council member moved and seconded, each listed with a plain summary and its moment in the video.</p>
       <p class="when">Meetings Jan 2022 &ndash; Sept 2026 &middot; Updated Oct 19, 2026</p>
     </a>
   </li>
 </ul>
+</section>
+
+<section class="group" id="follow-up" aria-labelledby="follow-h">
+<h2 id="follow-h">Follow-up: what's still open</h2>
+<p class="group-intro">What the 2022&ndash;2026 term left unfinished, and practical steps for the council that follows.</p>
+<ul class="report-list">
+  <li data-keywords="unfinished business promises referrals outgoing councillors zwaagstra siemens accountability questions">
+    <a class="report" href="action-list/">
+      <p class="title">Unfinished business: questions for Steinbach's outgoing councillors</p>
+      <p class="desc">Promises, referrals and decisions from the 2022&ndash;2026 term that the public record leaves open, each with dated quotes and a question that can be answered with a date, a number or a document.</p>
+      <p class="when">Meetings Jan 2022 &ndash; Sept 2026 &middot; Updated Oct 14, 2026</p>
+    </a>
+  </li>
+  <li data-keywords="action plan candidates new council priorities transparency recommendations">
+    <a class="report" href="action-list/candidate-action-plan/">
+      <p class="title">Serving Steinbach well: an action plan for council</p>
+      <p class="desc">Practical steps drawn from these reports, written for candidates and now for the new council: open, reasoned decision-making first, then process and policy gaps by topic.</p>
+      <p class="when">Based on meetings Jan 2022 &ndash; Sept 2026</p>
+    </a>
+  </li>
+</ul>
+</section>
+
+<section class="group" id="election" aria-labelledby="election-h">
+<h2 id="election-h">2026 election (archive)</h2>
+<p class="group-intro">What the candidates said before the October 28, 2026 election, with full transcripts.</p>
+<ul class="report-list">
+  <li class="has-also" data-keywords="candidates forum chamber of commerce election answers incumbents transcript">
+    <a class="report" href="candidate-forum-2026/">
+      <p class="title">2026 council candidates' forum: every question, every answer</p>
+      <p class="desc">All 10 candidates' answers at the Chamber of Commerce forum, side by side and linked to the video, with the incumbents' answers checked against their council record.</p>
+      <p class="when">Chamber of Commerce forum, Oct 15, 2026 &middot; Updated Oct 16, 2026</p>
+    </a>
+    <p class="also">Also: <a href="candidate-forum-2026-transcript/">the full forum transcript</a> (text or JSON download)</p>
+  </li>
+  <li class="has-also" data-keywords="residents forum equity coalition strong towns election candidates housing health transportation transcript">
+    <a class="report" href="residents-forum-2026/">
+      <p class="title">Residents' election forum: what residents asked, and how four candidates answered</p>
+      <p class="desc">Residents' questions on housing, health, transportation and quality of life, with full answers from the four candidates who attended.</p>
+      <p class="when">Residents' forum, Oct 7, 2026 &middot; Updated Oct 16, 2026</p>
+    </a>
+    <p class="also">Also: <a href="residents-forum-2026-transcript/">the full forum transcript</a> (text or JSON download)</p>
+  </li>
+  <li data-keywords="candidates written answers steinbachonline growth housing flooding public safety election">
+    <a class="report" href="candidate-interviews-2026/">
+      <p class="title">Candidates in writing: growth and housing, flooding, and public safety</p>
+      <p class="desc">All 10 candidates' written answers to SteinbachOnline on three issues, side by side, with record checks for the incumbents.</p>
+      <p class="when">SteinbachOnline, Oct 7&ndash;15, 2026 &middot; Updated Oct 16, 2026</p>
+    </a>
+  </li>
+</ul>
+</section>
 
 <h2 id="method">How these are made</h2>
 <ul>
-  <li>Sources are the City of Steinbach's recorded council meetings on YouTube and the published minutes.</li>
-  <li>Meetings are transcribed automatically and speakers are identified by hand, so spellings can be off. Each quote links to its timestamp so you can hear it in context.</li>
-  <li>Comparisons with other cities use those cities' own published programs and standards, with links.</li>
+  <li>Sources are the City of Steinbach's recorded council meetings on YouTube and the published minutes, plus other cities' own published programs for comparisons.</li>
+  <li>Meetings are transcribed automatically and speakers are identified by hand, so spellings can be off. Every quote links to its timestamp so you can hear it in context.</li>
+  <li>Council members, the mayor and city staff are named. Residents are identified by initials only.</li>
+  <li>Each report says what it could not confirm. Analysis and summaries are ours; the reports are independent of the city and of any candidate.</li>
 </ul>
 
 <footer class="site">
@@ -204,5 +320,36 @@
 </footer>
 
 </main>
+<script>
+(function () {
+  var q = document.getElementById('q');
+  if (!q) return;
+  var start = document.getElementById('start-here');
+  var groups = Array.prototype.slice.call(document.querySelectorAll('section.group'));
+  var none = document.getElementById('no-match');
+  function norm(s) { return s.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, ''); }
+  groups.forEach(function (g) {
+    Array.prototype.forEach.call(g.querySelectorAll('.report-list > li'), function (li) {
+      li._text = norm(li.textContent + ' ' + (li.getAttribute('data-keywords') || ''));
+    });
+  });
+  q.addEventListener('input', function () {
+    // match singular and plural ("taxes" finds "tax", "backups" finds "backup")
+    var words = norm(q.value).split(/\s+/).filter(Boolean).map(function (w) {
+      return w.length > 4 ? w.replace(/(es|s)$/, '') : w;
+    }), shown = 0;
+    groups.forEach(function (g) {
+      var n = 0;
+      Array.prototype.forEach.call(g.querySelectorAll('.report-list > li'), function (li) {
+        var ok = words.every(function (w) { return li._text.indexOf(w) > -1; });
+        li.hidden = !ok; if (ok) n++;
+      });
+      g.hidden = n === 0; shown += n;
+    });
+    if (start) start.hidden = words.length > 0;
+    none.style.display = (words.length && !shown) ? 'block' : 'none';
+  });
+})();
+</script>
 </body>
 </html>
