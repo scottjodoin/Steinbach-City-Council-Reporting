@@ -11,123 +11,185 @@
 <meta property="og:description" content="Plain-language reports on what Steinbach City Council has said and decided, by topic, with every quote linked to the meeting video.">
 <link rel="stylesheet" href="assets/css/style.css">
 <style>
-  /* Home page only: start-here cards, topic jump links, search, grouped report cards */
-  .lede strong { font-weight: 600; }
-  .how { display: grid; grid-template-columns: repeat(auto-fit, minmax(145px, 1fr)); gap: 8px 16px; margin: 0 0 24px; padding: 0; list-style: none; font-size: 15px; color: var(--muted); }
-  .how li { padding-left: 22px; position: relative; }
-  .how li::before { content: "\2713"; position: absolute; left: 0; color: var(--accent); font-weight: 700; }
-  .finder { background: var(--surface); border: 1px solid var(--rule); border-radius: 10px; padding: 14px 16px; margin: 0 0 28px; }
-  .finder label { display: block; font-weight: 600; margin: 0 0 6px; }
-  .finder input { width: 100%; box-sizing: border-box; font: inherit; font-size: 16px; padding: 10px 12px; border: 1px solid var(--rule);
-                  border-radius: 8px; background: var(--bg); color: var(--text); }
-  .finder input:focus { outline: 2px solid var(--accent); outline-offset: 1px; }
-  .topics { list-style: none; margin: 12px 0 0; padding: 0; display: flex; flex-wrap: wrap; gap: 6px 8px; }
-  .topics a { display: inline-block; padding: 4px 10px; border-radius: 999px; font-size: 14px; text-decoration: none; color: var(--accent); background: var(--accent-soft); }
-  .topics .k { font-size: 14px; color: var(--muted); padding: 4px 4px 4px 0; }
-  .start { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 12px; margin: 0 0 8px; padding: 0; list-style: none; }
-  .start .report { height: 100%; box-sizing: border-box; }
-  .start .why { font-size: 13px; text-transform: uppercase; letter-spacing: .05em; color: var(--muted); margin: 0 0 4px; }
-  .group-intro { margin: -6px 0 16px; color: var(--muted); }
-  .report-list li.has-also .report { border-bottom-left-radius: 0; border-bottom-right-radius: 0; }
-  .also { margin: 0; padding: 8px 20px; font-size: 14px; border: 1px solid var(--rule); border-top: 0; border-radius: 0 0 10px 10px; background: var(--surface); }
-  .new { display: inline-block; font-size: 12px; font-weight: 700; letter-spacing: .03em; text-transform: uppercase; padding: 1px 7px; border-radius: 999px;
-         background: var(--good-bg); color: var(--good-fg); vertical-align: middle; margin-left: 6px; }
-  .report:focus-visible, .topics a:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
-  #no-match { display: none; }
-  @media (max-width: 480px) { .report { padding: 14px 16px; } .also { padding: 8px 16px; } }
+  /* Home page: newspaper front page. Fonts and colour tokens come from assets/css/style.css. */
+  main { max-width: 1120px; }
+  :root { --archive: #6b6457; }
+  .nameplate { text-align: center; padding: 28px 0 0; }
+  .nameplate .place { font-size: 14px; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); margin: 0 0 6px; }
+  .nameplate h1 { font-size: clamp(34px, 6.4vw, 64px); line-height: 1.02; margin: 0 0 10px; font-weight: 700; letter-spacing: -0.01em; }
+  .nameplate .motto { font-family: var(--font-head); font-size: clamp(17px, 2.2vw, 21px); font-style: italic; margin: 0 auto 14px; max-width: 46em; }
+  .dateline { display: flex; flex-wrap: wrap; justify-content: center; gap: 4px 18px; margin: 0 0 18px; padding: 7px 0;
+              border-top: 1px solid var(--text); border-bottom: 3px double var(--text); font-size: 14px; color: var(--text); }
+  .dateline span + span::before { content: "\00B7"; margin-right: 18px; color: var(--muted); }
+
+  /* Finder: search, sort and topic filters in one bar */
+  .finder { display: grid; grid-template-columns: minmax(220px, 1fr) auto; gap: 10px 18px; align-items: end; margin: 0 0 26px; }
+  .finder label[for="q"] { display: block; font-weight: 700; margin: 0 0 4px; }
+  .finder input[type="search"] { width: 100%; font: inherit; padding: 10px 12px; border: 2px solid var(--text); border-radius: 0; background: var(--surface); color: var(--text); }
+  .finder input[type="search"]:focus { outline: 3px solid var(--gold); outline-offset: 0; }
+  .sort { border: 0; margin: 0; padding: 0; display: flex; flex-wrap: wrap; align-items: center; gap: 6px; }
+  .sort legend { float: left; font-size: 14px; color: var(--muted); padding: 4px 6px 4px 0; }
+  .sort label { margin: 0; }
+  .sort input { position: absolute; opacity: 0; width: 1px; height: 1px; }
+  .sort span { display: inline-block; padding: 6px 12px; font-size: 14px; border: 1px solid var(--text); cursor: pointer; color: var(--text); background: var(--surface); }
+  .sort input:checked + span { background: var(--text); color: var(--bg); font-weight: 700; }
+  .sort input:focus-visible + span { outline: 3px solid var(--gold); }
+  .topics { grid-column: 1 / -1; list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 6px 8px; }
+  .topics li { margin: 0; }
+  .topics .k { font-size: 14px; color: var(--muted); padding: 5px 2px 0 0; }
+  .topics a { display: inline-block; padding: 5px 11px; font-size: 14px; text-decoration: none; color: var(--text);
+              border: 1px solid var(--rule); border-left: 5px solid var(--sec, var(--text)); background: var(--surface); }
+  .topics a[aria-pressed="true"] { background: var(--sec, var(--text)); border-color: var(--sec, var(--text)); color: var(--pill-fg, var(--on-ink)); font-weight: 700; }
+  .topics a:focus-visible { outline: 3px solid var(--gold); }
+  .topics a[data-topic=""] { display: none; }
+  .js .topics a[data-topic=""] { display: inline-block; }
+  #no-match { display: none; grid-column: 1 / -1; }
+
+  /* Lead story */
+  .lead { display: grid; grid-template-columns: 1.15fr 1fr; gap: 24px; margin: 0 0 36px; padding: 0 0 30px; border-bottom: 1px solid var(--text); }
+  .plate { margin: 0; }
+  .plate img { display: block; width: 100%; height: auto; aspect-ratio: 3 / 2; object-fit: cover; background: var(--rule); }
+  .plate figcaption { font-size: 12px; color: var(--muted); margin-top: 4px; }
+  .plate figcaption a { color: var(--muted); }
+  .lead .kicker { margin: 0 0 6px; font-weight: 700; color: var(--brick); }
+  .lead h2 { border: 0; margin: 0 0 12px; padding: 0; font-size: clamp(28px, 3.4vw, 40px); line-height: 1.08; font-weight: 700; }
+  .lead h2 a { color: var(--text); text-decoration: none; }
+  .lead h2 a:hover, .lead h2 a:focus-visible { text-decoration: underline; text-decoration-thickness: 2px; }
+  .lead .dek { font-size: 19px; margin: 0 0 14px; }
+  .inside { margin: 0; padding: 12px 0 0; border-top: 1px solid var(--rule); list-style: none; display: flex; flex-wrap: wrap; gap: 4px 16px; font-size: 15px; }
+  .inside li { margin: 0; }
+  .inside .k { font-weight: 700; }
+
+  /* Sections as newspaper columns */
+  .sections { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 34px 30px; }
+  .sections + .sections { margin-top: 40px; }
+  section.group { border-top: 6px solid var(--sec); padding-top: 12px; }
+  section.group h2 { border: 0; margin: 0 0 6px; padding: 0; font-size: 26px; line-height: 1.12; }
+  .group-intro { margin: 0 0 12px; color: var(--muted); font-size: 15px; }
+  section.group .plate { margin: 0 0 12px; }
+  .report-list { list-style: none; padding: 0; margin: 0; }
+  .report-list > li { margin: 0; padding: 0; }
+  .report-list > li + li { border-top: 1px solid var(--rule); }
+  .report-list .report { display: block; border: 0; border-radius: 0; background: none; padding: 12px 0; text-decoration: none; color: var(--text); }
+  .report-list .report .title { font-size: 19px; color: var(--text); margin: 0 0 4px; }
+  .report-list .report:hover .title, .report-list .report:focus-visible .title { color: var(--accent); text-decoration: underline; }
+  .report-list .report .desc { margin: 0 0 4px; font-size: 16px; }
+  .report-list .report .when { font-size: 13px; color: var(--muted); margin: 0; }
+  .also { margin: -6px 0 12px; font-size: 14px; }
+  .new { display: inline-block; font-family: var(--font-text); font-size: 12px; font-weight: 700; padding: 1px 7px; background: var(--gold); color: var(--ink); vertical-align: 3px; margin-left: 6px; }
+  .rank { display: inline-block; min-width: 1.7em; margin-right: 8px; padding: 0 5px; text-align: center; font-family: var(--font-text); font-size: 14px; font-weight: 700; background: var(--text); color: var(--bg); vertical-align: 3px; }
+  #sorted { margin: 0 0 30px; }
+  #sorted h2 { margin-top: 0; }
+  #sorted .report-list { column-count: 2; column-gap: 30px; }
+  #sorted .report-list > li { break-inside: avoid; }
+  .how { margin-top: 48px; }
+  .how h2 { font-size: 22px; }
+  .how ul { font-size: 15px; }
+  @media (max-width: 760px) {
+    .lead { grid-template-columns: 1fr; }
+    .finder { grid-template-columns: 1fr; }
+    #sorted .report-list { column-count: 1; }
+    .dateline { flex-direction: column; gap: 2px; }
+    .dateline span + span::before { content: none; }
+  }
 </style>
 </head>
 <body>
 <main>
 
-<header class="page">
-  <p class="eyebrow">Steinbach, Manitoba &middot; Independent &middot; Free to read and share</p>
+<header class="nameplate">
+  <p class="place">Steinbach, Manitoba</p>
   <h1>Steinbach City Council Reporting</h1>
-  <p class="lede">What has Steinbach City Council said and decided about the things you care about? Each report <strong>answers one question in plain language</strong>, credits what council does well, and compares Steinbach with other cities. Every quote links to the moment it was said in the official meeting video, so you can check it yourself.</p>
+  <p class="motto">What council said and decided, in plain language, with every quote linked to the moment in the meeting video.</p>
+  <p class="dateline"><span>Updated November 6, 2026</span><span>24 reports</span><span>Council meetings 2015&ndash;2026</span><span>Independent: not affiliated with the City of Steinbach</span></p>
 </header>
 
-<ul class="how" aria-label="How these reports work">
-  <li>Short summary first, detail if you want it</li>
-  <li>Quotes linked to the meeting videos</li>
-  <li>Decisions checked against the minutes</li>
-  <li>Meetings from 2015 to 2026</li>
-</ul>
-
 <div class="finder" role="search">
-  <label for="q">Find a report</label>
-  <input type="search" id="q" placeholder="Try &ldquo;flooding&rdquo;, &ldquo;taxes&rdquo; or &ldquo;Main Street&rdquo;" autocomplete="off">
-  <ul class="topics" aria-label="Browse by topic">
-    <li class="k">Or browse:</li>
-    <li><a href="#money">Money and growth</a></li>
-    <li><a href="#getting-around">Getting around</a></li>
-    <li><a href="#services">Safety, health and services</a></li>
-    <li><a href="#your-say">Having your say</a></li>
-    <li><a href="#follow-up">Follow-up</a></li>
-    <li><a href="#election">2026 election</a></li>
+  <div>
+    <label for="q">Find a report</label>
+    <input type="search" id="q" placeholder="Try &ldquo;flooding&rdquo;, &ldquo;taxes&rdquo; or &ldquo;Main Street&rdquo;" autocomplete="off">
+  </div>
+  <fieldset class="sort" id="sort" hidden>
+    <legend>Order:</legend>
+    <label><input type="radio" name="sort" value="topic" checked><span>By topic</span></label>
+    <label><input type="radio" name="sort" value="important"><span>Most important</span></label>
+    <label><input type="radio" name="sort" value="recent"><span>Recently updated</span></label>
+  </fieldset>
+  <ul class="topics" aria-label="Filter by topic">
+    <li class="k">Topic:</li>
+    <li><a href="#lead" data-topic="" aria-pressed="true" style="--pill-fg: var(--bg)">All topics</a></li>
+    <li><a href="#money" data-topic="money" style="--sec: var(--field)">Money and growth</a></li>
+    <li><a href="#getting-around" data-topic="getting-around" style="--sec: var(--brick)">Getting around</a></li>
+    <li><a href="#services" data-topic="services" style="--sec: var(--lake)">Safety, health and services</a></li>
+    <li><a href="#your-say" data-topic="your-say" style="--sec: var(--gold); --pill-fg: var(--ink)">Having your say</a></li>
+    <li><a href="#follow-up" data-topic="follow-up" style="--sec: var(--slate)">Follow-up</a></li>
+    <li><a href="#election" data-topic="election" style="--sec: var(--archive)">2026 election</a></li>
   </ul>
-  <p id="no-match" class="meta" role="status">No report matches that search. Try a broader word, or browse the topics.</p>
+  <p id="no-match" class="meta" role="status">No report matches. Try a broader word, or choose another topic.</p>
 </div>
 
-<section id="start-here" aria-labelledby="start-h">
-<h2 id="start-h">New here? Start with one of these</h2>
-<ul class="start">
-  <li>
-    <a class="report" href="advocacy/">
-      <p class="why">If you want something from council</p>
-      <p class="title">Advocating to council: what has worked, and what hasn't <span class="new">New</span></p>
-      <p class="desc">164 requests over eleven years: what residents and groups asked for, what they got, and how each council member responded.</p>
-    </a>
-  </li>
-  <li>
-    <a class="report" href="taxes-spending/">
-      <p class="why">If you pay property tax</p>
-      <p class="title">Taxes, spending and priorities: how does Steinbach pay its way?</p>
-      <p class="desc">Five years of budgets, reserves and debt, and how Steinbach's tax rate compares with Brandon, Selkirk and Thompson.</p>
-    </a>
-  </li>
-  <li>
-    <a class="report" href="future-planning/">
-      <p class="why">If you wonder where Steinbach is headed</p>
-      <p class="title">Steinbach in 10 to 20 years: what has council planned?</p>
-      <p class="desc">Growth to 35,000&ndash;45,000 people, the $215 million wastewater decision, annexation, and which long-term plans exist.</p>
-    </a>
-  </li>
-</ul>
+<article class="lead" id="lead" aria-labelledby="lead-h">
+  <figure class="plate">
+    <img src="assets/img/city-hall-1200.webp" srcset="assets/img/city-hall-640.webp 640w, assets/img/city-hall-1200.webp 1200w" sizes="(max-width: 760px) 100vw, 600px" width="1200" height="800" alt="Steinbach City Hall, a low brick building behind a flower garden and a sign reading Steinbach City Hall">
+    <figcaption>Steinbach City Hall. Photo: Mennowiki, <a href="https://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a>, via <a href="https://commons.wikimedia.org/wiki/File:Steinbach_city_hall.jpg">Wikimedia Commons</a> (cropped).</figcaption>
+  </figure>
+  <div>
+    <p class="kicker">New &middot; November 6, 2026</p>
+    <h2 id="lead-h"><a href="advocacy/">Advocating to council: what has worked, and what hasn't</a></h2>
+    <p class="dek">Over eleven years and three councils, residents and groups brought 164 requests to council. Free asks almost always won; requests for money mostly vanished into closed budget meetings; and residents asking on their own rarely got what they wanted. Here is what worked, and how each council member responded.</p>
+    <ul class="inside">
+      <li class="k">Inside:</li>
+      <li><a href="advocacy/members/">Council members</a></li>
+      <li><a href="advocacy/terms/">Term by term</a></li>
+      <li><a href="advocacy/what-works/">What works</a></li>
+      <li><a href="advocacy/gaps/">The gaps</a></li>
+      <li><a href="advocacy/playbook/">Playbook</a></li>
+      <li><a href="advocacy/requests/">Every request</a></li>
+    </ul>
+  </div>
+</article>
+
+<section id="sorted" aria-labelledby="sorted-h" hidden>
+<h2 id="sorted-h">All reports</h2>
+<p class="group-intro" id="sorted-note"></p>
+<ol class="report-list" id="sorted-list"></ol>
 </section>
 
-<section class="group" id="money" aria-labelledby="money-h">
+<div class="sections">
+<section class="group" id="money" style="--sec: var(--field)" aria-labelledby="money-h">
 <h2 id="money-h">Money, growth and planning</h2>
 <p class="group-intro">Taxes, budgets, housing, business and the city's long-term plans.</p>
+<figure class="plate"><img src="assets/img/curling-cinema-640.webp" srcset="assets/img/curling-cinema-640.webp 640w, assets/img/curling-cinema-1200.webp 1200w" sizes="(max-width: 760px) 100vw, 540px" width="640" height="427" loading="lazy" alt="The Steinbach Curling Club and Keystone Cinema, a new building with an orange and grey tiled facade"><figcaption>Steinbach Curling Club and Keystone Cinema. Photo: Krazytea, <a href="https://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a>, via <a href="https://commons.wikimedia.org/wiki/File:Steinbach_Curling_Club_and_Keystone_Cinema.jpg">Wikimedia Commons</a> (cropped).</figcaption></figure>
 <ul class="report-list">
-  <li data-keywords="budget property tax mill rate reserves debt spending priorities financial plan">
+  <li data-keywords="budget property tax mill rate reserves debt spending priorities financial plan" data-rank="2" data-updated="2026-10-13">
     <a class="report" href="taxes-spending/">
       <p class="title">Taxes, spending and priorities: how does Steinbach pay its way?</p>
       <p class="desc">Council's priorities, five years of budgets, reserves and the five-year debt rule, and how Steinbach's tax rate compares with Brandon, Selkirk and Thompson.</p>
       <p class="when">Meetings Jan 2022 &ndash; Sept 2026 &middot; Updated Oct 13, 2026</p>
     </a>
   </li>
-  <li data-keywords="growth population wastewater sewer treatment plant annexation official community plan long term strategic">
+  <li data-keywords="growth population wastewater sewer treatment plant annexation official community plan long term strategic" data-rank="3" data-updated="2026-10-13">
     <a class="report" href="future-planning/">
       <p class="title">Steinbach in 10 to 20 years: what has council planned?</p>
       <p class="desc">Growth to 35,000&ndash;45,000 people, the $215 million wastewater decision, annexation and neighbours, and the plans that exist and don't, compared with Brandon and Winkler.</p>
       <p class="when">Meetings Jan 2022 &ndash; Sept 2026 &middot; Updated Oct 13, 2026</p>
     </a>
   </li>
-  <li data-keywords="housing affordable apartments infill rental development growth zoning density">
+  <li data-keywords="housing affordable apartments infill rental development growth zoning density" data-rank="4" data-updated="2026-10-13">
     <a class="report" href="housing-development/">
       <p class="title">Housing and development: keeping up with growth</p>
       <p class="desc">Affordable housing, apartments versus single-family neighbourhoods, and who pays for growth, compared with Brandon and Niverville.</p>
       <p class="when">Meetings Jan 2022 &ndash; Sept 2026 &middot; Updated Oct 13, 2026</p>
     </a>
   </li>
-  <li data-keywords="business economy jobs investment industrial land downtown chamber economic development">
+  <li data-keywords="business economy jobs investment industrial land downtown chamber economic development" data-rank="12" data-updated="2026-10-13">
     <a class="report" href="business-growth/">
       <p class="title">Business growth and investment: what has council done?</p>
       <p class="desc">The end of the economic development office, the industrial land squeeze, the Chamber's business tax and downtown rules, compared with Winkler, Morden and Portage.</p>
       <p class="when">Meetings Jan 2022 &ndash; Sept 2026 &middot; Updated Oct 13, 2026</p>
     </a>
   </li>
-  <li data-keywords="subdivision new neighbourhood drainage lot grading sidewalks parks playgrounds paving wells septic">
+  <li data-keywords="subdivision new neighbourhood drainage lot grading sidewalks parks playgrounds paving wells septic" data-rank="14" data-updated="2026-10-14">
     <a class="report" href="new-neighbourhood-services/">
       <p class="title">New neighbourhoods: do drainage, sidewalks and parks arrive on time?</p>
       <p class="desc">Lot grading, sidewalks, playgrounds and paving in new subdivisions, wells and septic on the city's edge, and who checks, compared with Brandon, Winnipeg and Calgary.</p>
@@ -137,25 +199,26 @@
 </ul>
 </section>
 
-<section class="group" id="getting-around" aria-labelledby="around-h">
+<section class="group" id="getting-around" style="--sec: var(--brick)" aria-labelledby="around-h">
 <h2 id="around-h">Getting around</h2>
 <p class="group-intro">Traffic, highways and transit.</p>
+<figure class="plate"><img src="assets/img/east-main-street-640.webp" srcset="assets/img/east-main-street-640.webp 640w, assets/img/east-main-street-1200.webp 1200w" sizes="(max-width: 760px) 100vw, 540px" width="640" height="427" loading="lazy" alt="East Main Street in Steinbach: shops, a lamp post and a flower bed beside the road"><figcaption>East Main Street. Photo: Mennowiki, <a href="https://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a>, via <a href="https://commons.wikimedia.org/wiki/File:East_Main_Street_Steinbach.jpg">Wikimedia Commons</a> (cropped).</figcaption></figure>
 <ul class="report-list">
-  <li data-keywords="traffic congestion main street highway 12 52 intersections lights stop signs roads">
+  <li data-keywords="traffic congestion main street highway 12 52 intersections lights stop signs roads" data-rank="6" data-updated="2026-10-13">
     <a class="report" href="traffic-congestion/">
       <p class="title">Traffic in Steinbach: what can council do, and what has it done?</p>
       <p class="desc">Main Street and Highway 12 are provincial, but council has tools: traffic counts, cost-shared intersections and lobbying. What it has used, and what peers do.</p>
       <p class="when">Meetings Jan 2022 &ndash; Sept 2026 &middot; Updated Oct 13, 2026</p>
     </a>
   </li>
-  <li data-keywords="bypass main street highway trucks through traffic wsp traffic study">
+  <li data-keywords="bypass main street highway trucks through traffic wsp traffic study" data-rank="15" data-updated="2026-10-20">
     <a class="report" href="main-street-bypass/">
       <p class="title">A bypass around Main Street? What council says and what the traffic study shows</p>
       <p class="desc">Council says traffic comes to Steinbach rather than through it. What the city's own traffic studies show and can't show, and how Yorkton, Portage and Winkler handled their highways.</p>
       <p class="when">Meetings Jan 2022 &ndash; Sept 2026 &middot; Updated Oct 20, 2026</p>
     </a>
   </li>
-  <li data-keywords="transit bus accessible handi transit seniors on-demand">
+  <li data-keywords="transit bus accessible handi transit seniors on-demand" data-rank="17" data-updated="2026-10-13">
     <a class="report" href="transit/">
       <p class="title">Can Steinbach have public transit?</p>
       <p class="desc">Steinbach's only transit serves seniors and people with disabilities. What council has said about anything more, and how similar-size cities run transit.</p>
@@ -165,46 +228,47 @@
 </ul>
 </section>
 
-<section class="group" id="services" aria-labelledby="services-h">
+<section class="group" id="services" style="--sec: var(--lake)" aria-labelledby="services-h">
 <h2 id="services-h">Safety, health and services</h2>
 <p class="group-intro">Flooding, policing, health care, homelessness and the look and feel of the city.</p>
+<figure class="plate"><img src="assets/img/stony-brook-640.webp" srcset="assets/img/stony-brook-640.webp 640w, assets/img/stony-brook-1200.webp 1200w" sizes="(max-width: 760px) 100vw, 540px" width="640" height="427" loading="lazy" alt="A narrow stone-lined channel of the original Stony Brook running through a grassy boulevard"><figcaption>The original Stony Brook channel. Photo: Krazytea, <a href="https://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a>, via <a href="https://commons.wikimedia.org/wiki/File:Original_Steinbach_Stony_Brook.jpg">Wikimedia Commons</a> (cropped).</figcaption></figure>
 <ul class="report-list">
-  <li data-keywords="sewer backup flooding basement storm drainage rain lift station georgetown">
+  <li data-keywords="sewer backup flooding basement storm drainage rain lift station georgetown" data-rank="5" data-updated="2026-10-13">
     <a class="report" href="sewer-backups/">
       <p class="title">Sewer backups: what council said, and how Steinbach compares</p>
       <p class="desc">Council's plan after the 2024 and 2025 sewer backups, its reasons for not going further, and what Brandon, Winnipeg, Toronto and other cities do.</p>
       <p class="when">Meetings Sept 2025 &ndash; Sept 2026 &middot; Updated Oct 13, 2026</p>
     </a>
   </li>
-  <li data-keywords="crime police policing rcmp safety security patrols community safety officers">
+  <li data-keywords="crime police policing rcmp safety security patrols community safety officers" data-rank="7" data-updated="2026-10-14">
     <a class="report" href="crime-policing/">
       <p class="title">Crime and policing in Steinbach</p>
       <p class="desc">The 18-officer RCMP contract, policing priorities, overnight security patrols and community safety officers, and how cost and crime compare with Winkler, Morden, Brandon and Portage.</p>
       <p class="when">Meetings Jan 2022 &ndash; Sept 2026 &middot; Updated Oct 14, 2026</p>
     </a>
   </li>
-  <li data-keywords="health doctors physicians clinic recruitment hospital wellbeing recreation">
+  <li data-keywords="health doctors physicians clinic recruitment hospital wellbeing recreation" data-rank="8" data-updated="2026-10-13">
     <a class="report" href="health-wellbeing/">
       <p class="title">Health and wellbeing: what can council do?</p>
       <p class="desc">Doctor shortages, the mayor's recruitment task force, clinic space, recreation and wellbeing, and what councils in Niverville, Clarington and elsewhere do.</p>
       <p class="when">Meetings Jan 2022 &ndash; Sept 2026 &middot; Updated Oct 13, 2026</p>
     </a>
   </li>
-  <li data-keywords="homelessness homeless shelter encampment bridge supportive housing outreach">
+  <li data-keywords="homelessness homeless shelter encampment bridge supportive housing outreach" data-rank="13" data-updated="2026-10-13">
     <a class="report" href="homelessness/">
       <p class="title">Homelessness in Steinbach: what's been done, and what could be</p>
       <p class="desc">From The Bridge to the shelter zoning rules: what council has done, its reasons for not doing more, and what Brandon, Thompson and Lloydminster do.</p>
       <p class="when">Meetings Jan 2022 &ndash; Sept 2026 &middot; Updated Oct 13, 2026</p>
     </a>
   </li>
-  <li data-keywords="property standards rentals landlords yards weeds junk basement suites bylaw enforcement">
+  <li data-keywords="property standards rentals landlords yards weeds junk basement suites bylaw enforcement" data-rank="18" data-updated="2026-10-14">
     <a class="report" href="property-standards/">
       <p class="title">Property standards: how does Steinbach keep rentals and yards maintained?</p>
       <p class="desc">The junk-and-weeds by-law, basement-suite safety rules and complaint-driven enforcement, compared with cities that license rentals.</p>
       <p class="when">Meetings Jan 2022 &ndash; Sept 2026 &middot; Updated Oct 14, 2026</p>
     </a>
   </li>
-  <li data-keywords="quality of life noise newcomers racism inclusion flags parks green space recreation arts">
+  <li data-keywords="quality of life noise newcomers racism inclusion flags parks green space recreation arts" data-rank="16" data-updated="2026-10-13">
     <a class="report" href="quality-of-life/">
       <p class="title">Quality of life: noise, belonging, parks, recreation and arts</p>
       <p class="desc">Noise enforcement, welcoming newcomers, flags and inclusion, green space, recreation and arts space, and how other councils compare.</p>
@@ -214,39 +278,39 @@
 </ul>
 </section>
 
-<section class="group" id="your-say" aria-labelledby="say-h">
+<section class="group" id="your-say" style="--sec: var(--gold)" aria-labelledby="say-h">
 <h2 id="say-h">Having your say, and how council works</h2>
 <p class="group-intro">How to get something from council, how it hears residents, and how openly it decides.</p>
 <ul class="report-list">
-  <li data-keywords="advocacy requests delegation letter petition grant council members votes playbook">
+  <li data-keywords="advocacy requests delegation letter petition grant council members votes playbook" data-rank="1" data-updated="2026-11-06">
     <a class="report" href="advocacy/">
       <p class="title">Advocating to council: what has worked, and what hasn't <span class="new">New</span></p>
       <p class="desc">164 requests over eleven years: what residents and groups asked for, what they got, how each council member responded, and a playbook for advocates.</p>
       <p class="when">Meetings Dec 2015 &ndash; Nov 2026 &middot; Updated Nov 6, 2026</p>
     </a>
   </li>
-  <li data-keywords="public notice hearings rezoning variance objections petition consultation">
+  <li data-keywords="public notice hearings rezoning variance objections petition consultation" data-rank="11" data-updated="2026-10-14">
     <a class="report" href="public-notice/">
       <p class="title">Public notice and having a say: do residents' objections count?</p>
       <p class="desc">How residents hear about rezonings and variances, and how often their objections changed the result, compared with Brandon, Selkirk and Lethbridge.</p>
       <p class="when">Meetings Jan 2022 &ndash; Sept 2026 &middot; Updated Oct 14, 2026</p>
     </a>
   </li>
-  <li data-keywords="closed doors transparency unanimous committee study sessions in camera municipal act">
+  <li data-keywords="closed doors transparency unanimous committee study sessions in camera municipal act" data-rank="10" data-updated="2026-10-14">
     <a class="report" href="behind-closed-doors/">
       <p class="title">Behind closed doors? How much of council's work happens outside public meetings</p>
       <p class="desc">Do unanimous votes mean decisions were made in advance? Four tests on 103 meetings, closed committee and budget sessions, and how they measure up against the Municipal Act.</p>
       <p class="when">Meetings Jan 2022 &ndash; Sept 2026 &middot; Updated Oct 14, 2026</p>
     </a>
   </li>
-  <li data-keywords="deliberation debate reasons explain votes transparency data">
+  <li data-keywords="deliberation debate reasons explain votes transparency data" data-rank="20" data-updated="2026-10-13">
     <a class="report" href="council-deliberation/">
       <p class="title">Recorded public deliberation on Steinbach City Council</p>
       <p class="desc">How often councillors state a position and give reasons out loud, across 527 decisions. Provisional and AI-coded, with the data and method.</p>
       <p class="when">Meetings Jan 2022 &ndash; Sept 2026 &middot; Updated Oct 13, 2026 &middot; Data: .xlsx</p>
     </a>
   </li>
-  <li data-keywords="motions public hearing mover seconder council members votes variances rezonings">
+  <li data-keywords="motions public hearing mover seconder council members votes variances rezonings" data-rank="21" data-updated="2026-10-19">
     <a class="report" href="public-hearing-motions/">
       <p class="title">Who moves council's public-hearing motions?</p>
       <p class="desc">How many of the 203 motions after public hearings each council member moved and seconded, each listed with a plain summary and its moment in the video.</p>
@@ -256,18 +320,18 @@
 </ul>
 </section>
 
-<section class="group" id="follow-up" aria-labelledby="follow-h">
+<section class="group" id="follow-up" style="--sec: var(--slate)" aria-labelledby="follow-h">
 <h2 id="follow-h">Follow-up: what's still open</h2>
 <p class="group-intro">What the 2022&ndash;2026 term left unfinished, and practical steps for the council that follows.</p>
 <ul class="report-list">
-  <li data-keywords="unfinished business promises referrals outgoing councillors zwaagstra siemens accountability questions">
+  <li data-keywords="unfinished business promises referrals outgoing councillors zwaagstra siemens accountability questions" data-rank="9" data-updated="2026-10-14">
     <a class="report" href="action-list/">
       <p class="title">Unfinished business: questions for Steinbach's outgoing councillors</p>
       <p class="desc">Promises, referrals and decisions from the 2022&ndash;2026 term that the public record leaves open, each with dated quotes and a question that can be answered with a date, a number or a document.</p>
       <p class="when">Meetings Jan 2022 &ndash; Sept 2026 &middot; Updated Oct 14, 2026</p>
     </a>
   </li>
-  <li data-keywords="action plan candidates new council priorities transparency recommendations">
+  <li data-keywords="action plan candidates new council priorities transparency recommendations" data-rank="19" data-updated="2026-10-14">
     <a class="report" href="action-list/candidate-action-plan/">
       <p class="title">Serving Steinbach well: an action plan for council</p>
       <p class="desc">Practical steps drawn from these reports, written for candidates and now for the new council: open, reasoned decision-making first, then process and policy gaps by topic.</p>
@@ -277,11 +341,11 @@
 </ul>
 </section>
 
-<section class="group" id="election" aria-labelledby="election-h">
+<section class="group" id="election" style="--sec: var(--archive)" aria-labelledby="election-h">
 <h2 id="election-h">2026 election (archive)</h2>
 <p class="group-intro">What the candidates said before the October 28, 2026 election, with full transcripts.</p>
 <ul class="report-list">
-  <li class="has-also" data-keywords="candidates forum chamber of commerce election answers incumbents transcript">
+  <li class="has-also" data-keywords="candidates forum chamber of commerce election answers incumbents transcript" data-rank="22" data-updated="2026-10-16">
     <a class="report" href="candidate-forum-2026/">
       <p class="title">2026 council candidates' forum: every question, every answer</p>
       <p class="desc">All 10 candidates' answers at the Chamber of Commerce forum, side by side and linked to the video, with the incumbents' answers checked against their council record.</p>
@@ -289,7 +353,7 @@
     </a>
     <p class="also">Also: <a href="candidate-forum-2026-transcript/">the full forum transcript</a> (text or JSON download)</p>
   </li>
-  <li class="has-also" data-keywords="residents forum equity coalition strong towns election candidates housing health transportation transcript">
+  <li class="has-also" data-keywords="residents forum equity coalition strong towns election candidates housing health transportation transcript" data-rank="23" data-updated="2026-10-16">
     <a class="report" href="residents-forum-2026/">
       <p class="title">Residents' election forum: what residents asked, and how four candidates answered</p>
       <p class="desc">Residents' questions on housing, health, transportation and quality of life, with full answers from the four candidates who attended.</p>
@@ -297,7 +361,7 @@
     </a>
     <p class="also">Also: <a href="residents-forum-2026-transcript/">the full forum transcript</a> (text or JSON download)</p>
   </li>
-  <li data-keywords="candidates written answers steinbachonline growth housing flooding public safety election">
+  <li data-keywords="candidates written answers steinbachonline growth housing flooding public safety election" data-rank="24" data-updated="2026-10-16">
     <a class="report" href="candidate-interviews-2026/">
       <p class="title">Candidates in writing: growth and housing, flooding, and public safety</p>
       <p class="desc">All 10 candidates' written answers to SteinbachOnline on three issues, side by side, with record checks for the incumbents.</p>
@@ -306,14 +370,18 @@
   </li>
 </ul>
 </section>
+</div>
 
+<section class="how" aria-labelledby="method">
 <h2 id="method">How these are made</h2>
 <ul>
   <li>Sources are the City of Steinbach's recorded council meetings on YouTube and the published minutes, plus other cities' own published programs for comparisons.</li>
   <li>Meetings are transcribed automatically and speakers are identified by hand, so spellings can be off. Every quote links to its timestamp so you can hear it in context.</li>
   <li>Council members, the mayor and city staff are named. Residents are identified by initials only.</li>
   <li>Each report says what it could not confirm. Analysis and summaries are ours; the reports are independent of the city and of any candidate.</li>
+  <li>Photos of Steinbach are from Wikimedia Commons under Creative Commons licences, credited under each photo. They illustrate the topics; they are not photos of the events in the reports.</li>
 </ul>
+</section>
 
 <footer class="site">
   <p>An independent summary of public council meetings. Not affiliated with the City of Steinbach.</p>
@@ -324,31 +392,97 @@
 (function () {
   var q = document.getElementById('q');
   if (!q) return;
-  var start = document.getElementById('start-here');
+  var start = document.getElementById('lead');
   var groups = Array.prototype.slice.call(document.querySelectorAll('section.group'));
-  var none = document.getElementById('no-match');
+  var sorted = document.getElementById('sorted'), list = document.getElementById('sorted-list');
+  var heading = document.getElementById('sorted-h'), note = document.getElementById('sorted-note');
+  var none = document.getElementById('no-match'), sortBox = document.getElementById('sort');
+  var VIEWS = {
+    important: { title: 'Most important first',
+                 note: 'Our ranking, by how many residents an issue affects and how much council money or decision-making is involved. The site does not track visits, so this is not a popularity count.',
+                 cmp: function (a, b) { return a.rank - b.rank; } },
+    recent: { title: 'Recently updated first', note: 'Newest updates at the top.',
+              cmp: function (a, b) { return b.updated < a.updated ? -1 : b.updated > a.updated ? 1 : a.rank - b.rank; } }
+  };
+  sortBox.hidden = false;  // the control only works with JavaScript, so it starts hidden
+  document.documentElement.classList.add('js');
+
   function norm(s) { return s.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, ''); }
+  // one record per report, from the topic lists
+  var items = [];
   groups.forEach(function (g) {
     Array.prototype.forEach.call(g.querySelectorAll('.report-list > li'), function (li) {
       li._text = norm(li.textContent + ' ' + (li.getAttribute('data-keywords') || ''));
+      items.push({ li: li, text: li._text, rank: +li.getAttribute('data-rank') || 99, group: g.id,
+                   updated: li.getAttribute('data-updated') || '' });
     });
   });
-  q.addEventListener('input', function () {
+
+  var mode = 'topic', topic = '';
+  var pills = Array.prototype.slice.call(document.querySelectorAll('.topics a[data-topic]'));
+  function words() {
     // match singular and plural ("taxes" finds "tax", "backups" finds "backup")
-    var words = norm(q.value).split(/\s+/).filter(Boolean).map(function (w) {
+    return norm(q.value).split(/\s+/).filter(Boolean).map(function (w) {
       return w.length > 4 ? w.replace(/(es|s)$/, '') : w;
-    }), shown = 0;
-    groups.forEach(function (g) {
-      var n = 0;
-      Array.prototype.forEach.call(g.querySelectorAll('.report-list > li'), function (li) {
-        var ok = words.every(function (w) { return li._text.indexOf(w) > -1; });
-        li.hidden = !ok; if (ok) n++;
-      });
-      g.hidden = n === 0; shown += n;
     });
-    if (start) start.hidden = words.length > 0;
-    none.style.display = (words.length && !shown) ? 'block' : 'none';
+  }
+  function matches(text, ws) { return ws.every(function (w) { return text.indexOf(w) > -1; }); }
+
+  function render() {
+    var ws = words(), shown = 0;
+    if (mode === 'topic') {
+      sorted.hidden = true;
+      groups.forEach(function (g) {
+        var n = 0;
+        Array.prototype.forEach.call(g.querySelectorAll('.report-list > li'), function (li) {
+          var ok = (!topic || g.id === topic) && matches(li._text, ws); li.hidden = !ok; if (ok) n++;
+        });
+        g.hidden = n === 0; shown += n;
+      });
+      if (start) start.hidden = ws.length > 0 || !!topic;
+    } else {
+      var v = VIEWS[mode];
+      groups.forEach(function (g) { g.hidden = true; });
+      if (start) start.hidden = true;
+      heading.textContent = v.title; note.textContent = v.note;
+      list.innerHTML = '';
+      items.slice().sort(v.cmp).forEach(function (it) {
+        if ((topic && it.group !== topic) || !matches(it.text, ws)) return;
+        var c = it.li.cloneNode(true); c.hidden = false;
+        var title = c.querySelector('.title');
+        if (mode === 'important') {
+          var r = document.createElement('span'); r.className = 'rank'; r.textContent = it.rank;
+          title.insertBefore(r, title.firstChild);
+        }
+        list.appendChild(c); shown++;
+      });
+      sorted.hidden = false;
+    }
+    none.style.display = ((ws.length || topic) && !shown) ? 'block' : 'none';
+  }
+
+  function setMode(m, save) {
+    mode = VIEWS[m] ? m : 'topic';
+    var r = sortBox.querySelector('input[value="' + mode + '"]'); if (r) r.checked = true;
+    if (save) { try { localStorage.setItem('reportSort', mode); } catch (e) {} }
+    render();
+  }
+  sortBox.addEventListener('change', function (e) { setMode(e.target.value, true); });
+  q.addEventListener('input', render);
+  // topic pills filter the list in place (without JavaScript they stay plain jump links)
+  pills.forEach(function (a) {
+    a.setAttribute('role', 'button');
+    a.addEventListener('click', function (e) {
+      e.preventDefault();
+      var t = a.getAttribute('data-topic');
+      topic = (t === topic) ? '' : t;
+      pills.forEach(function (p) { p.setAttribute('aria-pressed', String(p.getAttribute('data-topic') === topic)); });
+      render();
+    });
   });
+  var saved = null;
+  try { saved = localStorage.getItem('reportSort'); } catch (e) {}
+  setMode(saved || 'topic', false);
 })();
 </script>
 </body>
