@@ -5,664 +5,106 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%231f5f8b'/%3E%3Ctext x='16' y='23' font-size='19' text-anchor='middle' fill='white' font-family='Arial' font-weight='700'%3ES%3C/text%3E%3C/svg%3E">
 <title>Steinbach Highway Bypass</title>
-<meta name="description" content="Has Steinbach City Council considered a highway bypass around Main Street and Brandt Street, what does the city's own annual traffic study show about through traffic, and how have other Manitoba cities handled highways through town?">
+<meta name="description" content="Has Steinbach City Council considered a bypass or truck route around Main Street and Brandt Street since 2015? Its reasons, what the city's traffic counts show, how each member acted, and how other cities handled highways through town.">
 <meta property="og:type" content="article">
-<meta property="og:title" content="A bypass around Main Street? What council says and what the traffic study shows">
-<meta property="og:description" content="Council says traffic comes to Steinbach rather than through it. The annual WSP traffic study partly supports that, but it was never designed to measure through traffic. Compared with Portage la Prairie, Selkirk, Winkler and others.">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
+<meta property="og:title" content="A bypass around Main Street? What council has said, and what the traffic data shows">
+<meta property="og:description" content="Has Steinbach City Council considered a bypass or truck route around Main Street and Brandt Street since 2015? Its reasons, what the city's traffic counts show, how each member acted, and how other cities handled highways through town.">
 <link rel="stylesheet" href="../assets/css/style.css">
-<style>
-  .profile { margin: 1rem 0 0.5rem; }
-  .profile h4 { margin: 1.1rem 0 0.4rem; font-size: 0.95rem; }
-  .profile .row { display: grid; grid-template-columns: 11.5rem 1fr; gap: 0.6rem; align-items: center; margin: 2px 0; font-size: 0.86rem; }
-  .profile .name { text-align: right; color: var(--text); overflow-wrap: anywhere; }
-  .profile .name small { color: var(--muted); }
-  .profile .track { display: flex; align-items: center; min-height: 1.15rem; }
-  .profile .bar { display: block; height: 1.15rem; width: calc((100% - 3.4rem) * var(--w)); background: var(--accent); border-radius: 0 4px 4px 0; min-width: 2px; }
-  .profile .row.edge .bar { background: var(--context-bar); }
-  .profile .val { padding-left: 0.35rem; color: var(--muted); font-variant-numeric: tabular-nums; white-space: nowrap; }
-  .profile .row:hover .name, .profile .row:focus-within .name { font-weight: 600; }
-  .profile .row.na .track { color: var(--muted); font-style: italic; }
-  .profile .key { display: flex; flex-wrap: wrap; gap: 1rem; font-size: 0.82rem; color: var(--muted); margin: 0.4rem 0 0; }
-  .profile .key span::before { content: ""; display: inline-block; width: 0.8rem; height: 0.8rem; border-radius: 2px; margin-right: 0.35rem; vertical-align: -0.1rem; background: var(--accent); }
-  .profile .key span.edge::before { background: var(--context-bar); }
-  @media (max-width: 520px) {
-    .profile .row { grid-template-columns: 7.6rem 1fr; gap: 0.4rem; font-size: 0.8rem; }
-  }
-  .mapfig { margin: 1rem 0 1.5rem; }
-  :root { --dir-a: #1d6fb8; --dir-b: #c4621a; }
-  @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { --dir-a: #3d8fd1; --dir-b: #d07a2c; } }
-  :root[data-theme="dark"] { --dir-a: #3d8fd1; --dir-b: #d07a2c; }
-  .map-legend[hidden] { display: none; }
-  .map-legend .ln.dir-a { background: var(--dir-a); }
-  .map-legend .ln.dir-b { background: var(--dir-b); }
-  .map-turns h4 { margin: 0.6rem 0 0.3rem; font-size: 0.95rem; }
-  .map-turns table td small { display: block; color: var(--muted); font-size: 0.75rem; line-height: 1.2; }
-  .map-turns table td.num, .map-turns table th.num { text-align: right; }
-  .map-turns .note { font-size: 0.85rem; color: var(--muted); margin: 0.3rem 0 0; }
-  .map-turns ul { margin: 0.3rem 0 0; padding-left: 1.2rem; font-size: 0.9rem; }
-  .map-toolbar { display: flex; flex-wrap: wrap; align-items: center; gap: 0.5rem 1rem; margin-bottom: 0.5rem; }
-  .yeartoggle { display: inline-flex; border: 1px solid var(--rule); border-radius: 6px; overflow: hidden; }
-  .yeartoggle button { font: inherit; font-size: 0.9rem; padding: 0.3rem 0.9rem; border: 0; background: var(--surface); color: var(--text); cursor: pointer; }
-  .yeartoggle button + button { border-left: 1px solid var(--rule); }
-  .yeartoggle button[aria-pressed="true"] { background: var(--accent); color: var(--bg); font-weight: 600; }
-  .yeartoggle button:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; }
-  #traffic-map { height: 560px; border: 1px solid var(--rule); border-radius: 8px; background: var(--surface); }
-  #traffic-map .map-fallback { padding: 1rem; color: var(--muted); }
-  .map-info { min-height: 2.6em; margin: 0.5rem 0 0; font-size: 0.9rem; }
-  .map-legend { display: flex; flex-wrap: wrap; align-items: center; gap: 0.4rem 1.1rem; font-size: 0.82rem; color: var(--muted); margin: 0.4rem 0 0; }
-  .map-legend .ln { display: inline-block; width: 2.2rem; background: var(--accent); border-radius: 3px; vertical-align: middle; margin-right: 0.35rem; }
-  .map-legend .dot { display: inline-block; width: 0.75rem; height: 0.75rem; border-radius: 50%; border: 2px solid var(--accent); background: var(--surface); vertical-align: middle; margin-right: 0.35rem; }
-  .map-legend .dot.edge { border-color: var(--context-bar); background: var(--context-bar); }
-  .leaflet-container { font: inherit; }
-  #traffic-map.dark-tiles .leaflet-tile-pane { filter: invert(1) hue-rotate(180deg) brightness(0.85) contrast(0.9) saturate(0.6); }
-  #traffic-map:not(.dark-tiles) .leaflet-tile-pane { filter: saturate(0.55); }
-  .leaflet-tooltip { background: var(--surface); color: var(--text); border: 1px solid var(--rule); box-shadow: 0 1px 4px rgba(0,0,0,.25); font-size: 0.8rem; }
-  .leaflet-tooltip.vol-label { padding: 1px 5px; font-weight: 600; font-variant-numeric: tabular-nums; }
-  .leaflet-tooltip-top:before { border-top-color: var(--rule); }
-  .leaflet-tooltip-right:before { border-right-color: var(--rule); }
-  .leaflet-tooltip-left:before { border-left-color: var(--rule); }
-  .leaflet-tooltip-bottom:before { border-bottom-color: var(--rule); }
-  .leaflet-bar a { background: var(--surface); color: var(--text); border-bottom-color: var(--rule); }
-  .leaflet-control-attribution { background: color-mix(in srgb, var(--surface) 85%, transparent) !important; color: var(--muted); }
-  .leaflet-control-attribution a { color: var(--accent); }
-  details.mapdata { margin: 0.6rem 0 0; font-size: 0.9rem; }
-  details.mapdata summary { cursor: pointer; color: var(--accent); }
-  @media (max-width: 520px) { #traffic-map { height: 470px; } }
-</style>
+<link rel="stylesheet" href="../assets/css/report.css">
 <script type="module" src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "b272c1e67f3f40dbb732c9b8f829218d"}'></script>
 </head>
 <body>
 <main>
 
 <p class="sitebar"><a href="../">&larr; Steinbach City Council Reporting</a></p>
+<nav class="subnav" aria-label="A Main Street bypass report"><ul><li><a href="./" aria-current="page">Summary</a></li><li><a href="terms/">By term</a></li><li><a href="members/">Council members</a></li><li><a href="reasons/">Council's reasons</a></li><li><a href="compare/">How Steinbach compares</a></li><li><a href="record/">Full record</a></li></ul></nav>
 
 <header class="page">
-  <p class="eyebrow">Steinbach City Council &middot; Jan 2022 &ndash; Sept 2026 &middot; Highways PTH 12 and PTH 52</p>
-  <h1>A bypass around Main Street? What council says and what the traffic study shows</h1>
-  <p class="lede">Has Steinbach City Council considered a highway bypass that would take through traffic off Main Street (PTH 52) and Brandt Street (PTH 12)? What reasons has it given, does the city's own annual traffic study support them, and how have other Manitoba and Canadian cities handled provincial highways through town?</p>
-  <p class="meta">Quotes link to their moment in the official meeting videos; the traffic study, news and peer sources are linked. Last updated Oct 20, 2026.</p>
+  <p class="eyebrow">Steinbach City Council &middot; Dec 2015 &ndash; Nov 2026 &middot; Topic: A Main Street bypass</p>
+  <h1>A bypass around Main Street? What council has said, and what the traffic data shows</h1>
+  <p class="lede">Has Steinbach City Council considered a highway bypass or truck route that would take through traffic off Main Street (PTH 52) and Brandt Street (PTH 12) since December 2015? What reasons has it given, does the city&rsquo;s own traffic data support them, how did each council member act, and how have other Manitoba and Canadian cities handled provincial highways through town?</p>
+  <p class="meta">Written for residents. Start with the summary, then choose what to read. Last updated Nov 9, 2026.</p>
 </header>
 
 <section class="callout">
-  <h2>Bottom line</h2>
+  <h2>Executive summary</h2>
+  <p>In eleven years and three councils, a bypass came up at a council meeting once, and was set aside in a sentence. Council&rsquo;s answer to through traffic has been to fix the highways through town with the province, and to let city streets carry the overflow.</p>
   <ul>
-    <li><strong>Nobody is planning a bypass.</strong> Both highways are provincial, so a bypass would be the province's project. In 2018 the province called the idea &ldquo;just a hypothetical concept&rdquo;. Council has never moved, budgeted or asked for one at any meeting from 2022 to 2026.</li>
-    <li><strong>Council's reason is its traffic study.</strong> In February 2026 Councillor Jac Siemens said the yearly reports show &ldquo;traffic comes to Steinbach, it doesn't go through Steinbach. So a bypass Doesn't make sense to me.&rdquo; No other council member has argued for or against a bypass on the record.</li>
-    <li><strong>The study's numbers partly support him.</strong> In the 2024 evening peak, two-way traffic on Brandt St at the south end of the city was about 725 vehicles an hour. Mid-city on PTH 12 it was about 2,200. At Brandt St and Main St, only about 225 drivers an hour turned between PTH 52 West and PTH 12 North. That limits how much traffic can be passing through.</li>
-    <li><strong>But the study can't measure through traffic.</strong> It counts turns at 20 highway intersections for a few weekday hours. It doesn't record where trips start or end, and it doesn't report truck numbers. No origin&ndash;destination survey of Steinbach was found.</li>
-    <li><strong>Manitoba peers haven't built recent bypasses.</strong> Winkler, Morden and Niverville rebuilt their highways through town with the province, as Steinbach did at Loewen Blvd. Bypasses at Portage la Prairie, Brandon, Selkirk and Dauphin came with major provincial highway projects decades ago. Where Steinbach-sized cities have recently got one, such as Estevan in Saskatchewan, the province built it for heavy truck traffic. Yorkton measured its traffic with a licence-plate survey, found only 15% passing through, and put a bypass off. Steinbach has counted neither its through traffic nor its trucks.</li>
+    <li><strong>Never on the agenda.</strong> No motion, budget line, letter or study request about a bypass, ring road or truck route around the city was found at any recorded meeting from December 2015 to November 2026. The only direct remark was Councillor Jac Siemens&rsquo; on February 17, 2026: &ldquo;traffic comes to Steinbach, it doesn&#x27;t go through Steinbach. So a bypass Doesn&#x27;t make sense to me.&rdquo; Nobody replied, and council accepted the traffic report unanimously.</li>
+    <li><strong>Fix the highway through town instead.</strong> PTH 12 and 52 are provincial, and in 2018 a provincial official called a perimeter route in a joint access plan &ldquo;just a hypothetical concept.&rdquo; Council worked on the highways it has: the Loewen Boulevard and PTH 12 rebuild (about $11.2 million, the city&rsquo;s share about $6.1 million, reopened November 2025), signal timing, and lobbying to widen highways into Steinbach. Trucks are routed along Main Street and Brandt Street by design.</li>
+    <li><strong>City streets became the bypasses.</strong> Old Tom Road (paved 2016) and Park Road West (extended to Industrial Road in 2023 for $1.97 million) carry drivers around the busiest corners, and members called them &ldquo;unofficial bypasses&rdquo; and &ldquo;a great bypass.&rdquo; Residents on Old Tom, Loewen, Friesen and McKenzie told council the cut-through traffic and trucks run past their homes. No traffic study, plan for the edge roads or truck-route review followed.</li>
+    <li><strong>The data partly backs council, but can&rsquo;t settle it.</strong> The city&rsquo;s yearly counts show PTH 12 at the south edge carrying about a third of its mid-city traffic, and only about 225 drivers an hour turning between PTH 52 West and PTH 12 North at the 2024 evening peak. Provincial truck estimates (2019) allow at most about 755 trucks a day straight through north&ndash;south; the north-to-west truck movement isn&rsquo;t measured. Nobody has asked for an origin&ndash;destination survey or a truck count.</li>
+    <li><strong>Steinbach&rsquo;s path is common, but others measured first.</strong> Winkler, Morden and Niverville are also rebuilding the highway through town. Portage la Prairie (1970) and Brandon (1959) were bypassed decades ago in provincial highway programs, and both still run trucks down the old route. Recent bypasses and truck routes elsewhere, such as Estevan (2015) and Yorkton (2012), were built for trucks, and Yorkton surveyed licence plates before deciding a full bypass wasn&rsquo;t needed.</li>
   </ul>
 </section>
 
-<nav class="toc" aria-label="On this page">
-  <h2>On this page</h2>
-  <ol>
-    <li><a href="#council-record">The council record</a>
-      <ol>
-        <li><a href="#whose">Whose decision?</a></li>
-        <li><a href="#study">What the traffic study shows</a></li>
-        <li><a href="#said">What council has said and done</a></li>
-        <li><a href="#follow">Follow-through</a></li>
-        <li><a href="#reasons">Their reasons for not pursuing a bypass</a></li>
-      </ol>
-    </li>
-    <li><a href="#comparison">How Steinbach compares</a>
-      <ol>
-        <li><a href="#scorecard">Scorecard</a></li>
-        <li><a href="#findings">Key findings</a></li>
-        <li><a href="#peers">Peer municipalities</a></li>
-        <li><a href="#options">What &ldquo;doing all it can&rdquo; would add</a></li>
-      </ol>
-    </li>
-    <li><a href="#about">About this page</a></li>
-    <li><a href="#sources">Sources</a></li>
-  </ol>
-</nav>
-
-<p class="part-label" id="council-record">Part 1 &middot; The council record</p>
-<h2 id="whose">Whose decision?</h2>
-<p>Steinbach's two through routes are provincial highways: PTH 12 runs north&ndash;south (PTH 12 North, then Brandt Street south of Main), and PTH 52 runs east&ndash;west (PTH 52 West, then Main Street). Manitoba Transportation and Infrastructure (MTI) owns them and runs every signal on them. A new highway around the city would be a provincial project; the city's part would be land-use planning, lobbying and possibly a cost share. For more on who controls what, see <a href="../traffic-congestion/">Traffic in Steinbach</a>.</p>
-<p>The only public bypass discussion by the province found for this report is from 2018. A highway access plan prepared by the province with the city and the RM of Hanover mentioned a perimeter highway or bypass. A provincial official said &ldquo;the comment in that study is just a hypothetical concept being considered&rdquo;. Asked whether anything was on the horizon, he said: &ldquo;No, I don't see that happening anytime soon.&rdquo; (<a href="https://steinbachonline.com/articles/no-plans-at-this-time-for-perimeter-highway-around-steinbach">SteinbachOnline, Mar 20, 2018</a>). The province says that 2018 access management study of PTH 12 and PTH 52 led to a later design study for PTH 52 through Mitchell (<a href="https://engagemb.ca/functional-design-of-highway-52/news_feed/engagement-background">EngageMB</a>). Neither that study nor its September 2025 update, which the 2025 traffic study cites, is published online.</p>
-<p>The city's 2025 development plan describes PTH 12 as &ldquo;an Expressway north of PTH 52 and a Primary Arterial south of PTH 52&rdquo;, and both highways as heavy-truck routes to be &ldquo;preserved as major highway corridors&rdquo;. The province's current five-year highway plan lists intersection improvements at PTH 12 and PTH 52 in Steinbach. It lists no bypass, realignment or twinning through the city (<a href="https://manitoba.ca/mti/myhis/pdf/2025_2026_update_strategy.pdf">Manitoba 2025/26 infrastructure strategy</a>, 2026&ndash;2030 list).</p>
-
-<h2 id="study">What the traffic study shows</h2>
-<p>Every year since 1997 the city has paid WSP Canada to count traffic on the two highways. The 2024 study, presented on March 18, 2025, counted 20 intersections on four weekdays in late September and early October 2024, from 3 to 6 p.m., plus a.m. counts at four sites (<a href="#src-study">study</a>, pp.&nbsp;1&ndash;4). It is the main evidence council points to on the bypass question.</p>
-
-<h3>Where the traffic is</h3>
-<p>The map shows each stretch of PTH 12 and PTH 52 between two counted intersections, drawn wider the more traffic it carries in the weekday evening peak hour. Switch between the 2024 and 2025 studies, or split each stretch by direction. Tap or click an intersection to see where its traffic goes: how many drivers turned left, turned right or went straight, from each direction.</p>
-
-<figure class="mapfig" aria-labelledby="map-cap">
-  <div class="map-toolbar">
-    <div class="yeartoggle" role="group" aria-label="Traffic study year">
-      <button type="button" data-year="2024" aria-pressed="true">2024 study</button>
-      <button type="button" data-year="2025" aria-pressed="false">2025 study</button>
-    </div>
-    <div class="yeartoggle" role="group" aria-label="What the lines show">
-      <button type="button" data-view="total" aria-pressed="true">Both directions</button>
-      <button type="button" data-view="dir" aria-pressed="false">By direction</button>
-    </div>
-  </div>
-  <div id="traffic-map" role="region" aria-label="Map of evening peak-hour traffic on PTH 12 and PTH 52 in Steinbach"><p class="map-fallback">The interactive map needs JavaScript and an internet connection. The same numbers are in the tables below the map and in the chart that follows.</p></div>
-  <p class="map-legend" id="legend-total"><span><span class="ln" style="height:4px"></span>about 750 vehicles/hr</span><span><span class="ln" style="height:9px"></span>about 1,500</span><span><span class="ln" style="height:15px"></span>about 2,250</span><span><span class="dot"></span>counted intersection (tap for turns)</span><span><span class="dot edge"></span>outermost counted intersection</span></p>
-  <p class="map-legend" id="legend-dir" hidden><span><span class="ln dir-a" style="height:7px"></span>northbound or eastbound</span><span><span class="ln dir-b" style="height:7px"></span>southbound or westbound</span><span>Each colour sits on the side of the road it drives on; wider = more vehicles.</span></p>
-  <p class="map-info" id="map-info" aria-live="polite">Hover over or tap a stretch of highway.</p>
-  <div class="map-turns" id="map-turns" aria-live="polite"></div>
-  <figcaption id="map-cap" class="meta">Vehicles per hour, weekday p.m. peak hour, from the 2024 and 2025 WSP studies. Stretch volumes come from Table 2.1: each stretch adds the traffic arriving at its two ends (southbound at the south end plus northbound at the north end on PTH 12; eastbound plus westbound on PTH 52). They were calculated for this page, not by WSP; WSP's own corridor charts give similar but not identical figures. Turning counts were read from the studies' Figures 2.3 and 2.4, and every approach was checked against Table 2.1. Loewen Blvd wasn't counted in either year, so Acres Dr to Main St is one stretch. Highway lines: Manitoba Transportation and Infrastructure. Map and streets: OpenStreetMap contributors. The North Gate Dr and Superstore/Co-op access positions are approximate.</figcaption>
-  <details class="mapdata">
-    <summary>Table of the map's stretch numbers</summary>
-    <div class="table-wrap">
-    <table class="compact">
-      <thead><tr><th>Road</th><th>Stretch</th><th>2024</th><th>2024 by direction</th><th>2025</th><th>2025 by direction</th></tr></thead>
-      <tbody>
-      <tr><td>PTH 12</td><td>North Gate Dr &rarr; Clear Springs Rd</td><td>1,875</td><td>&uarr;985 &darr;890</td><td>1,980</td><td>&uarr;990 &darr;990</td></tr>
-      <tr><td>PTH 12</td><td>Clear Springs Rd &rarr; Clearspring Centre / Golfair Rd</td><td>2,015</td><td>&uarr;935 &darr;1,080</td><td>2,045</td><td>&uarr;965 &darr;1,080</td></tr>
-      <tr><td>PTH 12</td><td>Clearspring Centre / Golfair Rd &rarr; Park Rd</td><td>2,220</td><td>&uarr;1,050 &darr;1,170</td><td>2,235</td><td>&uarr;1,005 &darr;1,230</td></tr>
-      <tr><td>PTH 12</td><td>Park Rd &rarr; Superstore / Co-op access</td><td>2,150</td><td>&uarr;1,030 &darr;1,120</td><td>2,310</td><td>&uarr;1,100 &darr;1,210</td></tr>
-      <tr><td>PTH 12</td><td>Superstore / Co-op access &rarr; Acres Dr / Penfeld Dr</td><td>2,190</td><td>&uarr;1,055 &darr;1,135</td><td>2,325</td><td>&uarr;1,040 &darr;1,285</td></tr>
-      <tr><td>PTH 12</td><td>Acres Dr / Penfeld Dr &rarr; Main St</td><td>1,885</td><td>&uarr;915 &darr;970</td><td>2,055</td><td>&uarr;1,065 &darr;990</td></tr>
-      <tr><td>PTH 12</td><td>Main St &rarr; Woodhaven Ave / Friesen Ave</td><td>1,470</td><td>&uarr;725 &darr;745</td><td>1,470</td><td>&uarr;735 &darr;735</td></tr>
-      <tr><td>PTH 12</td><td>Woodhaven Ave / Friesen Ave &rarr; Reimer Ave</td><td>1,300</td><td>&uarr;590 &darr;710</td><td>1,350</td><td>&uarr;605 &darr;745</td></tr>
-      <tr><td>PTH 12</td><td>Reimer Ave &rarr; McKenzie Ave</td><td>1,310</td><td>&uarr;575 &darr;735</td><td>1,345</td><td>&uarr;565 &darr;780</td></tr>
-      <tr><td>PTH 12</td><td>McKenzie Ave &rarr; Chrysler Gate</td><td>1,015</td><td>&uarr;415 &darr;600</td><td>1,080</td><td>&uarr;470 &darr;610</td></tr>
-      <tr><td>PTH 12</td><td>Chrysler Gate &rarr; Madison Dr</td><td>880</td><td>&uarr;315 &darr;565</td><td>925</td><td>&uarr;360 &darr;565</td></tr>
-      <tr><td>PTH 12</td><td>Madison Dr &rarr; Hanover Rd</td><td>745</td><td>&uarr;260 &darr;485</td><td>825</td><td>&uarr;325 &darr;500</td></tr>
-      <tr><td>PTH 52</td><td>Westland Dr &rarr; Bushfarm Rd</td><td>1,840</td><td>&rarr;765 &larr;1,075</td><td>1,875</td><td>&rarr;710 &larr;1,165</td></tr>
-      <tr><td>PTH 52</td><td>Bushfarm Rd &rarr; Keating Rd</td><td>1,820</td><td>&rarr;730 &larr;1,090</td><td>1,835</td><td>&rarr;740 &larr;1,095</td></tr>
-      <tr><td>PTH 52</td><td>Keating Rd &rarr; Industrial Rd</td><td>1,725</td><td>&rarr;740 &larr;985</td><td>1,745</td><td>&rarr;760 &larr;985</td></tr>
-      <tr><td>PTH 52</td><td>Industrial Rd &rarr; Lund Rd</td><td>1,555</td><td>&rarr;730 &larr;825</td><td>1,595</td><td>&rarr;860 &larr;735</td></tr>
-      <tr><td>PTH 52</td><td>Lund Rd &rarr; Giesbrecht St</td><td>1,730</td><td>&rarr;860 &larr;870</td><td>1,570</td><td>&rarr;825 &larr;745</td></tr>
-      <tr><td>PTH 52</td><td>Giesbrecht St &rarr; Brandt St</td><td>1,680</td><td>&rarr;860 &larr;820</td><td>1,630</td><td>&rarr;810 &larr;820</td></tr>
-      <tr><td>PTH 52</td><td>Brandt St &rarr; McKenzie Ave / Hespeler St</td><td>1,425</td><td>&rarr;550 &larr;875</td><td>1,505</td><td>&rarr;575 &larr;930</td></tr>
-      </tbody>
-    </table>
-    </div>
-  </details>
-</figure>
-
-<p>The chart below gives the same picture for 2024 at each intersection. It adds the two highway approaches at each counted intersection: northbound plus southbound on PTH 12, eastbound plus westbound on PTH 52. That gives a rough two-way flow on the highway at each point in the evening peak hour. Cross-street traffic isn't included. The highlighted bars are the outermost intersections the study counts on each route.</p>
-
-<figure class="profile" aria-labelledby="profile-cap">
-  <h4>PTH 12 North / Brandt St, north to south</h4>
-  <div class="row edge"><span class="name">North Gate Dr <small>(north end)</small></span><span class="track"><span class="bar" style="--w:0.855"></span><span class="val">1,880</span></span></div>
-  <div class="row"><span class="name">Clear Springs Rd</span><span class="track"><span class="bar" style="--w:0.830"></span><span class="val">1,825</span></span></div>
-  <div class="row"><span class="name">Clearspring Centre / Golfair</span><span class="track"><span class="bar" style="--w:0.968"></span><span class="val">2,130</span></span></div>
-  <div class="row"><span class="name">Park Rd</span><span class="track"><span class="bar" style="--w:1.000"></span><span class="val">2,200</span></span></div>
-  <div class="row"><span class="name">Superstore / Co-op</span><span class="track"><span class="bar" style="--w:0.989"></span><span class="val">2,175</span></span></div>
-  <div class="row"><span class="name">Acres Dr / Penfeld Dr</span><span class="track"><span class="bar" style="--w:0.932"></span><span class="val">2,050</span></span></div>
-  <div class="row na"><span class="name">Loewen Blvd</span><span class="track">not counted (construction)</span></div>
-  <div class="row"><span class="name">Main St (PTH 52)</span><span class="track"><span class="bar" style="--w:0.770"></span><span class="val">1,695</span></span></div>
-  <div class="row"><span class="name">Woodhaven Ave / Friesen Ave</span><span class="track"><span class="bar" style="--w:0.607"></span><span class="val">1,335</span></span></div>
-  <div class="row"><span class="name">Reimer Ave</span><span class="track"><span class="bar" style="--w:0.584"></span><span class="val">1,285</span></span></div>
-  <div class="row"><span class="name">McKenzie Ave</span><span class="track"><span class="bar" style="--w:0.523"></span><span class="val">1,150</span></span></div>
-  <div class="row"><span class="name">Chrysler Gate</span><span class="track"><span class="bar" style="--w:0.416"></span><span class="val">915</span></span></div>
-  <div class="row"><span class="name">Madison Dr</span><span class="track"><span class="bar" style="--w:0.375"></span><span class="val">825</span></span></div>
-  <div class="row edge"><span class="name">Hanover Rd <small>(south end)</small></span><span class="track"><span class="bar" style="--w:0.330"></span><span class="val">725</span></span></div>
-
-  <h4>PTH 52 West / Main St, west to east</h4>
-  <div class="row edge"><span class="name">Westland Dr <small>(west end)</small></span><span class="track"><span class="bar" style="--w:0.818"></span><span class="val">1,800</span></span></div>
-  <div class="row"><span class="name">Bushfarm Rd</span><span class="track"><span class="bar" style="--w:0.843"></span><span class="val">1,855</span></span></div>
-  <div class="row"><span class="name">Keating Rd</span><span class="track"><span class="bar" style="--w:0.780"></span><span class="val">1,715</span></span></div>
-  <div class="row"><span class="name">Industrial Rd</span><span class="track"><span class="bar" style="--w:0.711"></span><span class="val">1,565</span></span></div>
-  <div class="row"><span class="name">Lund Rd</span><span class="track"><span class="bar" style="--w:0.727"></span><span class="val">1,600</span></span></div>
-  <div class="row"><span class="name">Giesbrecht St</span><span class="track"><span class="bar" style="--w:0.764"></span><span class="val">1,680</span></span></div>
-  <div class="row"><span class="name">Brandt St (PTH 12)</span><span class="track"><span class="bar" style="--w:0.789"></span><span class="val">1,735</span></span></div>
-  <div class="row"><span class="name">McKenzie Ave / Hespeler St</span><span class="track"><span class="bar" style="--w:0.518"></span><span class="val">1,140</span></span></div>
-  <p class="key"><span>Counted intersection</span><span class="edge">Outermost counted intersection</span></p>
-  <figcaption id="profile-cap" class="meta">Vehicles per hour, weekday p.m. peak hour, fall 2024: the sum of the two highway approach volumes in Table 2.1 of the 2024 WSP study (pp.&nbsp;10&ndash;11). Calculated for this page, not by WSP. Order follows the study's map (Figure 1.1, p.&nbsp;3).</figcaption>
-</figure>
-
-<div class="table-wrap">
-<table class="compact">
-  <thead><tr><th>What the 2024 study found</th><th>Study says</th></tr></thead>
-  <tbody>
-    <tr><td>Busiest intersection</td><td>Brandt St at PTH 52 West / Main St: 3,430 vehicles entering in the p.m. peak hour (Table 2.1)</td></tr>
-    <tr><td>Where corridor traffic peaks</td><td>&ldquo;Combined traffic volumes &hellip; on PTH 12 North / Brandt Street peak at the Park Road West / East intersection&rdquo; (p.&nbsp;14)</td></tr>
-    <tr><td>Direction of the evening flow</td><td>On PTH 52 west of Giesbrecht St, &ldquo;westbound traffic is generally higher than eastbound traffic in the weekday p.m. peak hour&rdquo;. On PTH 12, northbound is higher than southbound in the south half of the city (p.&nbsp;14)</td></tr>
-    <tr><td>Growth</td><td>Total traffic at all counted intersections fell slightly, 0.7% to 0.9% a year, over five-, two- and one-year horizons. Most 10-year intersection rates are positive, at 0.2% to 2.5% a year on PTH 12 (pp.&nbsp;11&ndash;14, 30)</td></tr>
-    <tr><td>Construction</td><td>Loewen Blvd was closed during the 2024 counts and Park Road West just before the 2023 counts, so &ldquo;some significant positive and negative one-year growth rates are to be expected&rdquo; (p.&nbsp;30)</td></tr>
-    <tr><td>Problem spots</td><td>Critical movements at PTH 52 and Giesbrecht St and at PTH 52 and Lund Rd operate at level of service F, the worst grade. Park Rd and Brandt at Main operate at overall level D; turning and cross-street movements at four PTH 12 signals are at F (pp.&nbsp;30&ndash;31)</td></tr>
-    <tr><td>Recommendations</td><td>Signals at Giesbrecht St (already planned by MTI); keep monitoring Lund Rd and Industrial Rd; coordinate and re-time PTH 12 signals; add a protected eastbound left turn at Superstore/Co-op and at Brandt St and Main St (p.&nbsp;31)</td></tr>
-    <tr><td>Bypass, through traffic, trucks</td><td>Not mentioned. Truck shares are used inside the traffic model but not reported, and the study doesn't record where trips begin or end</td></tr>
-  </tbody>
-</table>
-</div>
-<div class="context">
-  <span class="label">The 2025 study</span>
-  <p>The next study (WSP, January 2026), presented on February 17, 2026, shows the same shape. In its Table 2.1, two-way PTH 12 traffic at Hanover Rd at the south end was about 810 vehicles an hour, against about 2,330 at Park Rd. Two-way flow on PTH 12 now peaks &ldquo;on the link south of the Superstore Access / Co-op Access intersection&rdquo;. On PTH 52, &ldquo;Traffic volumes west of Industrial Road have decreased slightly each consecutive year&rdquo;. Traffic grew again overall: combined growth at all intersections was 3.3% over one year, 1.4% a year over two and 1.9% a year over five. The busiest intersection is still Brandt St at Main St, at about 3,465 vehicles an hour. The 2025 study's recommendations are about signal timing at Golfair, Park Rd and Superstore/Co-op, plus Giesbrecht and Lund Rd. Like the 2024 study, it says nothing about through traffic or a bypass (<a href="https://events.steinbach.ca/council/Detail/2026-02-17-1930-Regular-Meeting-of-Council/bd679fe2-5398-40f1-a495-b4ce011702b3">Feb 17, 2026 agenda</a>, item 8A).</p>
+<h2 id="trajectory">The story in three councils</h2>
+<p>Mayor Chris Goertzen&rsquo;s council paved Old Tom Road and heard the province call a perimeter highway hypothetical. Mayor Earl Funk&rsquo;s first council financed the Loewen Boulevard rebuild and heard residents describe the edge roads as a bypass. His second council paved a second route north, kept trucks on Main Street, and heard the bypass idea dismissed. No vote on the topic divided council in any term. For the wider traffic story, see <a href="../traffic-congestion/">Traffic in Steinbach</a>.</p>
+<div class="paths">
+  <a class="path" href="terms/2014-2018/"><p class="k">2014&ndash;2018</p><p class="t">Mayor Goertzen&rsquo;s council</p><p class="d">Old Tom Road paved, a truck route rebuilt in concrete, and a perimeter highway the province called &ldquo;hypothetical.&rdquo;</p><p class="n">7 items &middot; no split votes</p></a>
+  <a class="path" href="terms/2018-2022/"><p class="k">2018&ndash;2022</p><p class="t">Mayor Funk&rsquo;s first council</p><p class="d">Residents call the edge roads &ldquo;a perimeter road,&rdquo; the Loewen rebuild is financed, and roads follow development.</p><p class="n">5 items &middot; no split votes</p></a>
+  <a class="path" href="terms/2022-2026/"><p class="k">2022&ndash;2026</p><p class="t">Mayor Funk&rsquo;s second council</p><p class="d">A second route north, a truck yard refused, a development plan with no corridor mapped, and &ldquo;a bypass Doesn&#x27;t make sense.&rdquo;</p><p class="n">6 items &middot; no split votes</p></a>
+  <a class="path" href="terms/#next"><p class="k">2026&ndash;2030</p><p class="t">The new council</p><p class="d">Jac Siemens, the only member to speak to a bypass, did not run. The new council inherits the unmeasured question.</p></a>
 </div>
 
-<h3>What the numbers can and can't say</h3>
-<p>A vehicle passing through Steinbach has to enter at one end of a highway and leave at another. On Brandt St, two-way traffic at the south end (about 725 an hour) is a third of the flow at Park Rd (about 2,200). So at most about 725 vehicles an hour in the evening peak could be travelling right through on PTH 12 from north to south. The real number is likely lower, because many of those trips start or end in the south of the city. Traffic also builds toward the middle of both corridors and falls off toward the ends, and westbound PTH 52 is heavier than eastbound in the evening, the pattern of people leaving jobs in Steinbach. Both fit Councillor Siemens's point that most traffic is coming to Steinbach.</p>
-<p>The west end (about 1,800 an hour) and the north end (about 1,880) carry more traffic, and the obvious bypass route would link them. The study's turning counts help here. At Brandt St and Main St, 140 drivers an hour turned from PTH 52 West onto PTH 12 North and 85 turned the other way in 2024: 225 in all, under 7% of the 3,430 vehicles through that junction. In 2025 it was 180. Some drivers may cut through on Industrial Rd and Park Rd West instead. Even if every turn on that route were a through trip, the total stays below about 550 an hour in either year, and many of those trips are local. The 2024 study shows evening traffic heading out of the city in both directions: westbound on PTH 52 at Westland Dr (1,075) outnumbered eastbound (725), and southbound on Brandt St at Hanover Rd (485) outnumbered northbound (240).</p>
-<p>The counts still can't follow a vehicle from one end of the city to the other. Only an origin&ndash;destination survey, which matches licence plates or tracks trips at points around the city, can. None was found for Steinbach.</p>
-
-<h2 id="said">What council has said and done</h2>
-<h3>&ldquo;Traffic comes to Steinbach&rdquo;</h3>
-<blockquote>
-  <p>&ldquo;One, one of the things I always look at on this report is the amount of traffic coming into Steinbach and the amount of traffic leaving Steinbach, because I always get that, why isn&#x27;t Steinbach building a bypass to help with the traffic? But we see when in this, these reports, we see every year when we do these, we see traffic comes to Steinbach, it doesn&#x27;t go through Steinbach. So a bypass Doesn&#x27;t make sense to me.&rdquo;</p>
-  <div class="cite"><strong>Councillor Jac Siemens</strong>, on the 2025 traffic study &middot; <a href="https://www.youtube.com/watch?v=qHSZBeeQhRU&amp;t=1442s">Feb 17, 2026 &middot; 0:24:02</a></div>
-</blockquote>
-<blockquote>
-  <p>&ldquo;The other thing is, this is always done in September or early October, this traffic study, and we&#x27;re always under construction. The last quite a number of years we&#x27;ve been under construction at one of the intersections.&rdquo;</p>
-  <div class="cite"><strong>Councillor Jac Siemens</strong>, same remarks &middot; <a href="https://www.youtube.com/watch?v=qHSZBeeQhRU&amp;t=1442s">Feb 17, 2026 &middot; 0:24:02</a></div>
-</blockquote>
-<p>This is the only time in 103 regular meetings from January 2022 to September 2026 that a member of council spoke directly to the bypass question. Nobody responded to it, and council accepted the report unanimously (R26-037).</p>
-
-<h3>Using the study to lobby for intersections</h3>
-<blockquote>
-  <p>&ldquo;It helps us identify problem intersections or roads and it helps us to prioritize and get them up to speed to take the traffic that&#x27;s coming through them.&rdquo;</p>
-  <div class="cite"><strong>Mayor Earl Funk</strong> &middot; <a href="https://www.youtube.com/watch?v=RRhWvrd--to&amp;t=1542s">Feb 15, 2022 &middot; 0:25:42</a></div>
-</blockquote>
-<blockquote>
-  <p>&ldquo;We have data that we&#x27;re able to present to the province to show that our growth does does merit improvements to our intersections.&rdquo;</p>
-  <div class="cite"><strong>Councillor Michael Zwaagstra</strong> &middot; <a href="https://www.youtube.com/watch?v=qHSZBeeQhRU&amp;t=1308s">Feb 17, 2026 &middot; 0:21:48</a></div>
-</blockquote>
-<blockquote>
-  <p>&ldquo;And again, these recommendations are exactly that; they aren&#x27;t they aren&#x27;t must-haves.&rdquo;</p>
-  <div class="cite"><strong>Troy Warkentin, City Manager</strong>, introducing the 2025 study &middot; <a href="https://www.youtube.com/watch?v=qHSZBeeQhRU&amp;t=857s">Feb 17, 2026 &middot; 0:14:17</a></div>
-</blockquote>
-
-<h3>City streets as the bypass</h3>
-<p>In practice, Steinbach's &ldquo;bypasses&rdquo; are city streets that let drivers avoid the busiest stretches of PTH 12 and Main St: Park Road West, Acres Drive, Loewen Blvd and Old Tom Road.</p>
-<blockquote>
-  <p>&ldquo;The traffic around Steinbach is horrendous.&hellip;And the traffic around Steinbach, when we paved Old Tom 10 years ago, whenever that was, there was a lot of unintended consequences, and that becomes a way to bypass Highway 12 and our main street.&rdquo;</p>
-  <div class="cite"><strong>Councillor Jac Siemens</strong> &middot; <a href="https://www.youtube.com/watch?v=yVNQSkESKB8&amp;t=4706s">Sept 6, 2022 &middot; 1:18:26</a></div>
-</blockquote>
-<blockquote>
-  <p>&ldquo;One of the things that I did notice was that with Park Road being closed, Acres Drive has more than doubled in traffic.&rdquo;</p>
-  <div class="cite"><strong>Councillor Jac Siemens</strong>, on the 2022 traffic study &middot; <a href="https://www.youtube.com/watch?v=iqHGFgqdhbU&amp;t=2746s">Mar 21, 2023 &middot; 0:45:46</a></div>
-</blockquote>
-<blockquote>
-  <p>&ldquo;this is going to be a great bypass when we do the intersection at number 12 and Lowen Boulevard.&rdquo;</p>
-  <div class="cite"><strong>Councillor Bill Hiebert</strong>, on the $1.97M Park Road West extension (<a href="https://steinbachonline.com/articles/steinbach-city-council-is-looking-forward-to-paving-park-road-west">SteinbachOnline</a> reported the same words as his) &middot; <a href="https://www.youtube.com/watch?v=iqHGFgqdhbU&amp;t=3111s">Mar 21, 2023 &middot; 0:51:51</a></div>
-</blockquote>
-<div class="context">
-  <span class="label">Context</span>
-  <p>Residents living on those shortcuts have told council the cost. At a 2022 rezoning hearing, R.F., a Loewen Blvd resident, said: &ldquo;It is already a major issue because these roads are being used as a city bypass and speedway and not designed to handle this.&rdquo; (<a href="https://www.youtube.com/watch?v=yVNQSkESKB8&amp;t=3658s">Sept 6, 2022, 1:00:58</a>). In 2026, P.H. said of Friesen Ave: &ldquo;Friesen has become like a major hub for truck transport to come down, although it is not a truck route.&rdquo; (<a href="https://www.youtube.com/watch?v=mWIo9QQVmmY&amp;t=2427s">Jun 2, 2026, 0:40:27</a>). Councillor Siemens answered the 2022 concerns by saying &ldquo;There&#x27;s not a definitive plan&rdquo; for Old Tom and Loewen (<a href="https://www.youtube.com/watch?v=yVNQSkESKB8&amp;t=4780s">1:19:40</a>).</p>
+<h2 id="choose">Choose what to read next</h2>
+<div class="paths">
+  <a class="path" href="reasons/"><p class="t">Council&rsquo;s reasons, and the data</p><p class="d">Five reasons council and staff gave, in their own words, tested against the city&rsquo;s traffic counts, with an interactive map of the 2024 and 2025 studies.</p></a>
+  <a class="path" href="members/"><p class="t">Council members</p><p class="d">What each member said and did about a bypass, truck routes and through traffic, term by term, in their own words.</p></a>
+  <a class="path" href="compare/"><p class="t">How Steinbach compares</p><p class="d">Bypasses, truck routes and in-town highway rebuilds in Portage la Prairie, Brandon, Selkirk, Winkler, Morden, Niverville, Yorkton, Estevan, Lloydminster and others, and what &ldquo;doing all it can&rdquo; would add.</p></a>
+  <a class="path" href="terms/"><p class="t">By term and by year</p><p class="d">The main bypass, truck and edge-road moments year by year since 2016, and what the new council inherits.</p></a>
+  <a class="path" href="record/"><p class="t">The full record, and the data</p><p class="d">All 18 decisions and debates, filterable by term, year, theme, member and result, with spreadsheet downloads.</p></a>
 </div>
-
-<h3>Trucks</h3>
-<blockquote>
-  <p>&ldquo;there will be more truck traffic on Main Street. And trucks generally go south on 12 or north on 12.&hellip;generally they&#x27;re after the number 1 highway, they&#x27;re going south to the border.&rdquo;</p>
-  <div class="cite"><strong>Councillor Jac Siemens</strong>, on selling city land to a trucking company &middot; <a href="https://www.youtube.com/watch?v=dqj6nVruHe8&amp;t=5462s">Jan 16, 2024 &middot; 1:31:02</a></div>
-</blockquote>
-<p>Trucks are the usual case for a bypass, and the city's study doesn't report them. The province's most recent truck estimates (2019) put about 750 to 1,800 trucks a day on the PTH 12 sections around Steinbach, and about 500 to 1,235 on PTH 52 (<a href="https://services6.arcgis.com/HQUud09zgy3Asw9X/arcgis/rest/services/Manitoba_truck_traffic_volumes_2019/FeatureServer/0">MTI truck traffic layer</a>). Those figures don't say how many trucks pass straight through. The city's designated truck routes are PTH 12 (Brandt St), PTH 52 (Main St), McKenzie Ave, Acres Dr and Industrial Rd (<a href="https://www.steinbach.ca/residents/bylaw-enforcement/traffic-vehicles-parking/">City of Steinbach</a>), so through trucks are routed along Main St and Brandt St. In the 2024 discussion, staff confirmed that trucks serving that site would have to use PTH 52.</p>
-
-<h2 id="follow">Follow-through</h2>
-<div class="table-wrap">
-<table class="compact">
-  <thead><tr><th>Date</th><th>Action</th><th>Result</th></tr></thead>
-  <tbody>
-    <tr><td>Mar 2018</td><td>Provincial access plan for PTH 12 and 52 (with the city and RM of Hanover) mentions a perimeter or bypass</td><td>Province: &ldquo;hypothetical concept&rdquo;; nothing planned</td></tr>
-    <tr><td>Feb 2022</td><td>Accepted the 2021 traffic study and sent it to the province with a request for signals at PTH 52 and Giesbrecht St (R22-038)</td><td>Signals switched on Oct 2026</td></tr>
-    <tr><td>Mar 2023</td><td>Accepted the 2022 study; asked the province to review its recommendations (R23-056). Awarded the $1.97M Park Road West extension as an alternate route</td><td>Park Road West built</td></tr>
-    <tr><td>Mar 2024</td><td>Accepted the 2023 study and sent it to the province (R24-054)</td><td>&mdash;</td></tr>
-    <tr><td>Mar 2025</td><td>Accepted the 2024 study and sent it to the province (R25-060)</td><td>Province reviewing signal timing, per staff</td></tr>
-    <tr><td>Nov 2025</td><td>Loewen Blvd and PTH 12 intersection rebuilt with the province (about $11.2M; city about $6.1M)</td><td>Reopened Nov 24, 2025</td></tr>
-    <tr><td>Sept 2025</td><td>New development plan (By-law 2244) adopted; general land protection for future highway corridors</td><td>No bypass or ring-road corridor mapped</td></tr>
-    <tr><td>Feb 2026</td><td>Accepted the 2025 study (R26-037). Unlike earlier years, the resolution doesn't say to send it to the province</td><td>Bypass dismissed in discussion; no motion</td></tr>
-    <tr><td>2022&ndash;2026</td><td>Any motion, budget item or letter about a bypass, perimeter road or origin&ndash;destination survey</td><td>None found</td></tr>
-  </tbody>
-</table>
-</div>
-
-<h2 id="reasons">Their reasons for not pursuing a bypass</h2>
-<h3 id="reason-1"><span class="num">1</span>&ldquo;Traffic comes to Steinbach, it doesn't go through&rdquo;</h3>
-<p>Councillor Siemens's argument (<a href="#said">above</a>) is the only stated reason on the record. A bypass only helps if a meaningful share of traffic is passing through, so the reasoning is sound in principle.</p>
-<div class="context">
-  <span class="label">Context</span>
-  <p>The study's counts are consistent with it for north&ndash;south traffic, as shown <a href="#study">above</a>. But the study is a peak-hour intersection count, so it can't show how many drivers pass straight through. It doesn't count weekends, when shoppers from the region come in, or report trucks. Counts in recent years were also taken during construction, as Siemens himself noted. The claim may well be right, but the study wasn't built to prove it.</p>
-</div>
-
-<h3 id="reason-2"><span class="num">2</span>It's the province's highway, and the province has no plans</h3>
-<blockquote>
-  <p>&ldquo;MTI, who is the authority who manages all the traffic signalization in Steinbach.&rdquo;</p>
-  <div class="cite"><strong>Troy Warkentin, City Manager</strong> &middot; <a href="https://www.youtube.com/watch?v=qHSZBeeQhRU&amp;t=857s">Feb 17, 2026 &middot; 0:14:17</a></div>
-</blockquote>
-<div class="context">
-  <span class="label">Context</span>
-  <p>Jurisdiction is real; the city can't build a provincial highway. But a city can still shape the option. It can ask the province for a corridor study, and it can keep a right-of-way open in its development plan so homes and businesses aren't built where a future route would go. Steinbach's new development plan (By-law 2244, adopted September 2025) has a general policy that &ldquo;Land shall be protected for &hellip; any future highway system enhancements, such as interchanges, highway realignments, or new corridors&rdquo;. But the only specific item it names is a realignment of PTH 52 at Bushfarm and Keating Rds. Its road map shows no bypass or ring-road corridor, and the words &ldquo;bypass&rdquo; and &ldquo;perimeter&rdquo; don't appear (<a href="https://www.steinbach.ca/media/jnro2wks/by-law_2244_official_city_plan.pdf">Official Community Plan</a>, pp.&nbsp;13&ndash;16 and Reference Map 1).</p>
-</div>
-
-<h3 id="reason-3"><span class="num">3</span>Build city connector roads and fix the intersections instead</h3>
-<blockquote>
-  <p>&ldquo;We&#x27;ve talked about that at our study sessions, and we continue to do that as part of our long-term planning process, is how do we manage our traffic flows within Steinbach.&rdquo;</p>
-  <div class="cite"><strong>Councillor Jac Siemens</strong> &middot; <a href="https://www.youtube.com/watch?v=yVNQSkESKB8&amp;t=4706s">Sept 6, 2022 &middot; 1:18:26</a></div>
-</blockquote>
-<blockquote>
-  <p>&ldquo;I would hate to have 3 sets of traffic lights in one block&rdquo;</p>
-  <div class="cite"><strong>Councillor Jac Siemens</strong>, on possible signals at PTH 52 and Lund Rd &middot; <a href="https://www.youtube.com/watch?v=71s5PJKK618&amp;t=5598s">Mar 18, 2025 &middot; 1:33:18</a></div>
-</blockquote>
-<div class="context">
-  <span class="label">Context</span>
-  <p>This is the approach council has actually taken. It has added connector roads (Park Road West, Acres Drive), rebuilt the Loewen intersection, and lobbied for signal timing and the Giesbrecht lights. These steps serve local trips, the kind the study suggests dominate. The trade-off is that traffic moves onto residential streets such as Old Tom Rd, Loewen Blvd and Friesen Ave. Those streets don't get a traffic study unless a development affects PTH 12 or 52.</p>
-</div>
-
-<p class="part-label" id="comparison">Part 2 &middot; How Steinbach compares</p>
-<h2 id="scorecard">Scorecard</h2>
-<p class="legend">
-  <span class="pill good">Strong</span> ahead of or matching good practice &nbsp;
-  <span class="pill ok">On par</span> typical practice &nbsp;
-  <span class="pill part">Partial</span> started, with gaps &nbsp;
-  <span class="pill gap">Gap</span> common elsewhere, not done here
-</p>
-<div class="table-wrap">
-<table>
-  <thead><tr><th>Measure</th><th>Steinbach</th><th>What others do</th><th>Rating</th></tr></thead>
-  <tbody>
-    <tr><td class="measure"><span>Highway traffic data</span></td><td>Yearly WSP count of 20 highway intersections since 1997, paid for by the city.</td><td>Few Manitoba cities of its size publish their own yearly counts; most rely on the province's highway counts.</td><td><span class="pill good">Strong</span></td></tr>
-    <tr><td class="measure"><span>Evidence on through traffic</span></td><td>No origin&ndash;destination survey; the bypass question is answered from turning counts.</td><td>Yorkton's province&ndash;city&ndash;RM study used a licence-plate survey (15% through) before deferring a bypass (2018); Lloydminster modelled bypass traffic in its 2016 master plan.</td><td><span class="pill gap">Gap</span></td></tr>
-    <tr><td class="measure"><span>Rebuilding the highway through town</span></td><td>Cost-shared PTH 12 intersection upgrades (2014 fund; Loewen Blvd 2025).</td><td>Winkler twinned PTH 32 through the city; Niverville is rebuilding PR 311 ($17.65M, $9.65M provincial).</td><td><span class="pill ok">On par</span></td></tr>
-    <tr><td class="measure"><span>City connector roads</span></td><td>Park Road West, Acres Dr, Loewen Blvd used as alternate routes.</td><td>Winkler built Northlands Parkway to ease a bottleneck in its north end.</td><td><span class="pill ok">On par</span></td></tr>
-    <tr><td class="measure"><span>Protecting a future corridor</span></td><td>No bypass or ring-road corridor found in city plans; province calls it hypothetical.</td><td>Brandon's outer route (PTH 110) was built in stages from 1995 to 2013 on a planned corridor.</td><td><span class="pill gap">Gap</span></td></tr>
-    <tr><td class="measure"><span>Keeping trucks off local streets</span></td><td>Truck routes on PTH 12 and 52; residents report trucks on Friesen Ave.</td><td>Brandon pairs a truck-route by-law with an outer provincial route.</td><td><span class="pill part">Partial</span></td></tr>
-  </tbody>
-</table>
-</div>
-
-<h2 id="findings">Key findings</h2>
-<h3 id="finding-1"><span class="num">1</span>The bypass was dismissed, not studied</h3>
-<p>Council's only stated reason (<a href="#reason-1">reason 1</a>) rests on a study that measures intersections, not trips. Its numbers make a large north&ndash;south through flow unlikely. Its turning counts suggest the west-to-north movement, the one a bypass would most likely serve, is also modest: at most about 550 vehicles an hour in the evening peak, and probably far fewer. But that's an upper limit worked out from turning counts, not a measurement. An origin&ndash;destination survey would answer the question directly, as Yorkton's did.</p>
-
-<h3 id="finding-2"><span class="num">2</span>Steinbach's approach matches its closest peers</h3>
-<p>The province controls the highways (<a href="#reason-2">reason 2</a>), and no Manitoba city of Steinbach's size has had a bypass built recently. Winkler, Morden and Niverville, like Steinbach, are getting their highways rebuilt through town with cost-sharing. The bypassed cities, Portage la Prairie, Brandon, Selkirk and Dauphin, got them decades ago as part of larger provincial highway projects, not at a city's request.</p>
-
-<h3 id="finding-3"><span class="num">3</span>The real bypasses are residential streets</h3>
-<p>Choosing connector streets over a highway bypass (<a href="#reason-3">reason 3</a>) has moved some traffic onto Old Tom Rd, Loewen Blvd and Friesen Ave, and residents there have complained. With the population projected to roughly double in 20 years (see <a href="../future-planning/">Steinbach in 10 to 20 years</a>), the city has no transportation master plan saying which streets are meant to carry that traffic.</p>
-
-<h3 id="finding-4"><span class="num">4</span>Elsewhere, bypasses follow trucks and crashes, and are measured first</h3>
-<p>In the Canadian cities that built one, the province planned and paid, sometimes with federal money. The trigger was usually trucks or safety rather than general congestion. Yorkton's truck route came with new canola plants and Estevan's bypass after truck traffic nearly doubled. Kenora's followed crashes on a Trans-Canada main street. Where through traffic was in doubt, the province measured it.</p>
-<p>Yorkton is the closest match to Steinbach: a regional service centre of about 16,000 on several provincial highways. In 2016 its province, city and neighbouring RMs recorded licence plates on all seven highways into the area for 12 hours. &ldquo;On average, 11,300 vehicles enter the study area on a highway each day, including 1,460 trucks. Of that number 1,700 vehicles (15%) including 475 trucks (32%) continued through the City&rdquo;. The study concluded &ldquo;it does not appear the through traffic demand on Highway 16 will warrant a high-speed through route&rdquo; and recommended better regional connector roads instead (<a href="https://web.archive.org/web/20240203170441/https://www.yorkton.ca/en/your-city/resources/Documents/rpt_Yorkton_Regional_Transportation_Study_20181113.pdf">Yorkton Regional Transportation Study, 2018</a>). That is Steinbach council's argument, settled with data, and it still found that a third of trucks were passing through.</p>
-<p>In the small town of Moosomin, Saskatchewan, a two-hour provincial truck count at three points in 2016 found that &ldquo;out of 83 vehicles, only 28 were through traffic&rdquo;. The ministry &ldquo;concluded that most Highway 8 traffic was destined for Moosomin, not passing through&rdquo;. The town questioned how short the count was and asked for a fuller study (<a href="https://world-spectator.com/news_story.php?id=343">World-Spectator, Sept 7, 2016</a>). That is the same argument Steinbach council makes, but tested by counting where vehicles went, and still disputed.</p>
-<p>The research on effects is mixed. A 2005 study for New Jersey's transportation department reviewed earlier US and Canadian bypass studies. It found that rural bypasses &ldquo;generally achieved their goal of diverting truck traffic out of downtown areas, but did not necessarily reduce overall downtown traffic volume.&rdquo; It also found that &ldquo;the building of a bypass road has little economic impact on the bypassed community.&rdquo; One explanation it gives: once through traffic moves to the bypass, drivers who had been using parallel side routes return downtown (<a href="https://vtc.rutgers.edu/wp-content/uploads/2014/04/Bypass_05.pdf">Rutgers Voorhees Transportation Center, 2005</a>, executive summary and literature review). That supports council's view that a bypass wouldn't cure congestion caused by local trips. It also suggests the main case for one here would be trucks, which the city doesn't count.</p>
-<p>Wisconsin's 1998 study of 17 bypassed communities points the same way. Origin&ndash;destination surveys in five of them found &ldquo;an average of 76% of all vehicles having an origin or destination within the city or village&rdquo;. In towns over 5,000 people, the old route lost only about 30% of its traffic in the long run, and &ldquo;nearly all of the medium and larger communities have more traffic on their old highway route than on the bypass&rdquo; (<a href="https://archives.bape.gouv.qc.ca/sections/mandats/R131/documents/DB23.pdf">WisDOT summary</a>). A Texas study found the reverse risk: &ldquo;the better a relief route works from a traffic standpoint, the greater its adverse impact on local per capita sales&rdquo; (<a href="http://caee.webhost.utexas.edu/prof/kockelman/public_html/TRB01Bypasses.pdf">Srinivasan &amp; Kockelman, 2002</a>). Florida's planning guidance says a bypass &ldquo;may be appropriate where heavy truck traffic causes continuing unacceptable impacts&rdquo; or &ldquo;where a high percentage of trips are just passing through the community&rdquo; (<a href="https://www.cutr.usf.edu/wp-content/uploads/2018/04/Bypass-Basics-White-Paper-2014.pdf">CUTR for Florida DOT, 2014</a>). No Canadian or Manitoba standard sets a through-traffic share that justifies a bypass.</p>
-
-<h2 id="peers">Peer municipalities</h2>
-<div class="table-wrap">
-<table class="compact">
-  <thead><tr><th>Municipality</th><th>Highways and town centre</th><th>Source</th></tr></thead>
-  <tbody>
-    <tr><td>Portage la Prairie, MB (13,270)</td><td>Bypassed: PTH 1 (Trans-Canada) runs around the city, built around 1968&ndash;70; the old route became PTH 1A (Saskatchewan Ave). The west overpass was replaced in 2021&ndash;24</td><td><a href="https://news.gov.mb.ca/news/print,index.html?item=46826">Manitoba</a>; <a href="https://en.wikipedia.org/wiki/Manitoba_Highway_1A">PTH 1A</a></td></tr>
-    <tr><td>Brandon, MB (51,313)</td><td>Bypassed: PTH 1 moved around the city in 1959. PTH 110 (Eastern Access Route), built in stages 1995&ndash;2013 for about $29.8M, links PTH 1 to PTH 10 for industry and trucks, alongside a city truck-route by-law</td><td><a href="https://news.gov.mb.ca/news/print,index.html?item=16352">Manitoba</a>; <a href="https://www.brandon.ca/roads-parking-transportation/truck-routes/">City of Brandon</a></td></tr>
-    <tr><td>Selkirk, MB (10,504)</td><td>Bypassed: PTH 9 runs around the south and west; PTH 9A carries the old route through town. The city has since rebuilt its main streets, adding $2.5M for turning lanes, medians and crossings on the provincial Main St in 2023</td><td><a href="https://en.wikipedia.org/wiki/Manitoba_Highway_9A">PTH 9A</a>; <a href="https://www.myselkirk.ca/blog/2023/04/04/infrastructure-open-house-set-for-april-19-at-memorial-hall/">City of Selkirk</a></td></tr>
-    <tr><td>Dauphin, MB (8,368)</td><td>Bypassed: PTH 5 and 10 run around the city; PTH 5A/10A follow the old route through town (build year not confirmed)</td><td><a href="https://en.wikipedia.org/wiki/Manitoba_Highway_10A">PTH 10A</a></td></tr>
-    <tr><td>Winkler, MB (13,745)</td><td>No bypass: PTH 32, the main commercial strip, was twinned through the city with new signals (announced 2020) after 18+ years of city lobbying. PTH 14 runs along the north side, and the city built Northlands Parkway</td><td><a href="https://news.gov.mb.ca/news/print,index.html?item=48286">Manitoba</a>; <a href="https://www.pembinavalleyonline.com/local/winkler-four-lane-project-inching-forward-after-18-years">Pembina Valley Online</a></td></tr>
-    <tr><td>Morden, MB (9,929)</td><td>No bypass: PTH 3 runs through the city south of downtown; council lobbied for signals and lower speeds at 1st St in 2023</td><td><a href="https://content.goldenwestapps.com/node/99060">Pembina Valley Online</a></td></tr>
-    <tr><td>Niverville, MB (5,947)</td><td>No bypass: PR 311 through town is being rebuilt with four lanes, a roundabout and signals ($17.65M; $9.65M provincial), announced 2026</td><td><a href="https://whereyoubelong.ca/2026/04/17/manitoba-government-investing-more-than-9-million-to-reconstruct-pr-311/">Town of Niverville</a></td></tr>
-    <tr><td>Yorkton, SK (16,280)</td><td>Truck route, no full bypass: the province built a West Truck Route (2010&ndash;12, about $14M) for trucks serving new canola plants. A 2018 regional study by the province, city and two RMs then used a licence-plate survey. It found only 15% of vehicles entering on highways passed through the city (32% of trucks), so a full bypass freeway was left as a long-term stage only</td><td><a href="https://www.saskatchewan.ca/government/news-and-media/2012/august/23/new-segment-of-yorkton-west-truck-traffic-relief-route-opens">Saskatchewan</a>; <a href="https://web.archive.org/web/20240203170441/https://www.yorkton.ca/en/your-city/resources/Documents/rpt_Yorkton_Regional_Transportation_Study_20181113.pdf">Regional Transportation Study (archived)</a></td></tr>
-    <tr><td>Estevan, SK (10,851)</td><td>Bypassed: 13 km truck bypass opened 2015 ($45.5M: $28.5M provincial, $17M federal) after truck traffic rose more than 90% from 2007</td><td><a href="https://www.saskatchewan.ca/government/news-and-media/2015/november/10/estevan-bypass">Saskatchewan</a></td></tr>
-    <tr><td>Kenora, ON (14,967)</td><td>Bypassed: Hwy 17A took the Trans-Canada off the main street, opened 1990 after 13 years of debate; the province redesigned entrances at residents' and businesses' request</td><td><a href="https://www.ola.org/en/legislative-business/house-documents/parliament-35/session-1/1990-11-21/hansard">Ontario Hansard</a></td></tr>
-    <tr><td>Lloydminster, AB/SK (31,582)</td><td>Planned: the 2016 transportation master plan recommends a Hwy 16 bypass, with a traffic model forecasting about 700 vehicles an hour in the peak direction. It tells the city to work with both provinces &ldquo;to secure the bypass right of way&rdquo; now</td><td><a href="https://www.lloydminster.ca/media/lamdqfh5/transportation-master-plan-may-2016.pdf">Transportation Master Plan</a></td></tr>
-    <tr><td>Cornwall, PE (6,574)</td><td>Bypassed: Trans-Canada bypass opened 2019 (about $65M). Weeks later the province said &ldquo;80 per cent of truck traffic&rdquo; was going around the town and business access was easier</td><td><a href="https://www.cbc.ca/news/canada/prince-edward-island/pei-cornwall-bypass-yeo-1.5385628">CBC</a></td></tr>
-    <tr><td><strong>Steinbach, MB (17,806)</strong></td><td><strong>No bypass: PTH 12 and 52 through the city; cost-shared intersection upgrades; bypass called &ldquo;hypothetical&rdquo; by the province (2018)</strong></td><td><strong>This page</strong></td></tr>
-  </tbody>
-</table>
-</div>
-<p class="meta">Populations are from the 2021 census.</p>
-
-<h2 id="options">What &ldquo;doing all it can&rdquo; would add</h2>
-<ul>
-  <li><strong>Ask the province for an origin&ndash;destination survey</strong> of PTH 12 and 52, on weekdays and a Saturday, with truck counts. This would replace the current inference from turning counts with an actual measure of through traffic.</li>
-  <li><strong>Publish the provincial access management plan</strong> (2018) and its September 2025 update, which shape where PTH 12 and 52 can be accessed and which roads may close.</li>
-  <li><strong>Publish the yearly WSP study</strong> on the city website, not only inside agenda packages, and keep sending each year's study to the province, as the 2026 resolution didn't.</li>
-  <li><strong>Settle the corridor question in the development plan.</strong> Either reserve land for a future ring road or highway corridor as the city grows north and west, or record a decision that the city doesn't want one.</li>
-  <li><strong>A transportation master plan</strong> that names which city streets are meant to carry cross-town traffic, so residential streets such as Old Tom Rd and Friesen Ave don't become bypasses by accident.</li>
-  <li><strong>Review truck routes</strong> using counts, and act on complaints about trucks on streets that aren't truck routes.</li>
-</ul>
 
 <section class="callout" id="about">
-  <h2>About this page</h2>
+  <h2>About this report</h2>
+  <p>Quotes are verbatim from automatic transcripts and link to the meeting videos. Council members, the mayor and staff are named; residents are identified by initials. The analysis and plain-language summaries are ours.</p>
+  <details class="more"><summary>Methods, coverage and what we couldn&rsquo;t confirm</summary><div class="inner">
   <ul>
-    <li><strong>Transcripts.</strong> Meeting quotes come from automatic transcripts of the official videos. The transcription often misspells the city's name; quotes show it correctly as Steinbach. Other words are left as transcribed (&ldquo;Lowen&rdquo; is Loewen). Each quote links to its moment in the video.</li>
-    <li><strong>Speakers.</strong> Quotes are from speakers identified with high confidence, except one. The March 21, 2023 &ldquo;great bypass&rdquo; remark was identified with medium confidence in the transcript as Councillor Bill Hiebert; SteinbachOnline's report of the meeting attributes the same words to him. Council members and city staff are named; residents are identified by initials.</li>
-    <li><strong>Traffic study.</strong> Study figures are from the 2024 Steinbach Annual Traffic Counting Study (WSP Canada, dated March 3, 2025), in the March 18, 2025 council agenda package. Page numbers are the study's own. The two-way flow figures in the chart were added up for this page from the study's Table 2.1. They are approach volumes, counted on different days, so they show the pattern, not exact traffic on each block. The 2025 study (WSP, January 2026) is in the February 17, 2026 agenda package; its Table 2.1 totals were added up from the approach columns because the PDF's table text is scrambled. The province's own daily highway counts weren't used, because station labels in its published tables couldn't be matched reliably to locations north or south of the city.</li>
-    <li><strong>Turning counts.</strong> The studies publish turning movements only as pictures (Figures 2.3 and 2.4: 2024 study pp.&nbsp;8&ndash;9; 2025 study pp.&nbsp;13&ndash;14). The numbers were read from those pictures. Every approach was checked against the study's Table 2.1, and all match within rounding except one: in 2025 the northbound movements at Woodhaven Ave / Friesen Ave add to 585, while Table 2.1 gives 605. The map shows both. The 2025 study's p.&nbsp;14 figure is captioned &ldquo;2024&rdquo;, but its numbers are 2025's. The PTH 52 West to PTH 12 North figures are upper limits worked out for this page, not WSP findings.</li>
-    <li><strong>Map.</strong> Each stretch's volume is calculated from the studies' Table 2.1, as explained under the map. Highway lines come from Manitoba Transportation and Infrastructure's highway centreline layer. Intersection positions come from OpenStreetMap streets. North Gate Dr isn't named in OpenStreetMap, so it was placed using the spacing on the study's own map, and the Superstore/Co-op access was placed between the two stores. The background map is &copy; OpenStreetMap contributors.</li>
-    <li><strong>Decisions.</strong> Resolutions were checked against the official minutes. Searches covered &ldquo;bypass&rdquo;, &ldquo;perimeter&rdquo;, &ldquo;ring road&rdquo;, &ldquo;truck route&rdquo; and &ldquo;through traffic&rdquo; in all 103 regular council meetings from January 2022 to September 15, 2026. Discussions in closed sessions or council planning sessions aren't public.</li>
-    <li><strong>Not confirmed.</strong> The 2018 provincial access study isn't published, so its bypass wording is known only from news coverage. The build years of the Selkirk and Dauphin bypasses, and who paid for them, weren't confirmed.</li>
+    <li><strong>Transcripts.</strong> Meeting quotes come from automatic transcripts of the official videos and are left as transcribed, including repeated words, odd capitals and misheard names (&ldquo;Lowen&rdquo; is Loewen, &ldquo;Bartman&rdquo; is Barkman). The one exception is the city&rsquo;s name, which the transcription often misspells and which quotes show correctly as Steinbach. Ellipses mark trimmed text; no sentence breaks were added. Each quote links to the start of the speaker&rsquo;s turn in the video; check there before quoting elsewhere.</li>
+    <li><strong>Speakers and names.</strong> Quotes are from speakers identified with high confidence, with one exception: the March 21, 2023 &ldquo;great bypass&rdquo; remark was matched to Councillor Bill Hiebert with medium confidence, and SteinbachOnline&rsquo;s report of that meeting attributes the same words to him. A January 2017 remark calling Old Tom and Industrial Road &ldquo;unofficial bypasses&rdquo; is probably Councillor Jac Siemens&rsquo; but isn&rsquo;t attributed. Speakers were matched to names with AI assistance, from how they were addressed in each meeting and from the minutes. Council members, the mayor and city staff are named in full. Residents, delegations and other members of the public are identified only by initials. Organizations and businesses are named.</li>
+    <li><strong>Coverage.</strong> Every council meeting from December 15, 2015 to November 3, 2026 with a recording or minutes was searched for bypass, perimeter, ring road, truck route, heavy trucks, dangerous goods, through traffic, origin&ndash;destination and the highway names: transcripts of 243 meeting videos and minutes from January 2018 on (the city&rsquo;s older minutes are not online). Not covered: the first four 2015 videos (not yet transcribed); four videos that failed to download (April 4 and October 17, 2017; September 15, 2020; July 6, 2021), where the minutes were used if they exist; and the April 5, 2022 meeting, which has no audio. Council study sessions and closed meetings are not recorded; a councillor said in 2022 that traffic flow is discussed there.</li>
+    <li><strong>What counts.</strong> 18 items: any mention of a bypass or perimeter road, truck routes and truck rules, through traffic, the province&rsquo;s plans for PTH 12 and 52, corridor protection in the development plans, edge roads used as alternate routes, and the yearly traffic counts as they bear on through traffic. Intersections, signals, stop signs and speed limits are covered in <a href="../traffic-congestion/">Traffic in Steinbach</a>. Classifying how an item ended (done, partly, no public result, declined) and tagging council&rsquo;s reasons is our judgment; the reasons are recorded for each item in the data.</li>
+    <li><strong>Votes.</strong> No divided vote on the topic was found in any term. Before 2018 there are no minutes online; votes were by voice, so who supported what is taken from what members said.</li>
+    <li><strong>Figures.</strong> Traffic-count figures are from the city&rsquo;s 2024 and 2025 WSP studies (agenda packages of March 18, 2025 and February 17, 2026); the flow figures were added up for this report from the studies&rsquo; tables. Truck figures are the province&rsquo;s MHTIS 2019 estimates (Manitoba Highway Traffic Information System, run with the University of Manitoba), not counts. The Loewen Boulevard total is the final figure reported in December 2025. An earlier version of this report listed Acres Drive and Industrial Road as truck routes; the city&rsquo;s current truck-route page lists only PTH 12, PTH 52 and McKenzie Avenue.</li>
+    <li><strong>Not confirmed.</strong> What the unpublished provincial access plans for PTH 12 (2013) and PTH 12 and 52 (2018), and their later update, say about a bypass, through traffic or trucks; the 2018 plan&rsquo;s perimeter wording is known only from news coverage. Also not confirmed: any provincial origin&ndash;destination survey of Steinbach (none found); the outcome of the city&rsquo;s December 2024 objection to the RM of Hanover rezoning on PTH 12 North; any reply to the 2022 request for &ldquo;no engine brake&rdquo; signs; and any bypass position by 2026 candidates (none found).</li>
+    <li><strong>Data.</strong> The <a href="record/">data downloads</a> list every item, every council member&rsquo;s part in it and every quote with its timestamp and link. Quotes in the downloads come only from council members and staff identified with high confidence. Every quote was checked word for word against its transcript.</li>
+    <li><strong>Council change.</strong> The council elected in October 2026 held its inaugural meeting on November 3, 2026. Quotes are from members serving at the time, some of whom are no longer on council. Election results are from <a href="https://www.steinbachonline.com/articles/2026-municipal-election-results">SteinbachOnline</a> (unofficial counts).</li>
   </ul>
+  </div></details>
 </section>
 
-<h2 id="sources">Sources</h2>
-<p><strong>Council meetings</strong> (official YouTube recordings):
-  <a href="https://www.youtube.com/watch?v=RRhWvrd--to">Feb 15, 2022</a> &middot;
+<details class="more" id="sources"><summary>Sources</summary><div class="inner">
+<p><strong>Council meetings</strong> (official YouTube recordings), for the main items:
+  <a href="https://www.youtube.com/watch?v=eYV4i9V57u4">May 3, 2016</a> &middot;
+  <a href="https://www.youtube.com/watch?v=sSj7DmRB_oU">Jun 7, 2016</a> &middot;
+  <a href="https://www.youtube.com/watch?v=zQCUgVp8hgM">Jul 17, 2018</a> &middot;
+  <a href="https://www.youtube.com/watch?v=XTuXa79WwuI">Jul 16, 2019</a> &middot;
+  <a href="https://www.youtube.com/watch?v=EOh8vyPAozM">Mar 3, 2020</a> &middot;
+  <a href="https://www.youtube.com/watch?v=4dmOOgaGROg">Dec 7, 2021</a> &middot;
   <a href="https://www.youtube.com/watch?v=yVNQSkESKB8">Sept 6, 2022</a> &middot;
   <a href="https://www.youtube.com/watch?v=iqHGFgqdhbU">Mar 21, 2023</a> &middot;
   <a href="https://www.youtube.com/watch?v=dqj6nVruHe8">Jan 16, 2024</a> &middot;
-  <a href="https://www.youtube.com/watch?v=wTh7jQg_I3g">Mar 5, 2024</a> &middot;
+  <a href="https://www.youtube.com/watch?v=7-wYUNyEUkc">Dec 17, 2024</a> &middot;
   <a href="https://www.youtube.com/watch?v=71s5PJKK618">Mar 18, 2025</a> &middot;
   <a href="https://www.youtube.com/watch?v=qHSZBeeQhRU">Feb 17, 2026</a> &middot;
-  <a href="https://www.youtube.com/watch?v=mWIo9QQVmmY">Jun 2, 2026</a>
+  <a href="https://www.youtube.com/watch?v=mWIo9QQVmmY">Jun 2, 2026</a>.
+  Every other meeting quoted is linked, with its timestamp, on the pages where it is quoted and in <a href="data/moments.csv">moments.csv</a>.
 </p>
 <ul class="sources">
-  <li id="src-study">Traffic study: WSP Canada, <em>2024 Steinbach Annual Traffic Counting Study</em> (Project CA0041884.0650), in the City of Steinbach council agenda package for March 18, 2025, pp.&nbsp;65&ndash;100; WSP Canada, <em>2025 Steinbach Annual Traffic Count and Analysis Program</em> (January 2026), in the <a href="https://events.steinbach.ca/council/Detail/2026-02-17-1930-Regular-Meeting-of-Council/bd679fe2-5398-40f1-a495-b4ce011702b3">February 17, 2026 agenda package</a></li>
-  <li>City: <a href="https://www.steinbach.ca/media/jnro2wks/by-law_2244_official_city_plan.pdf">Official Community Plan, By-law 2244 (2025)</a>; <a href="https://www.steinbach.ca/residents/bylaw-enforcement/traffic-vehicles-parking/">Truck routes</a>; <a href="https://steinbachonline.com/articles/steinbach-city-council-is-looking-forward-to-paving-park-road-west">Park Road West paving (SteinbachOnline, 2023)</a></li>
-  <li>Provincial plans and data: <a href="https://manitoba.ca/mti/myhis/pdf/2025_2026_update_strategy.pdf">Multi-year Infrastructure Investment Strategy 2025/26</a>; <a href="https://services6.arcgis.com/HQUud09zgy3Asw9X/arcgis/rest/services/Manitoba_truck_traffic_volumes_2019/FeatureServer/0">2019 truck traffic estimates and highway centrelines</a></li>
-  <li>Map: <a href="https://leafletjs.com/">Leaflet</a>; background map and streets &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap contributors</a></li>
-  <li>Province: <a href="https://steinbachonline.com/articles/no-plans-at-this-time-for-perimeter-highway-around-steinbach">No plans for a perimeter highway (SteinbachOnline, 2018)</a>; <a href="https://engagemb.ca/functional-design-of-highway-52/news_feed/engagement-background">PTH 52 functional design background (EngageMB)</a></li>
-  <li>SteinbachOnline: <a href="https://steinbachonline.com/local/steinbach-traffic-growing-steadily">Traffic growing steadily (2017)</a>; <a href="https://steinbachonline.com/articles/steinbach-traffic-study-shows-several-intersections-not-meeting-city-standards-">2023 traffic study</a>; <a href="https://steinbachonline.com/articles/city-reviews-2025-traffic-study-pushes-for-lights-at-pth-52-and-giesbrecht">2025 traffic study</a></li>
-  <li>Research: <a href="https://vtc.rutgers.edu/wp-content/uploads/2014/04/Bypass_05.pdf">Before-and-After Evaluation of Bypass Roads in New Jersey (Rutgers, 2005)</a>; <a href="https://archives.bape.gouv.qc.ca/sections/mandats/R131/documents/DB23.pdf">Economic Impacts of Highway Bypasses on Communities (WisDOT, 1998)</a>; <a href="http://caee.webhost.utexas.edu/prof/kockelman/public_html/TRB01Bypasses.pdf">Srinivasan &amp; Kockelman, Texas relief routes (2002)</a>; <a href="https://www.cutr.usf.edu/wp-content/uploads/2018/04/Bypass-Basics-White-Paper-2014.pdf">Bypass Basics (CUTR for Florida DOT, 2014)</a>; <a href="https://world-spectator.com/news_story.php?id=343">Moosomin traffic count (World-Spectator, 2016)</a></li>
-  <li>Peers: see the <a href="#peers">peer table</a>; populations from <a href="https://steinbachonline.com/articles/census-2021-reveals-fastest-growing-communities-and-big-milestones">Census 2021 coverage</a></li>
-  <li>Related reports: <a href="../traffic-congestion/">Traffic in Steinbach</a>; <a href="../future-planning/">Steinbach in 10 to 20 years</a></li>
+  <li>Council minutes and recorded votes, Jan 2018 &ndash; Oct 2026 (City of Steinbach; minutes before August 2025 from the city&rsquo;s former website via the <a href="https://web.archive.org/">Internet Archive</a>), and agenda packages, including the yearly WSP traffic count reports: WSP Canada, <em>2024 Steinbach Annual Traffic Counting Study</em> (March 18, 2025 agenda package) and <em>2025 Steinbach Annual Traffic Count and Analysis Program</em> (<a href="https://events.steinbach.ca/council/Detail/2026-02-17-1930-Regular-Meeting-of-Council/bd679fe2-5398-40f1-a495-b4ce011702b3">February 17, 2026 agenda</a>, item 8A).</li>
+  <li>City of Steinbach: <a href="https://www.steinbach.ca/media/jnro2wks/by-law_2244_official_city_plan.pdf">Official Community Plan, By-law 2244 (2025)</a>; <a href="https://web.archive.org/web/20250810192418/https://www.steinbach.ca/site/assets/files/1800/17m-02163_-_city_of_steinbach_ocp_-_third_reading_copy_-_20181016_ea.pdf">Official Community Plan, By-law 2099 (2018)</a>; <a href="https://media-004-ca.cdn.govstack.com/steinbach-002-ca/media/bwgpwspg/by-law_2254_traffic.pdf">Traffic By-law 2254 (2025)</a>; <a href="https://www.steinbach.ca/residents/bylaw-enforcement/traffic-vehicles-parking/">truck routes</a></li>
+  <li>Province of Manitoba: <a href="https://manitoba.ca/mti/myhis/pdf/2025_2026_update_strategy.pdf">Multi-Year Infrastructure Investment Strategy 2025/26</a>; <a href="https://engagemb.ca/functional-design-of-highway-52/news_feed/engagement-background">PTH 52 functional design background (EngageMB)</a>; <a href="https://services6.arcgis.com/HQUud09zgy3Asw9X/arcgis/rest/services/Manitoba_truck_traffic_volumes_2019/FeatureServer/0">MHTIS 2019 truck estimates</a>; <a href="https://gov.mb.ca/mti/traffic/mhtis/traffic_report_2025.pdf">Traffic on Manitoba Highways 2025</a></li>
+  <li>SteinbachOnline: <a href="https://steinbachonline.com/articles/no-plans-at-this-time-for-perimeter-highway-around-steinbach">No plans for a perimeter highway (2018)</a>; <a href="https://steinbachonline.com/articles/steinbach-city-council-is-looking-forward-to-paving-park-road-west">Park Road West paving (2023)</a>; <a href="https://steinbachonline.com/articles/steinbach-borrowing-3-million-for-loewen-boulevard-intersection">Loewen intersection cost (2025)</a>; <a href="https://steinbachonline.com/articles/city-reviews-2025-traffic-study-pushes-for-lights-at-pth-52-and-giesbrecht">2025 traffic study</a></li>
+  <li>Peer cities and research on bypasses: see <a href="compare/#sources">How Steinbach compares</a>.</li>
+  <li>Related reports: <a href="../traffic-congestion/">Traffic in Steinbach</a>; <a href="../future-planning/">Planning for the future</a>; <a href="../transit/">Can Steinbach have transit?</a></li>
 </ul>
+</div></details>
 
 <footer class="site">
   <p><a href="../">Steinbach City Council Reporting</a> &middot; An independent summary of public council meetings. Not affiliated with the City of Steinbach. &middot; <a href="../privacy/">Privacy</a></p>
 </footer>
 
 </main>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
-<script type="application/json" id="map-data">{"segments":[{"from":"North Gate Dr","to":"Clear Springs Rd","road":12,"coords":[[49.567004,-96.687704],[49.561737,-96.68781],[49.55996,-96.687849]],"v2024":1875,"v2025":1980,"note":"","d2024":{"SB":890,"NB":985},"d2025":{"SB":990,"NB":990}},{"from":"Clear Springs Rd","to":"Clearspring Centre / Golfair Rd","road":12,"coords":[[49.55996,-96.687849],[49.556408,-96.687925],[49.550942,-96.688028],[49.548341,-96.68807]],"v2024":2015,"v2025":2045,"note":"","d2024":{"SB":1080,"NB":935},"d2025":{"SB":1080,"NB":965}},{"from":"Clearspring Centre / Golfair Rd","to":"Park Rd","road":12,"coords":[[49.548341,-96.68807],[49.545588,-96.688116],[49.545134,-96.688131]],"v2024":2220,"v2025":2235,"note":"","d2024":{"SB":1170,"NB":1050},"d2025":{"SB":1230,"NB":1005}},{"from":"Park Rd","to":"Superstore / Co-op access","road":12,"coords":[[49.545134,-96.688131],[49.544851,-96.688141],[49.544012,-96.688163],[49.543154,-96.688121],[49.542196,-96.68812],[49.541981,-96.688124]],"v2024":2150,"v2025":2310,"note":"","d2024":{"SB":1120,"NB":1030},"d2025":{"SB":1210,"NB":1100}},{"from":"Superstore / Co-op access","to":"Acres Dr / Penfeld Dr","road":12,"coords":[[49.541981,-96.688124],[49.541292,-96.688137],[49.540311,-96.688155],[49.539495,-96.688147],[49.538931,-96.68816]],"v2024":2190,"v2025":2325,"note":"","d2024":{"SB":1135,"NB":1055},"d2025":{"SB":1285,"NB":1040}},{"from":"Acres Dr / Penfeld Dr","to":"Main St (PTH 52)","road":12,"coords":[[49.538931,-96.68816],[49.535118,-96.688244],[49.532744,-96.688292],[49.532631,-96.688288],[49.532518,-96.688294],[49.532406,-96.688308],[49.532269,-96.688324],[49.532145,-96.688375],[49.532022,-96.688445],[49.531829,-96.688628],[49.531631,-96.688857],[49.531423,-96.689141],[49.530305,-96.690834],[49.530175,-96.690983],[49.530074,-96.691079]],"v2024":1885,"v2025":2055,"note":"Loewen Blvd, between these two, was not counted (construction).","d2024":{"SB":970,"NB":915},"d2025":{"SB":990,"NB":1065}},{"from":"Main St (PTH 52)","to":"Woodhaven Ave / Friesen Ave","road":12,"coords":[[49.530074,-96.691079],[49.52997,-96.691133],[49.529826,-96.691175],[49.529657,-96.69119],[49.529335,-96.691198],[49.524838,-96.691215]],"v2024":1470,"v2025":1470,"note":"","d2024":{"SB":745,"NB":725},"d2025":{"SB":735,"NB":735}},{"from":"Woodhaven Ave / Friesen Ave","to":"Reimer Ave","road":12,"coords":[[49.524838,-96.691215],[49.52482,-96.691215],[49.522202,-96.691222]],"v2024":1300,"v2025":1350,"note":"","d2024":{"SB":710,"NB":590},"d2025":{"SB":745,"NB":605}},{"from":"Reimer Ave","to":"McKenzie Ave","road":12,"coords":[[49.522202,-96.691222],[49.517528,-96.691235],[49.517521,-96.691235]],"v2024":1310,"v2025":1345,"note":"","d2024":{"SB":735,"NB":575},"d2025":{"SB":780,"NB":565}},{"from":"McKenzie Ave","to":"Chrysler Gate","road":12,"coords":[[49.517521,-96.691235],[49.51742,-96.691234],[49.516866,-96.691232],[49.513226,-96.691167]],"v2024":1015,"v2025":1080,"note":"","d2024":{"SB":600,"NB":415},"d2025":{"SB":610,"NB":470}},{"from":"Chrysler Gate","to":"Madison Dr","road":12,"coords":[[49.513226,-96.691167],[49.512319,-96.691151],[49.510933,-96.69128],[49.50959,-96.691272]],"v2024":880,"v2025":925,"note":"","d2024":{"SB":565,"NB":315},"d2025":{"SB":565,"NB":360}},{"from":"Madison Dr","to":"Hanover Rd","road":12,"coords":[[49.50959,-96.691272],[49.506714,-96.691254],[49.50272,-96.691238],[49.50269,-96.691238]],"v2024":745,"v2025":825,"note":"","d2024":{"SB":485,"NB":260},"d2025":{"SB":500,"NB":325}},{"from":"Westland Dr","to":"Bushfarm Rd","road":52,"coords":[[49.532079,-96.725456],[49.532079,-96.723574],[49.532079,-96.719182],[49.532093,-96.71726],[49.532124,-96.715702],[49.532106,-96.714314],[49.532098,-96.714058]],"v2024":1840,"v2025":1875,"note":"","d2024":{"EB":765,"WB":1075},"d2025":{"EB":710,"WB":1165}},{"from":"Bushfarm Rd","to":"Keating Rd","road":52,"coords":[[49.532098,-96.714058],[49.53209,-96.713791],[49.532081,-96.713497],[49.53207,-96.711183]],"v2024":1820,"v2025":1835,"note":"","d2024":{"EB":730,"WB":1090},"d2025":{"EB":740,"WB":1095}},{"from":"Keating Rd","to":"Industrial Rd","road":52,"coords":[[49.53207,-96.711183],[49.532051,-96.706937],[49.532054,-96.704081]],"v2024":1725,"v2025":1745,"note":"","d2024":{"EB":740,"WB":985},"d2025":{"EB":760,"WB":985}},{"from":"Industrial Rd","to":"Lund Rd","road":52,"coords":[[49.532054,-96.704081],[49.532057,-96.700813],[49.532061,-96.69966]],"v2024":1555,"v2025":1595,"note":"","d2024":{"EB":730,"WB":825},"d2025":{"EB":860,"WB":735}},{"from":"Lund Rd","to":"Giesbrecht St","road":52,"coords":[[49.532061,-96.69966],[49.532068,-96.697495],[49.53207,-96.696903],[49.53206,-96.696249]],"v2024":1730,"v2025":1570,"note":"","d2024":{"EB":860,"WB":870},"d2025":{"EB":825,"WB":745}},{"from":"Giesbrecht St","to":"Main St (PTH 52)","road":52,"coords":[[49.53206,-96.696249],[49.532057,-96.696013],[49.532035,-96.695237],[49.532005,-96.6949],[49.531944,-96.694547],[49.53186,-96.694222],[49.531765,-96.693924],[49.531652,-96.693637],[49.530854,-96.692305],[49.530163,-96.691239],[49.530074,-96.691079]],"v2024":1680,"v2025":1630,"note":"","d2024":{"EB":860,"WB":820},"d2025":{"EB":810,"WB":820}},{"from":"Main St (PTH 52)","to":"McKenzie Ave / Hespeler St","road":52,"coords":[[49.530074,-96.691079],[49.529612,-96.690265],[49.526325,-96.684892],[49.523848,-96.680932],[49.522285,-96.67842],[49.521392,-96.676604],[49.519096,-96.671831],[49.518161,-96.669865],[49.518022,-96.669579],[49.51798,-96.669484]],"v2024":1425,"v2025":1505,"note":"","d2024":{"EB":550,"WB":875},"d2025":{"EB":575,"WB":930}}],"stubs":[{"label":"PTH 12 north to PTH 1 and Winnipeg","coords":[[49.580521,-96.687091],[49.580436,-96.687073],[49.579036,-96.686875],[49.578354,-96.686778],[49.577602,-96.686685],[49.57684,-96.686639],[49.575435,-96.686623],[49.574836,-96.686649],[49.57386,-96.686688],[49.573349,-96.68674],[49.572844,-96.68681],[49.57234,-96.686897],[49.570177,-96.68732],[49.569394,-96.687458],[49.568611,-96.687577],[49.567845,-96.687659],[49.567132,-96.687702],[49.567004,-96.687704]]},{"label":"PTH 12 south","coords":[[49.50269,-96.691238],[49.498245,-96.691266],[49.495532,-96.691238],[49.489124,-96.691172]]},{"label":"PTH 52 west to Mitchell and PTH 59","coords":[[49.532071,-96.746216],[49.532079,-96.725456]]},{"label":"PTH 52 east","coords":[[49.51798,-96.669484],[49.517863,-96.669212],[49.517717,-96.668781],[49.517594,-96.668293],[49.517495,-96.667795],[49.517413,-96.667287],[49.517354,-96.666714],[49.51733,-96.666139],[49.517314,-96.660885],[49.517297,-96.652139],[49.517325,-96.648913]]}],"points":[{"name":"North Gate Dr","lat":49.567004,"lon":-96.687704,"edge":true,"t2024":1955,"t2025":2060,"approx":true,"tm":{"2024":{"SB":[15,870,10],"WB":[5,"<5",15],"EB":[15,"<5",40],"NB":[40,945,"<5"]},"2025":{"SB":[5,955,10],"WB":[5,"<5",15],"EB":[20,"<5",60],"NB":[25,960,"<5"]}},"legs":{"N":"PTH 12 north","S":"PTH 12 south","W":"North Gate Dr west","E":"North Gate Dr east"},"app":{"2024":{"NB":985,"SB":895,"EB":55,"WB":20},"2025":{"NB":990,"SB":970,"EB":80,"WB":20}}},{"name":"Clear Springs Rd","lat":49.55996,"lon":-96.687849,"edge":false,"t2024":2115,"t2025":2200,"tm":{"2024":{"SB":[45,820,25],"WB":[145,20,35],"EB":[30,20,40],"NB":[15,855,65]},"2025":{"SB":[70,890,30],"WB":[120,20,30],"EB":[45,10,20],"NB":[10,890,65]}},"legs":{"N":"PTH 12 north","S":"PTH 12 south","W":"Clear Springs Rd West","E":"Clear Springs Rd East"},"app":{"2024":{"NB":935,"SB":890,"EB":90,"WB":200},"2025":{"NB":965,"SB":990,"EB":75,"WB":170}}},{"name":"Clearspring Centre / Golfair Rd","lat":49.548341,"lon":-96.68807,"edge":false,"t2024":2600,"t2025":2545,"tm":{"2024":{"SB":[5,895,180],"WB":[5,"<5",5],"EB":[230,"<5",230],"NB":[215,830,5]},"2025":{"SB":[5,920,155],"WB":["<5","<5",5],"EB":[200,"<5",255],"NB":[130,875,"<5"]}},"legs":{"N":"PTH 12 north","S":"PTH 12 south","W":"Clearspring Centre","E":"Golfair Rd"},"app":{"2024":{"NB":1050,"SB":1080,"EB":460,"WB":10},"2025":{"NB":1005,"SB":1080,"EB":455,"WB":5}}},{"name":"Park Rd","lat":49.545134,"lon":-96.688131,"edge":false,"t2024":3260,"t2025":3425,"tm":{"2024":{"SB":[275,725,170],"WB":[85,165,165],"EB":[150,235,260],"NB":[325,610,95]},"2025":{"SB":[275,755,200],"WB":[65,160,185],"EB":[175,205,305],"NB":[360,660,80]}},"legs":{"N":"PTH 12 north","S":"PTH 12 south","W":"Park Rd West","E":"Park Rd East"},"app":{"2024":{"NB":1030,"SB":1170,"EB":645,"WB":415},"2025":{"NB":1100,"SB":1230,"EB":685,"WB":410}}},{"name":"Superstore / Co-op access","lat":49.541981,"lon":-96.688124,"edge":false,"t2024":2580,"t2025":2635,"tm":{"2024":{"SB":[115,930,75],"WB":[15,10,60],"EB":[85,20,215],"NB":[165,880,10]},"2025":{"SB":[85,1035,90],"WB":[15,10,55],"EB":[90,20,195],"NB":[175,850,15]}},"legs":{"N":"PTH 12 north","S":"PTH 12 south","W":"Superstore access","E":"Co-op access"},"app":{"2024":{"NB":1055,"SB":1120,"EB":320,"WB":85},"2025":{"NB":1040,"SB":1210,"EB":305,"WB":80}}},{"name":"Acres Dr / Penfeld Dr","lat":49.538931,"lon":-96.68816,"edge":false,"t2024":2440,"t2025":2840,"tm":{"2024":{"SB":[185,880,70],"WB":[60,50,135],"EB":[50,60,35],"NB":[45,785,85]},"2025":{"SB":[245,1000,40],"WB":[65,45,200],"EB":[45,95,40],"NB":[40,945,80]}},"legs":{"N":"PTH 12 north","S":"PTH 12 south (to Main St)","W":"Acres Dr","E":"Penfeld Dr"},"app":{"2024":{"NB":915,"SB":1135,"EB":145,"WB":245},"2025":{"NB":1065,"SB":1285,"EB":180,"WB":310}}},{"name":"Loewen Blvd","lat":49.53216,"lon":-96.688369,"edge":false,"note":"Not counted in 2024 or 2025 (construction)"},{"name":"Main St (PTH 52)","lat":49.530074,"lon":-96.691079,"edge":false,"t2024":3430,"t2025":3465,"tm":{"2024":{"SB":[365,520,85],"WB":[85,545,245],"EB":[140,515,205],"NB":[240,435,50]},"2025":{"SB":[390,550,50],"WB":[80,500,350],"EB":[130,445,235],"NB":[225,425,85]}},"legs":{"N":"PTH 12 north","S":"Brandt St south","W":"PTH 52 west","E":"Main St east"},"app":{"2024":{"NB":725,"SB":970,"EB":860,"WB":875},"2025":{"NB":735,"SB":990,"EB":810,"WB":930}}},{"name":"Woodhaven Ave / Friesen Ave","lat":49.524838,"lon":-96.691215,"edge":false,"t2024":1445,"t2025":1475,"tm":{"2024":{"SB":[15,705,25],"WB":[10,25,10],"EB":[25,20,20],"NB":[35,545,10]},"2025":{"SB":[45,665,25],"WB":[25,35,5],"EB":[20,20,30],"NB":[25,545,15]}},"legs":{"N":"Brandt St north (to Main St)","S":"Brandt St south","W":"Woodhaven Ave","E":"Friesen Ave"},"app":{"2024":{"NB":590,"SB":745,"EB":65,"WB":45},"2025":{"NB":605,"SB":735,"EB":70,"WB":65}}},{"name":"Reimer Ave","lat":49.522202,"lon":-96.691222,"edge":false,"t2024":1735,"t2025":1780,"tm":{"2024":{"SB":[90,550,70],"WB":[85,110,55],"EB":[75,65,60],"NB":[50,475,50]},"2025":{"SB":[85,580,80],"WB":[90,130,55],"EB":[80,80,35],"NB":[50,470,45]}},"legs":{"N":"Brandt St north","S":"Brandt St south","W":"Reimer Ave west","E":"Reimer Ave east"},"app":{"2024":{"NB":575,"SB":710,"EB":200,"WB":250},"2025":{"NB":565,"SB":745,"EB":195,"WB":275}}},{"name":"McKenzie Ave","lat":49.517521,"lon":-96.691235,"edge":false,"t2024":1810,"t2025":1875,"tm":{"2024":{"SB":[150,470,115],"WB":[95,160,125],"EB":[115,130,35],"NB":[50,295,70]},"2025":{"SB":[165,460,155],"WB":[110,140,120],"EB":[110,110,35],"NB":[50,335,85]}},"legs":{"N":"Brandt St north","S":"Brandt St south","W":"McKenzie Ave west","E":"McKenzie Ave east"},"app":{"2024":{"NB":415,"SB":735,"EB":280,"WB":380},"2025":{"NB":470,"SB":780,"EB":255,"WB":370}}},{"name":"Chrysler Gate","lat":49.513226,"lon":-96.691167,"edge":false,"t2024":1050,"t2025":1100,"tm":{"2024":{"SB":[75,525,"<5"],"WB":[35,"<5",90],"EB":[5,"<5",5],"NB":["<5",305,10]},"2025":{"SB":[60,550,"<5"],"WB":[25,"<5",95],"EB":[5,"<5",5],"NB":["<5",355,5]}},"legs":{"N":"Brandt St north","S":"Brandt St south","W":"private access","E":"Chrysler Gate"},"app":{"2024":{"NB":315,"SB":600,"EB":10,"WB":125},"2025":{"NB":360,"SB":610,"EB":10,"WB":120}}},{"name":"Madison Dr","lat":49.50959,"lon":-96.691272,"edge":false,"t2024":880,"t2025":945,"tm":{"2024":{"SB":[80,485,null],"WB":[5,null,50],"NB":[null,260,"<5"]},"2025":{"SB":[55,510,null],"WB":[10,null,45],"NB":[null,315,10]}},"legs":{"N":"Brandt St north","S":"Brandt St south","E":"Madison Dr"},"app":{"2024":{"NB":260,"SB":565,"EB":0,"WB":55},"2025":{"NB":325,"SB":565,"EB":0,"WB":55}}},{"name":"Hanover Rd","lat":49.50269,"lon":-96.691238,"edge":true,"t2024":770,"t2025":865,"tm":{"2024":{"SB":[20,435,30],"WB":[5,10,15],"EB":[5,5,5],"NB":[5,235,"<5"]},"2025":{"SB":[10,475,15],"WB":[5,10,15],"EB":[15,5,5],"NB":[10,295,5]}},"legs":{"N":"Brandt St north","S":"PTH 12 south","W":"Hanover Rd West","E":"Hanover Rd East"},"app":{"2024":{"NB":240,"SB":485,"EB":15,"WB":30},"2025":{"NB":310,"SB":500,"EB":25,"WB":30}}},{"name":"Westland Dr","lat":49.532079,"lon":-96.725456,"edge":true,"t2024":1820,"t2025":1915,"tm":{"2024":{"WB":[20,1045,10],"NB":["<5","<5",5],"SB":[15,"<5","<5"],"EB":["<5",725,"<5"]},"2025":{"WB":[15,1130,20],"NB":["<5","<5",5],"SB":[15,"<5",10],"EB":[5,715,"<5"]}},"legs":{"W":"PTH 52 west","E":"PTH 52 east (into the city)","N":"Westland Dr north","S":"Westland Dr south"},"app":{"2024":{"NB":5,"SB":15,"EB":725,"WB":1075},"2025":{"NB":5,"SB":25,"EB":720,"WB":1165}}},{"name":"Bushfarm Rd","lat":49.532098,"lon":-96.714058,"edge":false,"t2024":1930,"t2025":1920,"tm":{"2024":{"WB":[65,1025,"<5"],"NB":[30,"<5",30],"SB":[10,"<5",5],"EB":[5,715,45]},"2025":{"WB":[75,1015,5],"NB":[40,"<5",60],"SB":[10,"<5",5],"EB":[10,645,55]}},"legs":{"W":"PTH 52 west","E":"PTH 52 east","N":"Bushfarm Rd north","S":"Bushfarm Rd south"},"app":{"2024":{"NB":60,"SB":15,"EB":765,"WB":1090},"2025":{"NB":100,"SB":15,"EB":710,"WB":1095}}},{"name":"Keating Rd","lat":49.53207,"lon":-96.711183,"edge":false,"t2024":1875,"t2025":1905,"tm":{"2024":{"WB":[15,950,20],"NB":[5,"<5",5],"SB":[20,5,125],"EB":[55,670,5]},"2025":{"WB":[20,945,20],"NB":[5,"<5",10],"SB":[25,"<5",140],"EB":[70,670,"<5"]}},"legs":{"W":"PTH 52 west","E":"PTH 52 east","N":"Keating Rd north","S":"Keating Rd south"},"app":{"2024":{"NB":10,"SB":150,"EB":730,"WB":985},"2025":{"NB":15,"SB":165,"EB":740,"WB":985}}},{"name":"Industrial Rd","lat":49.532054,"lon":-96.704081,"edge":false,"t2024":2195,"t2025":2235,"tm":{"2024":{"WB":[45,630,150],"NB":[20,15,60],"SB":[180,20,335],"EB":[190,535,15]},"2025":{"WB":[50,545,140],"NB":[45,40,110],"SB":[180,40,325],"EB":[210,515,35]}},"legs":{"W":"PTH 52 west","E":"PTH 52 east","N":"Industrial Rd north","S":"Industrial Rd south"},"app":{"2024":{"NB":95,"SB":535,"EB":740,"WB":825},"2025":{"NB":195,"SB":545,"EB":760,"WB":735}}},{"name":"Lund Rd","lat":49.532061,"lon":-96.69966,"edge":false,"t2024":1830,"t2025":1810,"tm":{"2024":{"WB":[25,760,85],"NB":[15,"<5",15],"SB":[125,5,70],"EB":[20,700,10]},"2025":{"WB":[15,670,60],"NB":[10,5,15],"SB":[105,"<5",70],"EB":[35,815,10]}},"legs":{"W":"PTH 52 west","E":"PTH 52 east","N":"Lund Rd north","S":"Lund Rd south"},"app":{"2024":{"NB":30,"SB":200,"EB":730,"WB":870},"2025":{"NB":30,"SB":175,"EB":860,"WB":745}}},{"name":"Giesbrecht St","lat":49.53206,"lon":-96.696249,"edge":false,"t2024":1900,"t2025":1865,"tm":{"2024":{"WB":[65,725,30],"NB":[100,5,40],"SB":[30,10,35],"EB":[5,700,155]},"2025":{"WB":[80,705,35],"NB":[110,5,35],"SB":[25,5,40],"EB":[10,675,140]}},"legs":{"W":"PTH 52 west","E":"PTH 52 east (to Brandt St)","N":"Giesbrecht St north","S":"Giesbrecht St south"},"app":{"2024":{"NB":145,"SB":75,"EB":860,"WB":820},"2025":{"NB":150,"SB":70,"EB":825,"WB":820}}},{"name":"McKenzie Ave / Hespeler St","lat":49.51798,"lon":-96.669484,"edge":false,"t2024":1800,"t2025":1870,"tm":{"2024":{"SB":[185,105,65],"EB":[70,445,35],"WB":[145,310,135],"NB":[35,110,160]},"2025":{"SB":[200,95,90],"EB":[65,460,50],"WB":[155,335,130],"NB":[20,90,180]}},"legs":{"W":"Main St west (to Brandt St)","E":"PTH 52 / Main St east","N":"Hespeler St North","S":"McKenzie Ave"},"app":{"2024":{"NB":305,"SB":355,"EB":550,"WB":590},"2025":{"NB":290,"SB":385,"EB":575,"WB":620}}}]}</script>
-<script>
-(function () {
-  var el = document.getElementById('traffic-map');
-  if (!window.L || !el) return;
-  el.innerHTML = '';
-  var DATA = JSON.parse(document.getElementById('map-data').textContent);
-  var info = document.getElementById('map-info');
-  var turnsBox = document.getElementById('map-turns');
-  var year = '2024', view = 'total', selected = 'Main St (PTH 52)';
-  var fmt = function (n) { return Number(n).toLocaleString('en-CA'); };
-  var css = function (v) { return getComputedStyle(document.documentElement).getPropertyValue(v).trim(); };
-  var clamp = function (x, a, b) { return Math.max(a, Math.min(b, x)); };
-  var wTotal = function (v) { return clamp(3 + (v - 600) * 15 / 1800, 3, 18); };
-  var wDir = function (v) { return clamp(2 + (v - 250) * 9 / 1000, 2, 11); };
-  var J = 'Main St (PTH 52)';
-  var nm = function (n, road) { return n !== J ? n : (road === 12 ? 'Main St' : road === 52 ? 'Brandt St' : 'Brandt St and Main St'); };
-  var esc = function (t) { return String(t).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); };
-  var dark = function () {
-    var t = document.documentElement.getAttribute('data-theme');
-    if (t) return t === 'dark';
-    return window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
-  };
-  var mobile = L.Browser.mobile;
-  var map = L.map(el, { scrollWheelZoom: false, dragging: !mobile, tap: !mobile, zoomSnap: 0.25 });
-  map.on('click focus', function () { map.scrollWheelZoom.enable(); });
-  var allCoords = [];
-  DATA.segments.forEach(function (g) { allCoords = allCoords.concat(g.coords); });
-  map.fitBounds(L.latLngBounds(allCoords), { paddingTopLeft: [18, 18], paddingBottomRight: [18, 44] });
-  var attr = '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors | Highways: Manitoba MTI | Counts: WSP';
-  var tiles = null;
-  function setTiles() {
-    if (tiles) map.removeLayer(tiles);
-    tiles = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 19, attribution: attr }).addTo(map);
-    el.classList.toggle('dark-tiles', dark());
-  }
-  setTiles();
-
-  // Offset a polyline sideways by px pixels (positive = right of the coordinate direction).
-  function offsetLatLngs(coords, px) {
-    var pts = coords.map(function (c) { return map.latLngToLayerPoint(L.latLng(c[0], c[1])); });
-    var out = [];
-    for (var i = 0; i < pts.length; i++) {
-      var a = pts[Math.max(0, i - 1)], b = pts[Math.min(pts.length - 1, i + 1)];
-      var dx = b.x - a.x, dy = b.y - a.y, len = Math.sqrt(dx * dx + dy * dy) || 1;
-      var p = L.point(pts[i].x + (-dy / len) * px, pts[i].y + (dx / len) * px);
-      out.push(map.layerPointToLatLng(p));
-    }
-    return out;
-  }
-
-  var stubs = DATA.stubs.map(function (st) {
-    return L.polyline(st.coords, { weight: 3, dashArray: '4 6', interactive: false }).addTo(map);
-  });
-  var LABELS = ['North Gate Dr|Clear Springs Rd', 'Clearspring Centre / Golfair Rd|Park Rd', 'Reimer Ave|McKenzie Ave',
-    'Madison Dr|Hanover Rd', 'Westland Dr|Bushfarm Rd', 'Industrial Rd|Lund Rd', 'Main St (PTH 52)|McKenzie Ave / Hespeler St'];
-  var segs = DATA.segments.map(function (g) {
-    var total = L.polyline(g.coords, { lineCap: 'butt', interactive: false });
-    var dA = L.polyline(g.coords, { lineCap: 'butt', interactive: false });   // NB or EB
-    var dB = L.polyline(g.coords, { lineCap: 'butt', interactive: false });   // SB or WB
-    var hit = L.polyline(g.coords, { weight: 26, opacity: 0, color: '#000' });
-    var lab = null;
-    if (LABELS.indexOf(g.from + '|' + g.to) >= 0) {
-      var mid = g.coords[Math.floor(g.coords.length / 2)];
-      var left = g.from === 'Reimer Ave', above = g.from === 'Industrial Rd';
-      lab = L.tooltip({ permanent: true, interactive: false, direction: g.road === 12 ? (left ? 'left' : 'right') : (above ? 'top' : 'bottom'),
-        className: 'vol-label', offset: g.road === 12 ? [left ? -14 : 14, 0] : [0, above ? -14 : 14] }).setLatLng(mid);
-    }
-    function dirs() {
-      var d = g['d' + year];
-      return g.road === 12 ? { a: d.NB, b: d.SB, an: 'northbound', bn: 'southbound', as: '↑', bs: '↓' }
-                           : { a: d.EB, b: d.WB, an: 'eastbound', bn: 'westbound', as: '→', bs: '←' };
-    }
-    function text() {
-      var head = nm(g.from, g.road) + ' to ' + nm(g.to, g.road) + ' (' + (g.road === 12 ? 'PTH 12' : 'PTH 52') + '), ' + year + ' evening peak: ';
-      var d = dirs();
-      var body = view === 'total' ? fmt(g['v' + year]) + ' vehicles an hour both ways (' + fmt(d.a) + ' ' + d.an + ', ' + fmt(d.b) + ' ' + d.bn + ').'
-                                  : fmt(d.a) + ' ' + d.an + ' and ' + fmt(d.b) + ' ' + d.bn + ' vehicles an hour.';
-      return head + body + (g.note ? ' ' + g.note : '');
-    }
-    hit.on('mouseover click', function () { info.textContent = text(); });
-    hit.bindTooltip(function () {
-      var d = dirs();
-      return view === 'total' ? fmt(g['v' + year]) + ' vehicles/hr' : d.as + ' ' + fmt(d.a) + '  ' + d.bs + ' ' + fmt(d.b);
-    }, { sticky: true });
-    return { g: g, total: total, dA: dA, dB: dB, hit: hit, lab: lab, dirs: dirs };
-  });
-  var pts = DATA.points.map(function (p) {
-    var m = L.circleMarker([p.lat, p.lon], { radius: p.edge ? 6.5 : 5, weight: 2, fillOpacity: 1 });
-    m.bindTooltip(function () { return esc(nm(p.name)) + (p.tm ? ' (tap for turns)' : ''); });
-    m.on('mouseover', function () {
-      info.textContent = p.note ? nm(p.name) + ': ' + p.note + '.' :
-        nm(p.name) + (p.edge ? ' (outermost counted intersection)' : '') + ': ' + fmt(p['t' + year]) + ' vehicles an hour entering from all directions, ' + year + '.' + (p.approx ? ' Position approximate.' : '');
-    });
-    m.on('click', function () { selected = p.name; renderTurns(); });
-    return { p: p, m: m };
-  });
-  // Draw order: lines, then hit targets, then intersections on top.
-  segs.forEach(function (s) { s.total.addTo(map); });
-  segs.forEach(function (s) { s.hit.addTo(map); if (s.lab) s.lab.addTo(map); });
-  pts.forEach(function (o) { o.m.addTo(map); });
-
-  function placeDirs() {
-    segs.forEach(function (s) {
-      var d = s.dirs(), wa = wDir(d.a), wb = wDir(d.b);
-      // PTH 12 coordinates run north to south (southbound); PTH 52 runs west to east (eastbound).
-      // Right-hand traffic: each direction sits to the right of its own travel.
-      if (s.g.road === 12) { s.dB.setLatLngs(offsetLatLngs(s.g.coords, wb / 2 + 1)); s.dA.setLatLngs(offsetLatLngs(s.g.coords, -(wa / 2 + 1))); }
-      else { s.dA.setLatLngs(offsetLatLngs(s.g.coords, wa / 2 + 1)); s.dB.setLatLngs(offsetLatLngs(s.g.coords, -(wb / 2 + 1))); }
-      s.dA.setStyle({ weight: wa }); s.dB.setStyle({ weight: wb });
-    });
-  }
-  function paint() {
-    var accent = css('--accent'), edge = css('--context-bar'), surface = css('--surface'), muted = css('--muted');
-    var ca = css('--dir-a'), cb = css('--dir-b');
-    segs.forEach(function (s) {
-      s.total.setStyle({ color: accent, weight: wTotal(s.g['v' + year]), opacity: 0.85 });
-      s.dA.setStyle({ color: ca, opacity: 0.95 }); s.dB.setStyle({ color: cb, opacity: 0.95 });
-      if (view === 'total') {
-        if (!map.hasLayer(s.total)) map.addLayer(s.total);
-        map.removeLayer(s.dA); map.removeLayer(s.dB);
-      } else {
-        map.removeLayer(s.total);
-        if (!map.hasLayer(s.dA)) map.addLayer(s.dA);
-        if (!map.hasLayer(s.dB)) map.addLayer(s.dB);
-      }
-      if (s.lab) {
-        var d = s.dirs();
-        s.lab.setContent(view === 'total' ? fmt(s.g['v' + year]) : d.as + fmt(d.a) + ' ' + d.bs + fmt(d.b));
-      }
-    });
-    if (view === 'dir') placeDirs();
-    stubs.forEach(function (l) { l.setStyle({ color: muted, opacity: 0.8 }); });
-    segs.forEach(function (s) { if (s.hit._path) s.hit.bringToFront(); });
-    pts.forEach(function (o) {
-      o.m.setStyle({ color: o.p.edge ? edge : accent, fillColor: o.p.name === selected ? (o.p.edge ? edge : accent) : (o.p.edge ? edge : surface) });
-      if (o.m._path) o.m.bringToFront();
-    });
-    document.getElementById('legend-total').hidden = view !== 'total';
-    document.getElementById('legend-dir').hidden = view !== 'dir';
-  }
-  map.on('zoomend', function () { if (view === 'dir') placeDirs(); });
-
-  // Turning-movement panel
-  var FROM = { SB: 'N', NB: 'S', EB: 'W', WB: 'E' };
-  var DEST = { SB: ['E', 'S', 'W'], NB: ['W', 'N', 'E'], EB: ['N', 'E', 'S'], WB: ['S', 'W', 'N'] };
-  var ORDER = ['SB', 'NB', 'EB', 'WB'];
-  var val = function (v) { return v === '<5' ? 2 : (v || 0); };
-  function cell(v, leg) {
-    if (v === null || v === undefined) return '<td class="num">&ndash;</td>';
-    return '<td class="num"><strong>' + (v === '<5' ? '&lt;5' : fmt(v)) + '</strong><small>to ' + esc(leg) + '</small></td>';
-  }
-  function renderTurns() {
-    var p = null;
-    DATA.points.forEach(function (q) { if (q.name === selected) p = q; });
-    if (!p) return;
-    if (!p.tm) { turnsBox.innerHTML = '<h4>' + esc(nm(p.name)) + '</h4><p class="note">' + esc(p.note || 'No turning counts.') + '</p>'; paint(); return; }
-    var tm = p.tm[year], legs = p.legs, app = p.app[year];
-    var h = '<h4>Where traffic goes at ' + esc(nm(p.name)) + ', ' + year + ' evening peak hour</h4>';
-    h += '<div class="table-wrap"><table class="compact"><thead><tr><th>Arriving from</th><th class="num">Turn left</th><th class="num">Straight</th><th class="num">Turn right</th><th class="num">Total</th></tr></thead><tbody>';
-    var notes = [], lines = [];
-    ORDER.forEach(function (a) {
-      if (!tm[a]) return;
-      var mv = tm[a], dest = DEST[a];
-      var star = (p.name === 'Woodhaven Ave / Friesen Ave' && year === '2025' && a === 'NB') ? '*' : '';
-      h += '<tr><td>' + esc(legs[FROM[a]]) + '</td>' + cell(mv[0], legs[dest[0]]) + cell(mv[1], legs[dest[1]]) + cell(mv[2], legs[dest[2]]) +
-           '<td class="num">' + fmt(app[a]) + star + '</td></tr>';
-      var sum = val(mv[0]) + val(mv[1]) + val(mv[2]);
-      if (/^(PTH|Brandt|Main)/.test(legs[FROM[a]]) && mv[1] !== null && sum > 200) {
-        lines.push('From ' + legs[FROM[a]] + ': ' + Math.round(100 * val(mv[1]) / sum) + '% went straight on.');
-      }
-      if (star) notes.push('* The study’s turning figure adds to ' + fmt(sum) + ' for this approach; its Table 2.1 says ' + fmt(app[a]) + '.');
-    });
-    h += '</tbody></table></div>';
-    if (lines.length) h += '<ul>' + lines.map(function (t) { return '<li>' + esc(t) + '</li>'; }).join('') + '</ul>';
-    if (p.name === J) {
-      var e = tm.EB, sb = tm.SB;
-      h += '<p class="note">Turns between PTH 52 west and PTH 12 north here: ' + fmt(val(e[0])) + ' from PTH 52 onto PTH 12 north and ' + fmt(val(sb[2])) + ' from PTH 12 onto PTH 52 west, ' + fmt(val(e[0]) + val(sb[2])) + ' in all. That’s the movement a bypass northwest of the city would serve.</p>';
-    }
-    notes.forEach(function (t) { h += '<p class="note">' + esc(t) + '</p>'; });
-    h += '<p class="note">&lt;5 means fewer than 5 vehicles. Totals are the study’s approach volumes (Table 2.1).</p>';
-    turnsBox.innerHTML = h;
-    paint();
-  }
-
-  paint();
-  renderTurns();
-
-  document.querySelectorAll('[data-year]').forEach(function (b) {
-    b.addEventListener('click', function () {
-      year = b.getAttribute('data-year');
-      document.querySelectorAll('[data-year]').forEach(function (x) { x.setAttribute('aria-pressed', x === b ? 'true' : 'false'); });
-      renderTurns();
-      info.textContent = 'Showing the ' + year + ' study. Hover over or tap a stretch of highway.';
-    });
-  });
-  document.querySelectorAll('[data-view]').forEach(function (b) {
-    b.addEventListener('click', function () {
-      view = b.getAttribute('data-view');
-      document.querySelectorAll('[data-view]').forEach(function (x) { x.setAttribute('aria-pressed', x === b ? 'true' : 'false'); });
-      paint();
-      info.textContent = view === 'dir' ? 'Blue lines carry northbound or eastbound traffic; orange lines carry southbound or westbound traffic.' : 'Showing both directions together.';
-    });
-  });
-  if (window.matchMedia) {
-    var mq = window.matchMedia('(prefers-color-scheme: dark)');
-    var onChange = function () { setTiles(); paint(); };
-    if (mq.addEventListener) mq.addEventListener('change', onChange); else if (mq.addListener) mq.addListener(onChange);
-  }
-})();
-</script>
 </body>
 </html>
