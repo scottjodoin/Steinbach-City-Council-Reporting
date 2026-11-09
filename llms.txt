@@ -3,7 +3,7 @@
 > Independent, plain-language reports on what Steinbach City Council (Steinbach, Manitoba, Canada) has said and decided, organised by topic. Each report answers one question, credits what council does well, compares Steinbach with other cities, and links every quote to its moment in the official meeting video.
 
 - Sources: the City of Steinbach's recorded council meetings on YouTube (2015-2026) and the published minutes; other cities' own published programs for comparisons.
-- Quotes are verbatim from automatic transcripts; speakers are identified by hand. Council members, the mayor and city staff are named; residents are identified by initials only.
+- Quotes are verbatim from automatic transcripts; speakers are matched to names with AI assistance. Council members, the mayor and city staff are named; residents are identified by initials only.
 - Each report has an 'About this page' section saying what could not be confirmed.
 - Council for 2026-2030 (sworn in Nov 3, 2026): Mayor Earl Funk; Deputy Mayor Susan Penner; Councillors Damian Penner, Bill Hiebert, Jake Hiebert, Ron Falk and Greg Carlos.
 
