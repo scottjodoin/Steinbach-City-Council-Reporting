@@ -23,7 +23,7 @@ Traffic, highways and transit.
 
 - [Traffic in Steinbach: what can council do, and what has it done?](https://steinbachcitycouncilreporting.ca/traffic-congestion/): 103 decisions over eleven years: traffic counts and cost-shares on the provincial highways, stop-sign and speed requests on city streets, the traffic officer, how each council member voted, and what growing peers do. (Meetings Dec 2015 – Nov 2026 · Updated Nov 7, 2026)
 - [A bypass around Main Street? What council says and what the traffic study shows](https://steinbachcitycouncilreporting.ca/main-street-bypass/): Eleven years in which a bypass never reached the agenda: city streets as informal bypasses, rebuilding the highways through town, what the traffic and truck data show and can't show, and how Yorkton, Portage and Winkler handled their highways. (Meetings Dec 2015 – Nov 2026 · Updated Nov 9, 2026)
-- [Can Steinbach have public transit?](https://steinbachcitycouncilreporting.ca/transit/): Steinbach's only transit serves seniors and people with disabilities. What council has said about anything more, and how similar-size cities run transit. (Meetings Jan 2022 – Sept 2026 · Updated Oct 13, 2026)
+- [Can Steinbach have public transit?](https://steinbachcitycouncilreporting.ca/transit/): Steinbach's only transit serves seniors and people with disabilities. Eleven years of council's record on anything more, how each council member spoke, and how Winkler, Selkirk and other similar-size cities run transit. (Meetings Dec 2015 – Nov 2026 · Updated Nov 9, 2026)
 
 ## Safety, health and services
 
@@ -303,6 +303,24 @@ Sub-pages of the reports above (for example, the advocacy report's pages by coun
 - [2018–2022: Mayor Earl Funk’s first council](https://steinbachcitycouncilreporting.ca/traffic-congestion/terms/2018-2022/): Steinbach City Council and traffic in the 2018–2022 term: city speed limits, a traffic officer for street racing, the Loewen Boulevard rebuild financed, the Giesbrecht signals requested, and infill approved without traffic studies.
 - [2022–2026: Mayor Earl Funk’s second council](https://steinbachcitycouncilreporting.ca/traffic-congestion/terms/2022-2026/): Steinbach City Council and traffic in the 2022–2026 term: PTH 12 signal timing fixed, a stop sign defeated 3–4, the Loewen Boulevard rebuild, a school zone beyond staff advice, the automobile city, and the Giesbrecht lights at last.
 - [The story by term](https://steinbachcitycouncilreporting.ca/traffic-congestion/terms/): Steinbach City Council's record on traffic and road safety told council by council and year by year, 2015 to 2026, with what the new 2026–2030 council inherits.
+- [How Steinbach compares](https://steinbachcitycouncilreporting.ca/transit/compare/): How Steinbach's transit compares with Winkler, Selkirk, Swift Current, Portage la Prairie, Thompson, Morden and other cities: what they run, what it costs, and what doing all it can would add.
+- [Bill Hiebert: transit and accessible transportation](https://steinbachcitycouncilreporting.ca/transit/members/bill-hiebert/): What Bill Hiebert said and did on transit and accessible transportation in Steinbach, 2015 to 2026, with split votes and quotes.
+- [Cari Penner: transit and accessible transportation](https://steinbachcitycouncilreporting.ca/transit/members/cari-penner/): What Cari Penner said and did on transit and accessible transportation in Steinbach, 2015 to 2026, with split votes and quotes.
+- [Chris Goertzen: transit and accessible transportation](https://steinbachcitycouncilreporting.ca/transit/members/chris-goertzen/): What Chris Goertzen said and did on transit and accessible transportation in Steinbach, 2015 to 2026, with split votes and quotes.
+- [Damian Penner: transit and accessible transportation](https://steinbachcitycouncilreporting.ca/transit/members/damian-penner/): What Damian Penner said and did on transit and accessible transportation in Steinbach, 2015 to 2026, with split votes and quotes.
+- [Earl Funk: transit and accessible transportation](https://steinbachcitycouncilreporting.ca/transit/members/earl-funk/): What Earl Funk said and did on transit and accessible transportation in Steinbach, 2015 to 2026, with split votes and quotes.
+- [Council members on transit](https://steinbachcitycouncilreporting.ca/transit/members/): How each Steinbach council member spoke and voted on transit, accessible transportation, taxis and ride-sharing from 2015 to 2026.
+- [Jac Siemens: transit and accessible transportation](https://steinbachcitycouncilreporting.ca/transit/members/jac-siemens/): What Jac Siemens said and did on transit and accessible transportation in Steinbach, 2015 to 2026, with split votes and quotes.
+- [Jake Hiebert: transit and accessible transportation](https://steinbachcitycouncilreporting.ca/transit/members/jake-hiebert/): What Jake Hiebert said and did on transit and accessible transportation in Steinbach, 2015 to 2026, with split votes and quotes.
+- [John Fehr: transit and accessible transportation](https://steinbachcitycouncilreporting.ca/transit/members/john-fehr/): What John Fehr said and did on transit and accessible transportation in Steinbach, 2015 to 2026, with split votes and quotes.
+- [Michael Zwaagstra: transit and accessible transportation](https://steinbachcitycouncilreporting.ca/transit/members/michael-zwaagstra/): What Michael Zwaagstra said and did on transit and accessible transportation in Steinbach, 2015 to 2026, with split votes and quotes.
+- [Susan Penner: transit and accessible transportation](https://steinbachcitycouncilreporting.ca/transit/members/susan-penner/): What Susan Penner said and did on transit and accessible transportation in Steinbach, 2015 to 2026, with split votes and quotes.
+- [Council’s reasons, in its own words](https://steinbachcitycouncilreporting.ca/transit/reasons/): The reasons Steinbach City Council has given since 2015 for not going further on public transit, in members' own words, with residents' counterpoints and the facts.
+- [Every decision and debate on transit](https://steinbachcitycouncilreporting.ca/transit/record/): Every Steinbach City Council decision and debate on transit (handi-transit, on-demand service, intercity buses, taxis and ride-hailing) from December 2015 to November 2026, filterable, with spreadsheet downloads.
+- [2014–2018: Mayor Chris Goertzen’s council](https://steinbachcitycouncilreporting.ca/transit/terms/2014-2018/): Transit at Steinbach City Council in the 2014–2018 term: Handi-Transit run by the city, a van grant refused, a taxi by-law declined, and the province's advice to begin planning for transit.
+- [2018–2022: Mayor Earl Funk’s first council](https://steinbachcitycouncilreporting.ca/transit/terms/2018-2022/): Transit at Steinbach City Council in the 2018–2022 term: no intercity bus after Greyhound, and Handi-Transit handed to Serving Seniors Inc. without a significant change in cost.
+- [2022–2026: Mayor Earl Funk’s second council](https://steinbachcitycouncilreporting.ca/transit/terms/2022-2026/): Transit at Steinbach City Council in the 2022–2026 term: a coalition's survey and on-demand plan, 'the automobile city,' a plan policy that the city 'could consider' transit, and a ride-share founder's request.
+- [The story by term](https://steinbachcitycouncilreporting.ca/transit/terms/): Transit and accessible transportation at Steinbach City Council, council by council and year by year, 2015 to 2026, with what the new 2026–2030 council inherits.
 
 ## Optional
 
@@ -362,3 +380,7 @@ Data downloads behind the reports (CSV, Excel, JSON).
 - [traffic-congestion/data/involvement.csv](https://steinbachcitycouncilreporting.ca/traffic-congestion/data/involvement.csv)
 - [traffic-congestion/data/moments.csv](https://steinbachcitycouncilreporting.ca/traffic-congestion/data/moments.csv)
 - [traffic-congestion/data/split_votes.csv](https://steinbachcitycouncilreporting.ca/traffic-congestion/data/split_votes.csv)
+- [transit/data/actions.csv](https://steinbachcitycouncilreporting.ca/transit/data/actions.csv)
+- [transit/data/involvement.csv](https://steinbachcitycouncilreporting.ca/transit/data/involvement.csv)
+- [transit/data/moments.csv](https://steinbachcitycouncilreporting.ca/transit/data/moments.csv)
+- [transit/data/split_votes.csv](https://steinbachcitycouncilreporting.ca/transit/data/split_votes.csv)
