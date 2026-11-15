@@ -27,11 +27,11 @@
 <section class="callout">
   <h2>In short</h2>
   <ul>
-    <li><strong>Words: about 95 in 100 are right</strong> (our estimate). Two independent transcripts of the same meetings agree on 93 of every 100 words. Where they differ, at least one of them is wrong.</li>
-    <li><strong>Names are the weak spot.</strong> Neither transcription system spells &ldquo;Zwaagstra&rdquo; or &ldquo;Hiebert&rdquo; correctly. We correct council members' names from the official roster.</li>
-    <li><strong>Speakers: 91% of lines carry a high-confidence name</strong> across all 88 meetings from November 2022 to November 2026, and <strong>95% of the lines that say something of substance</strong>. Most of the uncertainty is on short lines like &ldquo;Thank you.&rdquo; The rest are marked as less certain, and the transcript says so.</li>
-    <li><strong>You can always check.</strong> Every quote links to that moment in the city's video. The video and the city's minutes are the official record.</li>
-    <li><strong>The transcripts are free to use.</strong> All 88 meetings, with speakers, confidence levels and video links, are on <a href="https://github.com/scottjodoin/Steinbach-City-Council-Transcripts">GitHub</a>.</li>
+    <li><strong>The video and the city's minutes are the official record.</strong> Every quote in our reports and transcripts links to that moment in the city's video, so anyone can check it.</li>
+    <li><strong>Words: we estimate about 95 in every 100 are right.</strong> Most errors are small: a misheard word or a misspelled name. Council members' and staff names are spelled from the city's minutes.</li>
+    <li><strong>Speakers: 9,443 of 10,337 transcript lines (91%) carry a high-confidence name</strong>, across the 88 meetings from November 2022 to November 2026. Less certain lines are marked as such in the transcript.</li>
+    <li><strong>Votes, motions and decisions come from the minutes</strong>, never from the transcript alone.</li>
+    <li><strong>The transcripts are free to use.</strong> All 88 meetings, with speakers, confidence levels and video links, are on <a href="https://github.com/scottjodoin/Steinbach-City-Council-Transcripts">GitHub</a>. See also <a href="../how-its-made/">How these reports are made</a>.</li>
     <li><strong>Found an error?</strong> Email <a href="mailto:steinbachcitycouncilreporting@gmail.com">steinbachcitycouncilreporting@gmail.com</a>.</li>
   </ul>
 </section>
@@ -39,10 +39,10 @@
 <section>
   <h2>How the transcripts are made</h2>
   <ol>
-    <li><strong>Transcribe.</strong> Each recorded council meeting on the city's YouTube channel is transcribed by AssemblyAI, a speech-to-text service. It splits the audio into speakers by voice (&ldquo;Speaker A&rdquo;, &ldquo;Speaker B&rdquo;) but does not know who they are.</li>
+    <li><strong>Transcribe.</strong> Each recorded council meeting on the city's YouTube channel is transcribed by AssemblyAI, a speech-to-text service. It splits the audio into voices (&ldquo;Speaker A&rdquo;, &ldquo;Speaker B&rdquo;) but does not know who they are.</li>
     <li><strong>Check the words.</strong> YouTube makes its own automatic captions of the same video. Comparing the two shows where at least one of them misheard.</li>
-    <li><strong>Name the speakers.</strong> Each voice is matched to a person using the meeting itself (the mayor handing the floor to &ldquo;Councillor Penner&rdquo;, people introducing themselves) and the city's minutes (who moved and seconded each motion, who asked which question). AI does the first pass, and every match records its evidence and a confidence level.</li>
-    <li><strong>Listen.</strong> A person listens to the uncertain spots, and to a random sample of ordinary ones, and corrects what is wrong.</li>
+    <li><strong>Name the speakers.</strong> Each voice is matched to a person using the meeting itself (the mayor handing the floor to &ldquo;Councillor Penner&rdquo;, people introducing themselves) and the city's minutes (who moved and seconded each motion, who asked which question). An AI assistant proposes each match from these clues and records its evidence and a confidence level.</li>
+    <li><strong>Listen.</strong> A person listens to samples of the uncertain spots and of ordinary lines, and corrects what is wrong. So far that is a few dozen lines; most lines have not been listened to by a person, which is why each line carries a confidence level.</li>
     <li><strong>Protect residents.</strong> Members of the public who speak at hearings are not named. Reports use initials; transcripts use &ldquo;Resident 1&rdquo;, &ldquo;Resident 2&rdquo; and so on.</li>
   </ol>
 </section>
@@ -53,14 +53,15 @@
   <div class="table-wrap"><table>
     <thead><tr><th>Measure</th><th>Result</th></tr></thead>
     <tbody>
-      <tr><td class="measure">Words the two transcripts agree on</td><td>93.4% on average (90.5% in the hardest meeting, 95.9% in the clearest)</td></tr>
+      <tr><td class="measure">Words the two transcripts agree on</td><td>93.4% of words on average (90.5% in the hardest meeting, 95.9% in the clearest)</td></tr>
       <tr><td class="measure">Where they disagree</td><td>About 1 word in 15. At least one transcript is wrong there, sometimes both.</td></tr>
-      <tr><td class="measure">Our estimate for the transcripts we publish</td><td>About 95 words in 100 right. AssemblyAI is the stronger of the two (see names below), so most of the disagreements are likely YouTube's errors. A listening check of a random sample will firm this up.</td></tr>
+      <tr><td class="measure">Listening check so far</td><td>We listened to 14 of those disagreements. AssemblyAI was right in 8, YouTube in 1, both were acceptable in 1, both were wrong in 3, and 1 was unclear.</td></tr>
+      <tr><td class="measure">Our estimate for the transcripts we publish</td><td>About 95 words in 100 right. This is an estimate from the comparison and that small sample, not a measured rate. A larger random listening check will replace it.</td></tr>
     </tbody>
   </table></div>
 
   <h3>Names</h3>
-  <p>Both systems hear the same audio, so counting how often each spells a name correctly is a fair comparison:</p>
+  <p>Speech-to-text often misspells local surnames, so council members' and staff names are spelled from the roster in the city's minutes. Both systems hear the same audio, so counting how often each spells a name correctly is a fair comparison:</p>
   <div class="table-wrap"><table>
     <thead><tr><th>Name</th><th>AssemblyAI spells it right</th><th>YouTube spells it right</th></tr></thead>
     <tbody>
@@ -72,50 +73,52 @@
       <tr><td class="measure">Hiebert</td><td>0 (writes &ldquo;Hebert&rdquo;)</td><td>0 (writes &ldquo;Hebert&rdquo;)</td></tr>
     </tbody>
   </table></div>
-  <p>That is why AssemblyAI is our main transcript and YouTube is the check, and why we correct council members' and staff names from the roster in the minutes. Names of residents and businesses that come up in a meeting may still be misspelled.</p>
+  <p>That is why AssemblyAI is our main transcript and YouTube is the check. Names of residents and businesses that come up in a meeting may still be misspelled.</p>
 
-  <h3>Words that were never said</h3>
-  <p>AssemblyAI sometimes adds words that nobody said. In the meetings since November 2022 it wrote &ldquo;Your Worship&rdquo; 319 times; YouTube's captions never contain it, and when we listened, people had actually said &ldquo;Mr. Mayor&rdquo;, or nothing at all. It also invents short phrases such as &ldquo;Thank you, Brian&rdquo; and &ldquo;Alderman Demong&rdquo; (a name no one in Steinbach has). We check every one of these against YouTube's captions at that moment: 301 were removed, 18 were changed to &ldquo;Mr. Mayor&rdquo;, and 78 invented phrases were removed.</p>
-  <p>The vocabulary of local names has one side effect: occasionally the transcription writes a council member's name in place of someone else's (for example a former councillor's name for a delegate). Wherever a council member's name appears at a time they were not on council and YouTube heard a different name, it is replaced with &ldquo;[name unclear]&rdquo;.</p>
+  <h3>Words the transcription service added</h3>
+  <p>Speech-to-text software sometimes adds words that nobody said. These come from the software, not from anyone at the meeting, and we remove them before publishing. In the meetings since November 2022, AssemblyAI wrote &ldquo;Your Worship&rdquo; 319 times; YouTube's captions never contain it, and in the spots we listened to, people had actually said &ldquo;Mr. Mayor&rdquo;, or nothing at all. It also added short phrases such as &ldquo;Thank you, Brian&rdquo; and the names of people who were not at the meeting. We check every one of these against YouTube's captions at that moment: 301 were removed, 18 were changed to &ldquo;Mr. Mayor&rdquo;, and 78 added phrases were removed.</p>
+  <p>The list of local names we give the service has one side effect: occasionally it writes a council member's name where someone else was speaking. Wherever a council member's name appears at a time they were not on council, and YouTube heard a different name, it is replaced with &ldquo;[name unclear]&rdquo;.</p>
 </section>
 
 <section>
   <h2>How sure are we about who said what?</h2>
-  <p>Every council meeting from November 2022 to November 2026 has been rechecked: 88 meetings and 10,337 lines. Earlier years are next.</p>
+  <p>Every council meeting from November 2022 to November 2026 has been rechecked: 88 meetings and 10,337 transcript lines. Earlier years are next.</p>
   <div class="table-wrap"><table>
     <thead><tr><th>Confidence</th><th>What it means</th><th>Share of lines</th></tr></thead>
     <tbody>
       <tr><td class="measure">High</td><td>At least two independent clues agree, such as the mayor naming the person and the minutes recording their motion. Shown with no tag.</td><td>91% (9,443 of 10,337)</td></tr>
-      <tr><td class="measure">Medium</td><td>One clear clue, or the only person it could be. Marked [medium].</td><td>6% (584)</td></tr>
-      <tr><td class="measure">Low</td><td>A best guess. Shown as &ldquo;Unidentified (possibly&nbsp;&hellip;)&rdquo;, never as a confident name.</td><td>3% (310)</td></tr>
+      <tr><td class="measure">Medium</td><td>One clear clue, or the only person it could be. Marked [medium].</td><td>6% (584 of 10,337)</td></tr>
+      <tr><td class="measure">Low</td><td>A best guess. Shown as &ldquo;Unidentified (possibly&nbsp;&hellip;)&rdquo;, never as a confident name.</td><td>3% (310 of 10,337)</td></tr>
     </tbody>
   </table></div>
+  <p>&ldquo;High confidence&rdquo; means the evidence agrees, not that a person has listened to that line.</p>
 
-  <h3>Which lines matter</h3>
-  <p>A wrong name on &ldquo;Thank you.&rdquo; changes nothing. A wrong name on a councillor's argument puts words in someone's mouth. So every line also gets a <em>substance</em> score, set by fixed rules from its words:</p>
+  <h3>Where the uncertainty is</h3>
+  <p>Getting the name right matters most where someone makes a statement or asks a question. So each line is also sorted by its form, using fixed rules about its words:</p>
   <div class="table-wrap"><table>
-    <thead><tr><th>Substance</th><th>What it means</th><th>Share of lines</th><th>High confidence</th><th>Low confidence</th></tr></thead>
+    <thead><tr><th>Line type</th><th>What it covers</th><th>Lines</th><th>High confidence</th><th>Low confidence</th></tr></thead>
     <tbody>
-      <tr><td class="measure">Substantive</td><td>Says something: a question, a position, an explanation, a presentation, a reply.</td><td>46% (4,804)</td><td>95%</td><td>1%</td></tr>
-      <tr><td class="measure">Procedural</td><td>Runs the meeting: moving, seconding, calling the vote, handing over the floor. The minutes are the official record of these.</td><td>29% (2,993)</td><td>97%</td><td>under 1%</td></tr>
-      <tr><td class="measure">Minor</td><td>Courtesy and acknowledgement: &ldquo;Thank you.&rdquo;, &ldquo;Yes.&rdquo;, &ldquo;Okay.&rdquo;</td><td>25% (2,540)</td><td>78%</td><td>10%</td></tr>
+      <tr><td class="measure">Statement</td><td>A statement, question, explanation, presentation or reply.</td><td>4,804</td><td>95% of these lines</td><td>1%</td></tr>
+      <tr><td class="measure">Procedure</td><td>Running the meeting: moving, seconding, calling the vote, handing over the floor.</td><td>2,993</td><td>97%</td><td>under 1%</td></tr>
+      <tr><td class="measure">Short reply</td><td>&ldquo;Thank you.&rdquo;, &ldquo;Yes.&rdquo;, &ldquo;Okay.&rdquo;</td><td>2,540</td><td>78%</td><td>10%</td></tr>
     </tbody>
   </table></div>
-  <p>Counted by words spoken rather than by lines, <strong>98% of everything said</strong> is in a line with a high-confidence name. The uncertainty sits mostly on short interjections, which are hard to place and rarely matter.</p>
+  <p>Counted by words spoken instead of lines, 98% of the words are in lines with a high-confidence name. Most of the uncertainty is on short replies, which are hard to place in a recording. Votes, motions and seconders are taken from the minutes, never from who said &ldquo;Yes.&rdquo;</p>
+  <p><strong>The line type describes the form of a line, not the value of what anyone said.</strong> It is not a measure of any council member and should not be used to compare people: a &ldquo;Yes.&rdquo; can be a decisive moment, and whoever chairs a meeting speaks mostly in procedure because of the role.</p>
 
   <h3>What listening has shown so far</h3>
   <ul>
-    <li><strong>The doubtful spots are mostly right.</strong> We listened to 21 lines that the checks had flagged as uncertain. 19 had the right person.</li>
-    <li><strong>The weakest spot is a few words inside someone else's line.</strong> When two people speak back to back, the transcript can attach the first words of one to the end of the other. Four of the five such pieces we checked were wrong, and they are now fixed and split out.</li>
-    <li><strong>Short interjections are hard.</strong> &ldquo;Thank you.&rdquo;, &ldquo;Second.&rdquo; or &ldquo;Yes.&rdquo; are often impossible to place. When we can't tell, the transcript says &ldquo;Unidentified speaker&rdquo;.</li>
+    <li><strong>The doubtful spots were mostly right.</strong> In a first sample, we listened to 21 lines that the checks had flagged as uncertain. 19 had the right person.</li>
+    <li><strong>The weakest spot is a few words inside someone else's line.</strong> When two people speak back to back, the transcript can attach the first words of one to the end of the other. Four of the five such pieces we checked were attached to the wrong person; they are now fixed and split out.</li>
+    <li><strong>Short replies are hard.</strong> &ldquo;Thank you.&rdquo;, &ldquo;Second.&rdquo; or &ldquo;Yes.&rdquo; are often impossible to place. When we can't tell, the transcript says &ldquo;Unidentified speaker&rdquo;.</li>
     <li><strong>Shared surnames need care.</strong> Council has had two Hieberts and two Penners. The minutes record motions by initial (&ldquo;B. Hiebert&rdquo;, &ldquo;J. Hiebert&rdquo;), which is how we tell them apart.</li>
-    <li><strong>Automatic speaker naming alone is not enough.</strong> AssemblyAI can also guess names. It is usually right about the mayor, the City Manager and councillors with distinctive voices, but across the 88 meetings it repeatedly swapped the two Hieberts, sometimes named a resident as a councillor, and could not see when two or three people's voices had been grouped together, which happened in most meetings. That is why every name is checked against the minutes.</li>
-    <li><strong>Voices help tell people apart.</strong> When the words alone can't settle it, we measure the pitch of the voice in the recording: it reliably tells Susan Penner from Damian Penner, and helps separate the two Hieberts.</li>
+    <li><strong>The service's automatic guesses are never used unchecked.</strong> AssemblyAI can also guess who is speaking. Its guesses are often right about the mayor and the City Manager, but they mixed up people who share a surname and could not tell when two or three voices had been grouped together. So every name is checked against the minutes and the meeting itself.</li>
+    <li><strong>How a voice sounds can help.</strong> When the words alone can't settle it, we compare how high or low the voices sound in that meeting's public recording. It is one clue among several and never decides a name on its own. We don't build voiceprints.</li>
   </ul>
-  <p>Our estimate: <strong>about 95 in 100 high-confidence lines name the right person.</strong> The random listening check under way will replace this estimate with a measured figure.</p>
+  <p>Our estimate is that <strong>about 95 in 100 high-confidence lines name the right person</strong>. This is an estimate for the transcript data set, based on the small listening samples above, not a measured rate. The random listening check under way will replace it with a measured figure.</p>
 
   <h3>Reports published before November 2026</h3>
-  <p>Earlier reports identified speakers quote by quote, using the same kinds of clues, with the meeting video linked for every quote. As each meeting is rechecked, we will correct any report that quoted the wrong person, and note the correction on the report.</p>
+  <p>Earlier reports identified speakers quote by quote, using the same kinds of clues, with the meeting video linked for every quote. If a recheck shows a quote was attributed to the wrong person, we correct the report and note the correction on it.</p>
 </section>
 
 <section>
@@ -126,11 +129,11 @@
     <li>the meeting date, and the time in the video if you have it;</li>
     <li>what you think is wrong, and what was really said or who said it.</li>
   </ul>
-  <p>We check every report against the video and the minutes, fix what is wrong, and note the correction. We use your email address only to reply, and we never publish it.</p>
+  <p>We check every error report against the video and the minutes, fix what is wrong, and note the correction. We use your email address only to reply, and we never publish it.</p>
 </section>
 
 <footer class="site">
-  <p><a href="../">Steinbach City Council Reporting</a> &middot; An independent summary of public council meetings. Not affiliated with the City of Steinbach. &middot; <a href="../privacy/">Privacy</a></p>
+  <p><a href="../">Steinbach City Council Reporting</a> &middot; An independent summary of public council meetings. Not affiliated with the City of Steinbach. &middot; <a href="../how-its-made/">How it's made</a> &middot; <a href="../privacy/">Privacy</a></p>
 </footer>
 
 </main>
