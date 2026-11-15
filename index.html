@@ -86,6 +86,32 @@
   .how h2 { font-size: 22px; }
   .how ul { font-size: 15px; }
   a[href^="mailto:"] { overflow-wrap: anywhere; }
+
+  /* Ask your own AI: copy-ready prompt panel */
+  .ask-ai { display: grid; grid-template-columns: auto 1fr; gap: 0 18px; align-items: start; margin: 0 0 26px; padding: 18px 20px;
+            background: var(--accent-soft); border: 2px solid var(--accent); }
+  .ask-ai .ai-icon { width: 60px; height: 60px; border-radius: 50%; background: var(--accent); color: var(--surface); display: grid; place-items: center; }
+  .ask-ai .ai-icon svg { width: 36px; height: 36px; }
+  .ask-ai h2 { border: 0; margin: 2px 0 4px; padding: 0; font-size: clamp(22px, 2.6vw, 27px); line-height: 1.15; }
+  .ask-ai .how-to { margin: 0 0 12px; font-size: 17px; }
+  .ask-ai .actions { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 18px; margin: 0; }
+  .ask-ai .copy-ai { font: inherit; font-weight: 700; font-size: 17px; display: inline-flex; align-items: center; gap: 8px; padding: 10px 20px;
+                     border: 2px solid var(--accent); background: var(--accent); color: var(--surface); cursor: pointer; }
+  .ask-ai .copy-ai:hover { filter: brightness(1.1); }
+  .ask-ai .copy-ai:focus-visible { outline: 3px solid var(--gold); outline-offset: 2px; }
+  .ask-ai .copy-ai svg { width: 18px; height: 18px; }
+  .ask-ai .copied { font-size: 15px; font-weight: 700; color: var(--text); }
+  .ask-ai details { grid-column: 2; margin: 12px 0 0; }
+  .ask-ai summary { cursor: pointer; font-size: 15px; color: var(--accent); font-weight: 700; }
+  .ask-ai pre { background: var(--surface); color: var(--text); border: 1px solid var(--rule); border-left: 4px solid var(--accent);
+                padding: 12px 14px; margin: 8px 0 0; white-space: pre-wrap; overflow-wrap: anywhere;
+                font: 14px/1.5 ui-monospace, "Cascadia Mono", Consolas, monospace; }
+  @media (max-width: 760px) {
+    .ask-ai { grid-template-columns: 1fr; padding: 16px; }
+    .ask-ai .ai-icon { width: 48px; height: 48px; margin: 0 0 8px; }
+    .ask-ai .ai-icon svg { width: 28px; height: 28px; }
+    .ask-ai details { grid-column: 1; }
+  }
   @media (max-width: 760px) {
     .lead { grid-template-columns: 1fr; }
     .finder { grid-template-columns: 1fr; }
@@ -105,6 +131,37 @@
   <p class="motto">What council said and decided, in plain language, with every quote linked to the moment in the meeting video.</p>
   <p class="dateline"><span>Updated November 6, 2026</span><span>24 reports</span><span>Council meetings 2015&ndash;2026</span><span>Independent: not affiliated with the City of Steinbach</span></p>
 </header>
+
+<section class="ask-ai" id="ask-ai" aria-labelledby="ask-ai-h">
+  <div class="ai-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 11.5a8.5 8.5 0 0 1-12.3 7.6L3.5 20.5l1.4-4.9A8.5 8.5 0 1 1 21 11.5z"/><path d="M12.3 7l1.1 3.1 3.1 1.1-3.1 1.1-1.1 3.1-1.1-3.1-3.1-1.1 3.1-1.1z" fill="currentColor" stroke-width="1"/></svg></div>
+  <div>
+    <h2 id="ask-ai-h">Ask your own AI about council</h2>
+    <p class="how-to">Have a question we haven't covered? Copy our prompt, paste it into ChatGPT, Claude, Gemini or Copilot, and type your question at the end. It asks for fair answers with every point linked to the meeting video.</p>
+    <p class="actions">
+      <button class="copy-ai" type="button" data-target="home-prompt" hidden><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15H4a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v1"/></svg><span>Copy the prompt</span></button>
+      <span class="copied" role="status" aria-live="polite"></span>
+      <a href="ask-your-ai/">More options, including running an AI on the full transcripts &rarr;</a>
+    </p>
+  </div>
+  <details>
+    <summary>Show the prompt</summary>
+<!-- Keep in sync with #chat-prompt in ask-your-ai/index.html -->
+<pre id="home-prompt">I have a question about Steinbach City Council (Manitoba). Please research it using these sources:
+- https://steinbachcitycouncilreporting.ca/llms.txt (a guide to every report on the site)
+- https://steinbachcitycouncilreporting.ca/ (the reports themselves)
+- https://github.com/scottjodoin/Steinbach-City-Council-Transcripts (full meeting transcripts, if the reports don't cover my question)
+
+How to answer:
+1. Be neutral. Describe what council members said and did without guessing at motives or taking sides. Where people disagreed, give each side's strongest points in their own words.
+2. Back every point with specific evidence: who said it, the meeting date, a short exact quote, and the link to that moment in the video.
+3. For votes and decisions, rely on the city's minutes as cited by the site, not on your own reading of a transcript.
+4. Keep three things clearly apart: what the record shows, what the site's analysis says, and your own conclusions.
+5. If you can't open these sources, or they don't answer my question, say so plainly. Don't fill gaps from memory or guesswork, and tell me what you could not confirm.
+6. Residents are not named in these sources. Don't try to identify them.
+
+My question: [type your question here]</pre>
+  </details>
+</section>
 
 <div class="finder" role="search">
   <div>
@@ -389,18 +446,31 @@
 </ul>
 </section>
 
-<section class="how" id="about" aria-labelledby="about-h">
-<h2 id="about-h">About us</h2>
-<p>Steinbach City Council Reporting is an independent project that turns public council meetings into plain-language reports, so residents can see what council said and decided without watching hours of video. It is not affiliated with the City of Steinbach, any council member or any candidate.</p>
-<p>Questions, concerns or corrections? Email <a href="mailto:steinbachcitycouncilreporting@gmail.com">steinbachcitycouncilreporting@gmail.com</a>. If you spot an error in a quote or a summary, please include the report and the meeting date so we can check it against the video.</p>
-</section>
-
 <footer class="site">
-  <p>An independent summary of public council meetings. Not affiliated with the City of Steinbach. Contact: <a href="mailto:steinbachcitycouncilreporting@gmail.com">steinbachcitycouncilreporting@gmail.com</a> &middot; <a href="how-its-made/">How it's made</a> &middot; <a href="ask-your-ai/">Ask your AI</a> &middot; <a href="data-accuracy/">Data accuracy</a> &middot; <a href="privacy/">Privacy</a></p>
+  <p>An independent summary of public council meetings. Not affiliated with the City of Steinbach. Contact: <a href="mailto:steinbachcitycouncilreporting@gmail.com">steinbachcitycouncilreporting@gmail.com</a> &middot; <a href="about/">About us</a> &middot; <a href="how-its-made/">How it's made</a> &middot; <a href="ask-your-ai/">Ask your AI</a> &middot; <a href="data-accuracy/">Data accuracy</a> &middot; <a href="privacy/">Privacy</a></p>
 </footer>
 
 </main>
 <script>
+// Ask-your-AI copy button (hidden without JavaScript; the prompt stays readable under "Show the prompt")
+(function () {
+  var btn = document.querySelector('.copy-ai');
+  if (!btn) return;
+  btn.hidden = false;
+  var label = btn.querySelector('span'), note = btn.parentNode.querySelector('.copied'), pre = document.getElementById(btn.getAttribute('data-target'));
+  btn.addEventListener('click', function () {
+    function done(msg) { label.textContent = 'Copied!'; note.textContent = msg; setTimeout(function () { label.textContent = 'Copy the prompt'; }, 2500); }
+    function fallback() {
+      pre.closest('details').open = true;
+      var r = document.createRange(); r.selectNodeContents(pre);
+      var s = window.getSelection(); s.removeAllRanges(); s.addRange(r);
+      note.textContent = 'Selected. Press Ctrl+C (or ⌘+C) to copy.';
+    }
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(pre.textContent).then(function () { done('Now paste it into your AI and add your question.'); }, fallback);
+    } else { fallback(); }
+  });
+})();
 (function () {
   var q = document.getElementById('q');
   if (!q) return;
